@@ -25,9 +25,9 @@
               <i class="el-icon-menu"></i>
               <span slot="title">客户管理</span>
             </el-menu-item>
-            <el-menu-item index="customer">
+            <el-menu-item index="goods">
               <i class="el-icon-menu"></i>
-              <span slot="title">客户管理</span>
+              <span slot="title">货物管理</span>
             </el-menu-item>
             <el-submenu index="safe">
               <template slot="title">
