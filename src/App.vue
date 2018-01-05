@@ -4,22 +4,25 @@
       <el-header>头部</el-header>
       <el-container :style="height">
         <el-aside width="200px">
-          <el-menu>
-            <el-submenu
-              v-for = "(item, i) in menu"
-              :key = "i"
-              :index = "i+''">
-              <template slot="title">{{ item.title }}</template>
-              <el-menu-item-group
-                v-for="(sub, j) in item.sub"
-                :key="j">
-                <el-menu-item
-                  :index="i+'-'+j"
-                  @click="clickMenu(sub.route)">
-                  {{ sub.title }}
-                </el-menu-item>
+          <el-menu router>
+            <el-menu-item index="notice">
+              <i class="el-icon-menu"></i>
+              <span slot="title">通知</span>
+            </el-menu-item>
+            <el-submenu index="safe">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>菜单1</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="safe1">安全1</el-menu-item>
+                <el-menu-item index="safe2">安全2</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
+            <el-menu-item index="page3">
+              <i class="el-icon-menu"></i>
+              <span slot="title">导航二</span>
+            </el-menu-item>
           </el-menu>
         </el-aside>
         <el-main>
@@ -38,26 +41,7 @@ export default {
     return {
       height: {
         height: (document.documentElement.clientHeight - 120) + 'px'
-      },
-      menu: [
-        {
-          title: '长租管理',
-          sub: [{
-            title: '长租套餐管理',
-            route: 'page1'
-          }, {
-            title: '长租套餐价格管理',
-            route: 'page2'
-          }]
-        },
-        {
-          title: '以租代售',
-          sub: [{
-            title: '以租代售套餐',
-            route: 'page3'
-          }]
-        }
-      ]
+      }
     }
   }
 }
