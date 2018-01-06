@@ -19,6 +19,7 @@
       </el-table-column>
       <el-table-column
         prop="occurredTime"
+        :formatter="timeformat"
         label="发生时间">
       </el-table-column>
       <el-table-column
@@ -26,8 +27,8 @@
         label="操作"
         width="100">
         <template slot-scope="scope">
-          <el-button @click="editClick(scope.row.id)" type="text" size="small">编辑</el-button>
-          <el-button @click="delectClick([scope.row.id])" type="text" size="small">删除</el-button>
+          <el-button @click="editClick(scope.row.accidentId)" type="text" size="small">编辑</el-button>
+          <el-button @click="delectClick([scope.row.accidentId])" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -44,13 +45,16 @@
 </template>
 
 <script>
+import timeformat from '@/mixins/timeformat'
 export default {
+  mixins: [timeformat],
   data() {
     return {
       page: 1,
       pageSize: 10,
       tableData: [],
-      multipleSelection: []
+      multipleSelection: [],
+      loading: false
     }
   },
   mounted() {
@@ -58,6 +62,7 @@ export default {
   },
   methods: {
     async getList() {
+      const loading = this.$loading()
       let {data} = await this.$http({
         url: 'accident/getAccidentList',
         params: {
@@ -69,6 +74,7 @@ export default {
       if (data.code == 0) {
         this.tableData = data.data
       }
+      loading.close()
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
@@ -86,8 +92,9 @@ export default {
       this.multipleSelection = val;
     },
     editClick(val) {
+      console.log(val)
       this.$router.push({
-        name: 'NoticeEdit',
+        name: 'AccidentEdit',
         query: {
           id: val
         }
