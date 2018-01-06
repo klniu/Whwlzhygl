@@ -6,7 +6,7 @@
     </div>
     <el-table
       ref="multipleTable"
-      :data="tableData"
+      :data="tableData.list"
       tooltip-effect="dark"
       style="width: 100%"
       @selection-change="handleSelectionChange">
@@ -14,16 +14,12 @@
         type="selection">
       </el-table-column>
       <el-table-column
-        prop="name"
-        label="通知主题">
+        prop="plateNum"
+        label="车牌号">
       </el-table-column>
       <el-table-column
-        prop="type"
-        label="通知类型">
-      </el-table-column>
-      <el-table-column
-        prop="date"
-        label="通知日期">
+        prop="occurredTime"
+        label="发生时间">
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -40,9 +36,9 @@
       @size-change="handleSizeChange"
       :current-page="page"
       :page-sizes="[10, 25, 50, 100]"
-      :page-size="10"
+      :page-size="pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="400">
+      :total="tableData.total">
     </el-pagination>
   </div>
 </template>
@@ -52,66 +48,27 @@ export default {
   data() {
     return {
       page: 1,
-      tableData: [{
-        id: 1,
-        name: '主题名字',
-        type: '类型1',
-        date: '2016-05-03'
-      }, {
-        id: 2,
-        name: '主题名字',
-        type: '类型1',
-        date: '2016-05-02'
-      }, {
-        id: 3,
-        name: '主题名字',
-        type: '类型1',
-        date: '2016-05-04'
-      }, {
-        id: 4,
-        name: '主题名字',
-        type: '类型1',
-        date: '2016-05-01'
-      }, {
-        id: 5,
-        name: '主题名字',
-        type: '类型1',
-        date: '2016-05-08'
-      }, {
-        id: 6,
-        name: '主题名字',
-        type: '类型1',
-        date: '2016-05-06'
-      }, {
-        id: 7,
-        name: '主题名字',
-        type: '类型1',
-        date: '2016-05-07'
-      }, {
-        id: 8,
-        name: '主题名字',
-        type: '类型1',
-        date: '2016-05-07'
-      }, {
-        id: 9,
-        name: '主题名字',
-        type: '类型1',
-        date: '2016-05-07'
-      }],
+      pageSize: 10,
+      tableData: [],
       multipleSelection: []
     }
   },
   mounted() {
-    // this.getList()
+    this.getList()
   },
   methods: {
     async getList() {
       let {data} = await this.$http({
-        url: 'notice/getNoticeList',
-        data: {
-          companyId: 1
+        url: 'accident/getAccidentList',
+        params: {
+          companyId: 1,
+          currentPage: this.page,
+          size: this.pageSize
         }
       })
+      if (data.code == 0) {
+        this.tableData = data.data
+      }
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
