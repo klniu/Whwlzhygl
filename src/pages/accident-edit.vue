@@ -2,7 +2,7 @@
   <div>
     <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="100px" size="medium">
       <el-form-item label="事故时间" prop="occurredTime">
-        <el-date-picker v-model="formData.occurredTime"></el-date-picker>
+        <el-date-picker v-model="formData.occurredTime" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
       </el-form-item>
       <el-form-item label="事故地点" prop="occurredAddress">
         <el-input v-model="formData.occurredAddress"></el-input>
@@ -38,7 +38,7 @@
         <el-input v-model="formData.fillPersonMobile"></el-input>
       </el-form-item>
       <el-form-item label="报出时间" prop="submitDate">
-        <el-date-picker v-model="formData.submitDate"></el-date-picker>
+        <el-date-picker v-model="formData.submitDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
       </el-form-item>
       <el-form-item label="单位负责人" prop="companyPrincipal">
         <el-input v-model="formData.companyPrincipal"></el-input>
@@ -54,29 +54,46 @@
 export default {
   data() {
     return {
-      formData: {},
+      accidentId: parseInt(this.$route.query.id),
+      formData: {
+        occurredTime: '',
+        occurredAddress: '',
+        weatherStatus: '',
+        roadStatus: '',
+        deathNum: '',
+        missingNum: '',
+        injuredNum: '',
+        description: '',
+        reason: '',
+        statisticsPersonName: '',
+        fillPersonName: '',
+        fillPersonMobile: '',
+        submitDate: '',
+        companyPrincipal: ''
+      },
       rules: {}
     }
   },
   mounted() {
-    this.getDetail()
+    this.accidentId && this.getDetail()
   },
   methods: {
     async getDetail() {
       let {data} = await this.$http({
-        url: '/accidentDetail/getAccidentDetailList',
+        url: '/accident/getAccident',
         params: {
-          accidentId: this.$route.query.id
+          accidentId: this.accidentId
         }
       })
+      if (data.code == 0) {
+        this.formData = data.data
+        this.formData.accidentId = this.accidentId
+      }
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$message({
-            message: '保存成功！',
-            type: 'success'
-          })
+          this.postForm()
         } else {
           this.$message.error('错了哦，这是一条错误消息')
           return false;
@@ -85,6 +102,21 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    async postForm() {
+      let {data} = await this.$http({
+        method: 'post',
+        url: '/accident/' + (this.accidentId ? 'updateAccident' : 'addAccident'),
+        data: this.formData
+      })
+      if (data.code == 0) {
+        this.$message({
+          message: '保存成功！',
+          type: 'success'
+        })
+      } else {
+        this.$message.error(data.msg)
+      }
     }
   }
 }

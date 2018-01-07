@@ -53,8 +53,7 @@ export default {
       page: 1,
       pageSize: 10,
       tableData: [],
-      multipleSelection: [],
-      loading: false
+      multipleSelection: []
     }
   },
   mounted() {
