@@ -1,6 +1,11 @@
 <template>
   <div>
     <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="100px" size="medium">
+      <el-form-item label="路单id" prop="orderId">
+        <el-select v-model="formData.orderId" placeholder="请选择">
+          <el-option v-for="item in orderIdList" :key="item.orderId" :label="item.goodsName" :value="item.orderId"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="事故时间" prop="occurredTime">
         <el-date-picker v-model="formData.occurredTime" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
       </el-form-item>
@@ -55,7 +60,9 @@ export default {
   data() {
     return {
       accidentId: parseInt(this.$route.query.id),
+      orderIdList: [],
       formData: {
+        orderId: '',
         occurredTime: '',
         occurredAddress: '',
         weatherStatus: '',
@@ -75,12 +82,26 @@ export default {
     }
   },
   mounted() {
+    this.getOrderList()
     this.accidentId && this.getDetail()
   },
   methods: {
+    async getOrderList() {
+      let {data} = await this.$http({
+        url: 'order/getOrderList',
+        params: {
+          companyId: 1,
+          currentPage: 1,
+          size: 50
+        }
+      })
+      if (data.code == 0) {
+        this.orderIdList = data.data.list
+      }
+    },
     async getDetail() {
       let {data} = await this.$http({
-        url: '/accident/getAccident',
+        url: 'accident/getAccident',
         params: {
           accidentId: this.accidentId
         }
@@ -106,7 +127,7 @@ export default {
     async postForm() {
       let {data} = await this.$http({
         method: 'post',
-        url: '/accident/' + (this.accidentId ? 'updateAccident' : 'addAccident'),
+        url: 'accident/' + (this.accidentId ? 'updateAccident' : 'addAccident'),
         data: this.formData
       })
       if (data.code == 0) {
