@@ -4,7 +4,7 @@
       <el-button size="small" icon="el-icon-circle-plus-outline" type="primary" @click="editClick(0)">添加</el-button>
       <el-button size="small" icon="el-icon-delete" type="danger" @click="delectClick(multipleSelection)">删除</el-button>
       <el-input v-model="keyword" placeholder="商户名" size="small" class="search-input"></el-input>
-      <el-button size="small" icon="el-icon-search" type="primary" @click="search">搜索</el-button>
+      <el-button size="small" icon="el-icon-search" type="primary" @click="getList">搜索</el-button>
     </div>
     <el-table
       ref="multipleTable"
@@ -64,15 +64,15 @@ export default {
     this.getList()
   },
   methods: {
-    search() {},
     async getList() {
       const loading = this.$loading()
       let {data} = await this.$http({
-        url: 'customer/getCustomerList',
+        url: 'customer/getCustomerListByCustomerName',
         params: {
           companyId: 1,
           currentPage: this.page,
-          size: this.pageSize
+          size: this.pageSize,
+          customerName: this.keyword
         }
       })
       if (data.code == 0) {
