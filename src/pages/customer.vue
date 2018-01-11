@@ -104,11 +104,22 @@ export default {
         }
       })
     },
-    delectClick(val) {
-      this.$message({
-        message: '删除成功！',
-        type: 'success'
+    async delectClick(val) {
+      let {data} = await this.$http({
+        method: 'post',
+        url: 'customer/deleteCustomer',
+        data: {
+          id: val
+        }
       })
+      if (data.code == 0) {
+        this.$message({
+          message: '删除成功！',
+          type: 'success'
+        })
+      } else {
+        this.$message.error(data.msg)
+      }
     }
   }
 }
