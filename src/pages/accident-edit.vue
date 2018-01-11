@@ -62,6 +62,7 @@ export default {
       accidentId: parseInt(this.$route.query.id),
       orderIdList: [],
       formData: {
+        companyId: 1,
         orderId: '',
         occurredTime: '',
         occurredAddress: '',
