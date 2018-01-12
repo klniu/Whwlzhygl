@@ -93,7 +93,9 @@ export default {
       }
     },
     handleSelectionChange(val) {
-      this.multipleSelection = val;
+      this.multipleSelection = val.map(i => {
+        return i.customerId
+      });
     },
     editClick(val) {
       console.log(val)
@@ -109,7 +111,7 @@ export default {
         method: 'post',
         url: 'customer/deleteCustomer',
         data: {
-          id: val
+          ids: val
         }
       })
       if (data.code == 0) {
