@@ -5,8 +5,10 @@ import App from './App.vue'
 import axios from 'axios'
 import router from './router'
 
-axios.defaults.baseURL = 'http://47.104.129.0:8080/'
+const baseURL = 'http://47.104.129.0:8080/'
+axios.defaults.baseURL = baseURL
 
+Vue.prototype.$baseURL = baseURL
 Vue.prototype.$http = axios
 Vue.use(ElementUI)
 Vue.config.productionTip = false

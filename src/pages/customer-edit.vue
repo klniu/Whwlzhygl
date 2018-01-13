@@ -21,11 +21,17 @@
       </el-form-item>
       <el-form-item label="证件" prop="pic">
         <el-upload
-          action="https://jsonplaceholder.typicode.com/posts/"
-          :file-list="fileList2"
+          :action="$baseURL + 'accessory/addAccessory'"
+          :file-list="picsList"
+          :on-success="handleUpload"
+          :on-remove="handleRemove"
+          :on-preview="handlePictureCardPreview"
           list-type="picture-card">
           <i class="el-icon-plus"></i>
         </el-upload>
+        <el-dialog :visible.sync="dialogVisible" size="tiny">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')" :loading="posting">保存</el-button>
@@ -47,17 +53,37 @@ export default {
         linkmanName: '',
         receiveAddress: '',
         sendAddress: '',
-        pic: []
+        accessoryNames: ''
       },
+      picsList: [],
       rules: {},
       posting: false,
-      fileList2: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
+      dialogImageUrl: '',
+      dialogVisible: false
     }
   },
   mounted() {
     this.id && this.getDetail()
   },
   methods: {
+    joinPics() {
+      let names = this.picsList.map(i => {
+        return i.name
+      })
+      this.formData.accessoryNames = names.join(',')
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+    handleRemove(file, list) {
+      this.picsList = list
+    },
+    handleUpload(res) {
+      if (res.code == 0) {
+        this.picsList.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
+      }
+    },
     async getDetail() {
       let {data} = await this.$http({
         url: 'customer/getCustomer',
@@ -68,11 +94,18 @@ export default {
       if (data.code == 0) {
         this.formData = data.data
         this.formData.id = this.id
+        if (this.formData.accessoryNames) {
+          let pics = this.formData.accessoryNames.split(',')
+          pics.forEach(i => {
+            this.picsList.push({name: i, url: this.$baseURL + i})
+          })
+        }
       }
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.joinPics()
           this.postForm()
         } else {
           this.$message.error('错了哦，这是一条错误消息')
