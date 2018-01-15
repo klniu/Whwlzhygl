@@ -53,6 +53,10 @@ export default {
       })
     },
     async delectClick(val) {
+      if (val.length < 1) {
+        this.$message.error('请选择要删除的记录')
+        return false
+      }
       let {data} = await this.$http({
         method: 'post',
         url: this.apiName + this.deleteApi,
