@@ -35,7 +35,7 @@
                 <span>安全管理</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="supervise">安全监督检查</el-menu-item>
+                <el-menu-item index="safecheck">安全监督检查</el-menu-item>
                 <el-menu-item index="accident">事故记录</el-menu-item>
                 <el-menu-item index="safe2">管理2</el-menu-item>
               </el-menu-item-group>
