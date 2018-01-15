@@ -3,7 +3,7 @@
     <div class="tools">
       <el-button size="small" icon="el-icon-circle-plus-outline" type="primary" @click="editClick(0)">添加</el-button>
       <el-button size="small" icon="el-icon-delete" type="danger" @click="delectClick(multipleSelection)">删除</el-button>
-      <el-input v-model="keyword" placeholder="商户名" size="small" class="search-input"></el-input>
+      <el-input v-model="keyword" placeholder="商户名" size="small" clearable class="search-input"></el-input>
       <el-button size="small" icon="el-icon-search" type="primary" @click="getList">搜索</el-button>
     </div>
     <el-table

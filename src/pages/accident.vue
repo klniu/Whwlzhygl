@@ -45,80 +45,24 @@
 </template>
 
 <script>
+import listMixin from '@/mixins/list'
 import timeformat from '@/mixins/timeformat'
 export default {
-  mixins: [timeformat],
+  mixins: [listMixin, timeformat],
   data() {
     return {
-      page: 1,
-      pageSize: 10,
-      tableData: [],
-      multipleSelection: []
+      keyword: '',
+      idField: 'accidentId',
+      editRoute: 'AccidentEdit',
+      apiName: 'accident',
+      deleteApi: '/deleteAccident',
+      getListApi: '/getAccidentList'
     }
   },
   mounted() {
     this.getList()
   },
   methods: {
-    async getList() {
-      const loading = this.$loading()
-      let {data} = await this.$http({
-        url: 'accident/getAccidentList',
-        params: {
-          companyId: 1,
-          currentPage: this.page,
-          size: this.pageSize
-        }
-      })
-      if (data.code == 0) {
-        this.tableData = data.data
-      }
-      loading.close()
-    },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-    },
-    toggleSelection(rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row);
-        });
-      } else {
-        this.$refs.multipleTable.clearSelection();
-      }
-    },
-    handleSelectionChange(val) {
-      this.multipleSelection = val.map(i => {
-        return i.customerId
-      });
-    },
-    editClick(val) {
-      console.log(val)
-      this.$router.push({
-        name: 'AccidentEdit',
-        query: {
-          id: val
-        }
-      })
-    },
-    async delectClick(val) {
-      let {data} = await this.$http({
-        method: 'post',
-        url: 'accident/deleteAccident',
-        data: {
-          ids: val
-        }
-      })
-      if (data.code == 0) {
-        this.$message({
-          message: '删除成功！',
-          type: 'success'
-        })
-        this.getList()
-      } else {
-        this.$message.error(data.msg)
-      }
-    }
   }
 }
 </script>
