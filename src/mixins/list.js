@@ -10,14 +10,16 @@ export default {
   methods: {
     async getList() {
       const loading = this.$loading()
+      let params = {
+        companyId: 1,
+        currentPage: this.page,
+        size: this.pageSize,
+        keyword: this.keyword
+      }
+      Object.assign(params, this.params)
       let {data} = await this.$http({
         url: this.apiName + this.getListApi,
-        params: {
-          companyId: 1,
-          currentPage: this.page,
-          size: this.pageSize,
-          keyword: this.keyword
-        }
+        params: params
       })
       if (data.code == 0) {
         this.tableData = data.data

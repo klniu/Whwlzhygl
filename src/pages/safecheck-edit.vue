@@ -26,10 +26,16 @@
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
+    <h3>安全监督检查记录详情</h3>
+    <safe-detail-list :id="id"></safe-detail-list>
   </div>
 </template>
 <script>
+import SafeDetailList from './safedetail'
 export default {
+  components: {
+    SafeDetailList
+  },
   data() {
     return {
       id: parseInt(this.$route.query.id),
