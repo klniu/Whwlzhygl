@@ -8,6 +8,22 @@ export default {
     }
   },
   methods: {
+    async getList() {
+      const loading = this.$loading()
+      let {data} = await this.$http({
+        url: this.apiName + this.getListApi,
+        params: {
+          companyId: 1,
+          currentPage: this.page,
+          size: this.pageSize,
+          keyword: this.keyword
+        }
+      })
+      if (data.code == 0) {
+        this.tableData = data.data
+      }
+      loading.close()
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
@@ -37,7 +53,7 @@ export default {
     async delectClick(val) {
       let {data} = await this.$http({
         method: 'post',
-        url: this.deleteApi,
+        url: this.apiName + this.deleteApi,
         data: {
           ids: val
         }

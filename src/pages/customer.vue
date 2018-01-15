@@ -58,35 +58,17 @@ export default {
       keyword: '',
       idField: 'customerId',
       editRoute: 'CustomerEdit',
-      deleteApi: 'customer/deleteCustomer'
+      apiName: 'customer',
+      deleteApi: '/deleteCustomer',
+      getListApi: '/getCustomerListByCustomerName'
     }
   },
   mounted() {
     this.getList()
   },
   methods: {
-    async getList() {
-      const loading = this.$loading()
-      let {data} = await this.$http({
-        url: 'customer/getCustomerListByCustomerName',
-        params: {
-          companyId: 1,
-          currentPage: this.page,
-          size: this.pageSize,
-          customerName: this.keyword
-        }
-      })
-      if (data.code == 0) {
-        this.tableData = data.data
-      }
-      loading.close()
-    }
   }
 }
 </script>
 <style>
-.search-input{
-  width: 180px;
-  margin-left: 50px;
-}
 </style>

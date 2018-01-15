@@ -81,4 +81,8 @@ body {
   color: #333;
   line-height: 60px;
 }
+.search-input{
+  width: 180px;
+  margin-left: 50px;
+}
 </style>
