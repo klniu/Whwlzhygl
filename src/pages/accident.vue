@@ -88,7 +88,9 @@ export default {
       }
     },
     handleSelectionChange(val) {
-      this.multipleSelection = val;
+      this.multipleSelection = val.map(i => {
+        return i.customerId
+      });
     },
     editClick(val) {
       console.log(val)
@@ -99,11 +101,23 @@ export default {
         }
       })
     },
-    delectClick(val) {
-      this.$message({
-        message: '删除成功！',
-        type: 'success'
+    async delectClick(val) {
+      let {data} = await this.$http({
+        method: 'post',
+        url: 'accident/deleteAccident',
+        data: {
+          ids: val
+        }
       })
+      if (data.code == 0) {
+        this.$message({
+          message: '删除成功！',
+          type: 'success'
+        })
+        this.getList()
+      } else {
+        this.$message.error(data.msg)
+      }
     }
   }
 }
