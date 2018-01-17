@@ -7,20 +7,6 @@
       <el-form-item label="检查日期" prop="checkDate">
         <el-date-picker v-model="formData.checkDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
       </el-form-item>
-      <el-form-item label="照片" prop="pic">
-        <el-upload
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList"
-          :on-success="handleUpload"
-          :on-remove="handleRemove"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-        <el-dialog :visible.sync="dialogVisible" size="tiny">
-          <img width="100%" :src="dialogImageUrl" alt="">
-        </el-dialog>
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')" :loading="posting">保存</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -47,33 +33,13 @@ export default {
       },
       picsList: [],
       rules: {},
-      posting: false,
-      dialogImageUrl: '',
-      dialogVisible: false
+      posting: false
     }
   },
   mounted() {
     this.id && this.getDetail()
   },
   methods: {
-    joinPics() {
-      let names = this.picsList.map(i => {
-        return i.name
-      })
-      this.formData.accessoryNames = names.join(',')
-    },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
-    handleRemove(file, list) {
-      this.picsList = list
-    },
-    handleUpload(res) {
-      if (res.code == 0) {
-        this.picsList.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-      }
-    },
     async getDetail() {
       let {data} = await this.$http({
         url: 'safeCheckRecord/getSafeCheckRecord',
@@ -95,7 +61,6 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.joinPics()
           this.postForm()
         } else {
           this.$message.error('错了哦，这是一条错误消息')

@@ -22,8 +22,8 @@
         label="操作"
         width="100">
         <template slot-scope="scope">
-          <el-button @click="editPop(scope.row.safeCheckRecordId)" type="text" size="small">编辑</el-button>
-          <el-button @click="delectClick([scope.row.safeCheckRecordId])" type="text" size="small">删除</el-button>
+          <el-button @click="editPop(scope.row.id)" type="text" size="small">编辑</el-button>
+          <el-button @click="delectClick([scope.row.id])" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -37,7 +37,7 @@
       :total="tableData.total">
     </el-pagination>
     <el-dialog title="编辑详情" :visible.sync="isShowForm" :key="sid">
-      <safe-detail-edit :id="sid"></safe-detail-edit>
+      <safe-detail-edit :id="id" :sid="sid"></safe-detail-edit>
     </el-dialog>
   </div>
 </template>
