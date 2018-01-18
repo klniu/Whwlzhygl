@@ -66,11 +66,21 @@ export default {
     this.id && this.getDetail()
   },
   methods: {
-    joinPics() {
-      let names = this.picsList.map(i => {
+    joinPicIntoString(list) {
+      let names = list.map(i => {
         return i.name
       })
-      this.formData.accessoryNames = names.join(',')
+      return names.join(',')
+    },
+    pushPicInitList(str) {
+      let pics = []
+      if (str) {
+        pics = str.split(',')
+        pics = pics.map(i => {
+          return {name: i, url: this.$baseURL + i}
+        })
+      }
+      return pics
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
@@ -94,18 +104,13 @@ export default {
       if (data.code == 0) {
         this.formData = data.data
         this.formData.id = this.id
-        if (this.formData.accessoryNames) {
-          let pics = this.formData.accessoryNames.split(',')
-          pics.forEach(i => {
-            this.picsList.push({name: i, url: this.$baseURL + i})
-          })
-        }
+        this.picsList = this.pushPicInitList(this.formData.accessoryNames)
       }
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.joinPics()
+          this.formData.accessoryNames = this.joinPicIntoString(this.picsList)
           this.postForm()
         } else {
           this.$message.error('错了哦，这是一条错误消息')
