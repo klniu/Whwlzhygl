@@ -42,8 +42,9 @@
 </template>
 <script>
 import uploadMixin from '@/mixins/upload'
+import saveMixin from '@/mixins/saveform'
 export default {
-  mixins: [uploadMixin],
+  mixins: [uploadMixin, saveMixin],
   data() {
     return {
       id: parseInt(this.$route.query.id),
@@ -59,7 +60,9 @@ export default {
       },
       picsList: [],
       rules: {},
-      posting: false
+      apiName: 'customer/',
+      addApi: 'addCustomer',
+      updateApi: 'updateCustomer'
     }
   },
   mounted() {
@@ -101,27 +104,6 @@ export default {
           return false;
         }
       });
-    },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
-    async postForm() {
-      this.posting = true
-      let {data} = await this.$http({
-        method: 'post',
-        url: 'customer/' + (this.id ? 'updateCustomer' : 'addCustomer'),
-        data: this.formData
-      })
-      if (data.code == 0) {
-        this.$message({
-          message: '保存成功！',
-          type: 'success'
-        })
-        this.$emit('save-ok')
-      } else {
-        this.$message.error(data.msg)
-      }
-      this.posting = false
     }
   }
 }
