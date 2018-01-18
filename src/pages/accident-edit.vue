@@ -49,17 +49,19 @@
         <el-input v-model="formData.companyPrincipal"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')" :loading="posting">保存</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 <script>
+import saveMixin from '@/mixins/saveform'
 export default {
+  mixins: [saveMixin],
   data() {
     return {
-      accidentId: parseInt(this.$route.query.id),
+      id: parseInt(this.$route.query.id),
       orderIdList: [],
       formData: {
         companyId: 1,
@@ -79,12 +81,15 @@ export default {
         submitDate: '',
         companyPrincipal: ''
       },
-      rules: {}
+      rules: {},
+      apiName: 'accident/',
+      addApi: 'addAccident',
+      updateApi: 'updateAccident'
     }
   },
   mounted() {
     this.getOrderList()
-    this.accidentId && this.getDetail()
+    this.id && this.getDetail()
   },
   methods: {
     async getOrderList() {
@@ -104,40 +109,12 @@ export default {
       let {data} = await this.$http({
         url: 'accident/getAccident',
         params: {
-          accidentId: this.accidentId
+          accidentId: this.id
         }
       })
       if (data.code == 0) {
         this.formData = data.data
-        this.formData.accidentId = this.accidentId
-      }
-    },
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.postForm()
-        } else {
-          this.$message.error('错了哦，这是一条错误消息')
-          return false;
-        }
-      });
-    },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
-    async postForm() {
-      let {data} = await this.$http({
-        method: 'post',
-        url: 'accident/' + (this.accidentId ? 'updateAccident' : 'addAccident'),
-        data: this.formData
-      })
-      if (data.code == 0) {
-        this.$message({
-          message: '保存成功！',
-          type: 'success'
-        })
-      } else {
-        this.$message.error(data.msg)
+        this.formData.accidentId = this.id
       }
     }
   }

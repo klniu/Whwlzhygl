@@ -25,6 +25,17 @@ export default {
         this.$message.error(data.msg)
       }
       this.posting = false
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.beforePost && this.beforePost()
+          this.postForm()
+        } else {
+          this.$message.error('错了哦，这是一条错误消息')
+          return false;
+        }
+      });
     }
   }
 }

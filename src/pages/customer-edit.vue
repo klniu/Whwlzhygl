@@ -94,16 +94,8 @@ export default {
         this.picsList = this.pushPicInitList(this.formData.accessoryNames)
       }
     },
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.formData.accessoryNames = this.joinPicIntoString(this.picsList)
-          this.postForm()
-        } else {
-          this.$message.error('错了哦，这是一条错误消息')
-          return false;
-        }
-      });
+    beforePost() {
+      this.formData.accessoryNames = this.joinPicIntoString(this.picsList)
     }
   }
 }

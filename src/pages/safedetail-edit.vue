@@ -72,8 +72,9 @@
 </template>
 <script>
 import uploadMixin from '@/mixins/upload'
+import saveMixin from '@/mixins/saveform'
 export default {
-  mixins: [uploadMixin],
+  mixins: [uploadMixin, saveMixin],
   data() {
     return {
       formData: {
@@ -92,7 +93,9 @@ export default {
       picsList1: [],
       picsList2: [],
       picsList3: [],
-      posting: false
+      apiName: 'safeCheckRecordDetail/',
+      addApi: 'addSafeCheckRecordDetail',
+      updateApi: 'updateSafeCheckRecordDetail'
     }
   },
   props: {
@@ -160,39 +163,10 @@ export default {
         this.checkUnitList = data.data.list
       }
     },
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.formData.contentPath = this.joinPicIntoString(this.picsList1)
-          this.formData.questionPath = this.joinPicIntoString(this.picsList2)
-          this.formData.reformPath = this.joinPicIntoString(this.picsList3)
-          this.postForm()
-        } else {
-          this.$message.error('错了哦，这是一条错误消息')
-          return false;
-        }
-      });
-    },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
-    async postForm() {
-      this.posting = true
-      let {data} = await this.$http({
-        method: 'post',
-        url: 'safeCheckRecordDetail/' + (this.id ? 'updateSafeCheckRecordDetail' : 'addSafeCheckRecordDetail'),
-        data: this.formData
-      })
-      if (data.code == 0) {
-        this.$message({
-          message: '保存成功！',
-          type: 'success'
-        })
-        this.$emit('save-ok')
-      } else {
-        this.$message.error(data.msg)
-      }
-      this.posting = false
+    beforePost() {
+      this.formData.contentPath = this.joinPicIntoString(this.picsList1)
+      this.formData.questionPath = this.joinPicIntoString(this.picsList2)
+      this.formData.reformPath = this.joinPicIntoString(this.picsList3)
     }
   }
 }

@@ -18,7 +18,9 @@
 </template>
 <script>
 import SafeDetailList from './safedetail'
+import saveMixin from '@/mixins/saveform'
 export default {
+  mixins: [saveMixin],
   components: {
     SafeDetailList
   },
@@ -33,7 +35,9 @@ export default {
       },
       picsList: [],
       rules: {},
-      posting: false
+      apiName: 'safeCheckRecord/',
+      addApi: 'addSafeCheckRecord',
+      updateApi: 'updateSafeCheckRecord'
     }
   },
   mounted() {
@@ -50,43 +54,7 @@ export default {
       if (data.code == 0) {
         this.formData = data.data
         this.formData.id = this.id
-        if (this.formData.accessoryNames) {
-          let pics = this.formData.accessoryNames.split(',')
-          pics.forEach(i => {
-            this.picsList.push({name: i, url: this.$baseURL + i})
-          })
-        }
       }
-    },
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.postForm()
-        } else {
-          this.$message.error('错了哦，这是一条错误消息')
-          return false;
-        }
-      });
-    },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
-    async postForm() {
-      this.posting = true
-      let {data} = await this.$http({
-        method: 'post',
-        url: 'safeCheckRecord/' + (this.id ? 'updateSafeCheckRecord' : 'addSafeCheckRecord'),
-        data: this.formData
-      })
-      if (data.code == 0) {
-        this.$message({
-          message: '保存成功！',
-          type: 'success'
-        })
-      } else {
-        this.$message.error(data.msg)
-      }
-      this.posting = false
     }
   }
 }
