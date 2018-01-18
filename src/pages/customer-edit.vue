@@ -41,7 +41,9 @@
   </div>
 </template>
 <script>
+import uploadMixin from '@/mixins/upload'
 export default {
+  mixins: [uploadMixin],
   data() {
     return {
       id: parseInt(this.$route.query.id),
@@ -57,31 +59,13 @@ export default {
       },
       picsList: [],
       rules: {},
-      posting: false,
-      dialogImageUrl: '',
-      dialogVisible: false
+      posting: false
     }
   },
   mounted() {
     this.id && this.getDetail()
   },
   methods: {
-    joinPicIntoString(list) {
-      let names = list.map(i => {
-        return i.name
-      })
-      return names.join(',')
-    },
-    pushPicInitList(str) {
-      let pics = []
-      if (str) {
-        pics = str.split(',')
-        pics = pics.map(i => {
-          return {name: i, url: this.$baseURL + i}
-        })
-      }
-      return pics
-    },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
@@ -133,6 +117,7 @@ export default {
           message: '保存成功！',
           type: 'success'
         })
+        this.$emit('save-ok')
       } else {
         this.$message.error(data.msg)
       }

@@ -71,7 +71,9 @@
   </div>
 </template>
 <script>
+import uploadMixin from '@/mixins/upload'
 export default {
+  mixins: [uploadMixin],
   data() {
     return {
       formData: {
@@ -90,8 +92,6 @@ export default {
       picsList1: [],
       picsList2: [],
       picsList3: [],
-      dialogImageUrl: '',
-      dialogVisible: false,
       posting: false
     }
   },
@@ -108,22 +108,6 @@ export default {
     this.getCheckUnitList()
   },
   methods: {
-    joinPicIntoString(list) {
-      let names = list.map(i => {
-        return i.name
-      })
-      return names.join(',')
-    },
-    pushPicInitList(str) {
-      let pics = []
-      if (str) {
-        pics = str.split(',')
-        pics = pics.map(i => {
-          return {name: i, url: this.$baseURL + i}
-        })
-      }
-      return pics
-    },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
