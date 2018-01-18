@@ -37,7 +37,7 @@
       :total="tableData.total">
     </el-pagination>
     <el-dialog title="编辑详情" :visible.sync="isShowForm" :key="sid">
-      <safe-detail-edit :id="id" :sid="sid"></safe-detail-edit>
+      <safe-detail-edit :sid="id" :id="sid" @save-ok="saveOk"></safe-detail-edit>
     </el-dialog>
   </div>
 </template>
@@ -75,6 +75,10 @@ export default {
     editPop(id) {
       this.sid = id
       this.isShowForm = true
+    },
+    saveOk() {
+      this.getList()
+      this.isShowForm = false
     }
   }
 }
