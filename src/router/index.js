@@ -10,6 +10,8 @@ import Safecheck from '@/pages/safecheck'
 import SafecheckEdit from '@/pages/safecheck-edit'
 import Goods from '@/pages/goods'
 import GoodsEdit from '@/pages/goods-edit'
+import GoodsType from '@/pages/goods-type'
+import GoodsTypeEdit from '@/pages/goods-type-edit'
 
 Vue.use(Router)
 
@@ -59,6 +61,14 @@ export default new Router({
       path: '/goods-edit',
       name: 'GoodsEdit',
       component: GoodsEdit
+    }, {
+      path: '/goods-type',
+      name: 'GoodsType',
+      component: GoodsType
+    }, {
+      path: '/goods-type-edit',
+      name: 'GoodsTypeEdit',
+      component: GoodsTypeEdit
     }
   ]
 })

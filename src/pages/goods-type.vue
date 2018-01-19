@@ -3,7 +3,6 @@
     <div class="tools">
       <el-button size="small" icon="el-icon-circle-plus-outline" type="primary" @click="editClick(0)">添加</el-button>
       <el-button size="small" icon="el-icon-delete" type="danger" @click="delectClick(multipleSelection)">删除</el-button>
-      <el-button size="small" icon="el-icon-tickets" type="success" @click="$router.push({name: 'GoodsType'})">货物类别管理</el-button>
     </div>
     <el-table
       v-loading="loading"
@@ -16,24 +15,16 @@
         type="selection">
       </el-table-column>
       <el-table-column
-        prop="goodsName"
-        label="货物名称">
-      </el-table-column>
-      <el-table-column
-        prop="goodsPackage"
-        label="货物包装类型">
-      </el-table-column>
-      <el-table-column
         prop="categoryName"
-        label="货物类别">
+        label="类别名称">
       </el-table-column>
       <el-table-column
         fixed="right"
         label="操作"
         width="100">
         <template slot-scope="scope">
-          <el-button @click="editClick(scope.row.goodsId)" type="text" size="small">编辑</el-button>
-          <el-button @click="delectClick([scope.row.goodsId])" type="text" size="small">删除</el-button>
+          <el-button @click="editClick(scope.row.id)" type="text" size="small">编辑</el-button>
+          <el-button @click="delectClick([scope.row.id])" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -56,11 +47,11 @@ export default {
   data() {
     return {
       keyword: '',
-      idField: 'goodsId',
-      editRoute: 'GoodsEdit',
-      apiName: 'goods',
-      deleteApi: '/deleteGoods',
-      getListApi: '/getGoodsList'
+      idField: 'id',
+      editRoute: 'GoodsTypeEdit',
+      apiName: 'goodsCategory',
+      deleteApi: '/deleteGoodsCategory',
+      getListApi: '/getGoodsCategoryList'
     }
   },
   mounted() {
