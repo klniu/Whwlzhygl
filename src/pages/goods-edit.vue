@@ -5,7 +5,9 @@
         <el-input v-model="formData.goodsName"></el-input>
       </el-form-item>
       <el-form-item label="货物类别" prop="goodsCategoryId">
-        <el-input v-model="formData.goodsCategoryId"></el-input>
+        <el-select v-model="formData.goodsCategoryId" placeholder="请选择">
+          <el-option v-for="item in goodsTypeList" :key="item.id" :label="item.categoryName" :value="item.id"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="货物包装类型" prop="goodsPackage">
         <el-input v-model="formData.goodsPackage"></el-input>
@@ -53,13 +55,21 @@ export default {
       rules: {},
       apiName: 'goods/',
       addApi: 'addGoods',
-      updateApi: 'updateGoods'
+      updateApi: 'updateGoods',
+      goodsTypeList: []
     }
   },
   mounted() {
     this.id && this.getDetail()
+    this.getGoodsTypeList()
   },
   methods: {
+    async getGoodsTypeList() {
+      let {data} = await this.$http('goodsCategory/getGoodsCategoryList')
+      if (data.code == 0) {
+        this.goodsTypeList = data.data.list
+      }
+    },
     handleRemove(file, list) {
       this.picsList = list
     },
