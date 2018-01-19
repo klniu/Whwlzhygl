@@ -4,12 +4,13 @@ export default {
       page: 1,
       pageSize: 10,
       tableData: [],
-      multipleSelection: []
+      multipleSelection: [],
+      loading: false
     }
   },
   methods: {
     async getList() {
-      const loading = this.$loading()
+      this.loading = true
       let params = {
         companyId: 1,
         currentPage: this.page,
@@ -24,7 +25,7 @@ export default {
       if (data.code == 0) {
         this.tableData = data.data
       }
-      loading.close()
+      this.loading = false
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);

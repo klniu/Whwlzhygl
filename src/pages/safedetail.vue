@@ -5,6 +5,7 @@
       <el-button size="small" icon="el-icon-delete" type="danger" @click="delectClick(multipleSelection)">删除</el-button>
     </div>
     <el-table
+      v-loading="loading"
       ref="multipleTable"
       :data="tableData.list"
       tooltip-effect="dark"

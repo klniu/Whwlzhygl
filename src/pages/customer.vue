@@ -7,6 +7,7 @@
       <el-button size="small" icon="el-icon-search" type="primary" @click="getList">搜索</el-button>
     </div>
     <el-table
+      v-loading="loading"
       ref="multipleTable"
       :data="tableData.list"
       tooltip-effect="dark"
