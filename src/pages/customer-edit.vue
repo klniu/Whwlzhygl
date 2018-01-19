@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="100px" size="medium">
-      <el-form-item label="客户地址 " prop="customerAddress">
+      <el-form-item label="客户地址" prop="customerAddress">
         <el-input v-model="formData.customerAddress"></el-input>
       </el-form-item>
       <el-form-item label="客户名称" prop="customerName">
@@ -69,10 +69,6 @@ export default {
     this.id && this.getDetail()
   },
   methods: {
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
     handleRemove(file, list) {
       this.picsList = list
     },

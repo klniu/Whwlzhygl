@@ -111,10 +111,6 @@ export default {
     this.getCheckUnitList()
   },
   methods: {
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
     handleRemove1(file, list) {
       this.picsList1 = list
     },

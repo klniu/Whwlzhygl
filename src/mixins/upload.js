@@ -6,6 +6,10 @@ export default {
     }
   },
   methods: {
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
     joinPicIntoString(list) {
       let names = list.map(i => {
         return i.name
