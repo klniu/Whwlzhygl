@@ -5,8 +5,9 @@
       <el-button size="small" icon="el-icon-delete" type="danger" @click="delectClick(multipleSelection)">删除</el-button>
     </div>
     <el-table
+      v-loading="loading"
       ref="multipleTable"
-      :data="tableData"
+      :data="tableData.list"
       tooltip-effect="dark"
       style="width: 100%"
       @selection-change="handleSelectionChange">
@@ -40,108 +41,30 @@
       @size-change="handleSizeChange"
       :current-page="page"
       :page-sizes="[10, 25, 50, 100]"
-      :page-size="10"
+      :page-size="pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="400">
+      :total="tableData.total">
     </el-pagination>
   </div>
 </template>
 
 <script>
+import listMixin from '@/mixins/list'
 export default {
+  mixins: [listMixin],
   data() {
     return {
-      page: 1,
-      tableData: [{
-        id: 1,
-        name: '主题名字',
-        type: '类型1',
-        date: '2016-05-03'
-      }, {
-        id: 2,
-        name: '主题名字',
-        type: '类型1',
-        date: '2016-05-02'
-      }, {
-        id: 3,
-        name: '主题名字',
-        type: '类型1',
-        date: '2016-05-04'
-      }, {
-        id: 4,
-        name: '主题名字',
-        type: '类型1',
-        date: '2016-05-01'
-      }, {
-        id: 5,
-        name: '主题名字',
-        type: '类型1',
-        date: '2016-05-08'
-      }, {
-        id: 6,
-        name: '主题名字',
-        type: '类型1',
-        date: '2016-05-06'
-      }, {
-        id: 7,
-        name: '主题名字',
-        type: '类型1',
-        date: '2016-05-07'
-      }, {
-        id: 8,
-        name: '主题名字',
-        type: '类型1',
-        date: '2016-05-07'
-      }, {
-        id: 9,
-        name: '主题名字',
-        type: '类型1',
-        date: '2016-05-07'
-      }],
-      multipleSelection: []
+      // TODO: 改api地址
+      editRoute: 'NoticeEdit',
+      apiName: 'customer',
+      deleteApi: '/deleteCustomer',
+      getListApi: '/getCustomerListByCustomerName'
     }
   },
   mounted() {
-    // this.getList()
+    this.getList()
   },
   methods: {
-    async getList() {
-      let {data} = await this.$http({
-        url: 'notice/getNoticeList',
-        data: {
-          companyId: 1
-        }
-      })
-    },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-    },
-    toggleSelection(rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row);
-        });
-      } else {
-        this.$refs.multipleTable.clearSelection();
-      }
-    },
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
-    },
-    editClick(val) {
-      this.$router.push({
-        name: 'NoticeEdit',
-        query: {
-          id: val
-        }
-      })
-    },
-    delectClick(val) {
-      this.$message({
-        message: '删除成功！',
-        type: 'success'
-      })
-    }
   }
 }
 </script>
