@@ -8,6 +8,8 @@ import Customer from '@/pages/customer'
 import CustomerEdit from '@/pages/customer-edit'
 import Safecheck from '@/pages/safecheck'
 import SafecheckEdit from '@/pages/safecheck-edit'
+import Goods from '@/pages/goods'
+import GoodsEdit from '@/pages/goods-edit'
 
 Vue.use(Router)
 
@@ -49,6 +51,14 @@ export default new Router({
       path: '/safecheck-edit',
       name: 'SafecheckEdit',
       component: SafecheckEdit
+    }, {
+      path: '/goods',
+      name: 'Goods',
+      component: Goods
+    }, {
+      path: '/goods-edit',
+      name: 'GoodsEdit',
+      component: GoodsEdit
     }
   ]
 })
