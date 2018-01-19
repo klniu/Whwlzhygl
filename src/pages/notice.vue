@@ -15,15 +15,15 @@
         type="selection">
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="noticeTitle"
         label="通知主题">
       </el-table-column>
       <el-table-column
-        prop="type"
+        prop="typeName"
         label="通知类型">
       </el-table-column>
       <el-table-column
-        prop="date"
+        prop="noticeDate"
         label="通知日期">
       </el-table-column>
       <el-table-column
@@ -31,8 +31,8 @@
         label="操作"
         width="100">
         <template slot-scope="scope">
-          <el-button @click="editClick(scope.row.id)" type="text" size="small">编辑</el-button>
-          <el-button @click="delectClick([scope.row.id])" type="text" size="small">删除</el-button>
+          <el-button @click="editClick(scope.row.noticeId)" type="text" size="small">编辑</el-button>
+          <el-button @click="delectClick([scope.row.noticeId])" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -54,11 +54,11 @@ export default {
   mixins: [listMixin],
   data() {
     return {
-      // TODO: 改api地址
+      idField: 'noticeId',
       editRoute: 'NoticeEdit',
-      apiName: 'customer',
-      deleteApi: '/deleteCustomer',
-      getListApi: '/getCustomerListByCustomerName'
+      apiName: 'notice',
+      deleteApi: '/deleteNotice',
+      getListApi: '/getNoticeList'
     }
   },
   mounted() {

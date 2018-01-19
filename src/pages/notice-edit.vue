@@ -12,8 +12,17 @@
           <el-option v-for="item in typeList" :key="item.id" :label="item.typeName" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="通知附件" prop="file">
-        <el-input v-model="formData.file"></el-input>
+      <el-form-item label="通知时间" prop="noticeDate">
+        <el-date-picker v-model="formData.noticeDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+      </el-form-item>
+      <el-form-item label="通知附件" prop="pic">
+        <el-upload
+          :action="$baseURL + 'accessory/addAccessory'"
+          :file-list="fileList"
+          :on-success="handleUpload"
+          :on-remove="handleRemove">
+          <el-button size="small" type="primary">点击上传</el-button>
+        </el-upload>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
@@ -23,10 +32,10 @@
   </div>
 </template>
 <script>
-// TODO: 附件上传
 import saveMixin from '@/mixins/saveform'
+import uploadMixin from '@/mixins/upload'
 export default {
-  mixins: [saveMixin],
+  mixins: [uploadMixin, saveMixin],
   data() {
     return {
       id: parseInt(this.$route.query.id),
@@ -40,7 +49,8 @@ export default {
       apiName: 'notice/',
       addApi: 'addNotice',
       updateApi: 'updateNotice',
-      typeList: []
+      typeList: [],
+      fileList: []
     }
   },
   mounted() {
@@ -48,6 +58,17 @@ export default {
     this.getTypeList()
   },
   methods: {
+    handleRemove(file, list) {
+      this.fileList = list
+    },
+    handleUpload(res) {
+      if (res.code == 0) {
+        this.fileList.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
+      }
+    },
+    beforePost() {
+      this.formData.accessoryNames = this.joinPicIntoString(this.fileList)
+    },
     async getTypeList() {
       let {data} = await this.$http({
         url: 'noticeType/getNoticeTypeList'
@@ -66,6 +87,7 @@ export default {
       if (data.code == 0) {
         this.formData = data.data
         this.formData.id = this.id
+        this.fileList = this.pushPicInitList(this.formData.accessoryNames)
       }
     }
   }
