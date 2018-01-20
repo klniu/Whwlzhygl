@@ -40,7 +40,7 @@
                 <el-menu-item index="safe2">管理2</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <el-menu-item index="equip">
+            <el-menu-item index="device">
               <i class="el-icon-menu"></i>
               <span slot="title">设备维护</span>
             </el-menu-item>

@@ -12,6 +12,7 @@ import Goods from '@/pages/goods'
 import GoodsEdit from '@/pages/goods-edit'
 import GoodsType from '@/pages/goods-type'
 import GoodsTypeEdit from '@/pages/goods-type-edit'
+import DeviceEdit from '@/pages/device-edit'
 
 Vue.use(Router)
 
@@ -69,6 +70,10 @@ export default new Router({
       path: '/goods-type-edit',
       name: 'GoodsTypeEdit',
       component: GoodsTypeEdit
+    }, {
+      path: '/device',
+      name: 'DeviceEdit',
+      component: DeviceEdit
     }
   ]
 })
