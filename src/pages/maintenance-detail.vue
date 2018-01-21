@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="tools">
-      <el-button size="small" icon="el-icon-circle-plus-outline" type="primary" @click="editClick(0)">添加</el-button>
+      <el-button size="small" icon="el-icon-circle-plus-outline" type="primary" @click="editPop(0)">添加</el-button>
       <el-button size="small" icon="el-icon-delete" type="danger" @click="delectClick(multipleSelection)">删除</el-button>
     </div>
     <el-table
@@ -15,26 +15,16 @@
         type="selection">
       </el-table-column>
       <el-table-column
-        prop="plateNum"
-        label="车牌号">
-      </el-table-column>
-      <el-table-column
-        :formatter="timeformat"
-        prop="maintenanceStartDate"
-        label="维护计划时间">
-      </el-table-column>
-      <el-table-column
-        :formatter="timeformat"
-        prop="actualStartDate"
-        label="维护实际时间">
+        prop="content"
+        label="内容">
       </el-table-column>
       <el-table-column
         fixed="right"
         label="操作"
         width="100">
         <template slot-scope="scope">
-          <el-button @click="editClick(scope.row.maintenancePlanId)" type="text" size="small">编辑</el-button>
-          <el-button @click="delectClick([scope.row.maintenancePlanId])" type="text" size="small">删除</el-button>
+          <el-button @click="editPop(scope.row.maintenancePlanDetailId)" type="text" size="small">编辑</el-button>
+          <el-button @click="delectClick([scope.row.maintenancePlanDetailId])" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -47,22 +37,31 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="tableData.total">
     </el-pagination>
+    <el-dialog title="编辑详情" :visible.sync="isShowForm" :key="sid">
+      <maintenance-detail-edit :sid="id" :id="sid" @save-ok="saveOk"></maintenance-detail-edit>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import listMixin from '@/mixins/list'
-import timeformat from '@/mixins/timeformat'
+import MaintenanceDetailEdit from './maintenance-detail-edit'
 export default {
-  mixins: [listMixin, timeformat],
+  mixins: [listMixin],
+  components: {
+    MaintenanceDetailEdit
+  },
   data() {
     return {
       keyword: '',
-      idField: 'maintenancePlanId',
-      editRoute: 'MaintenanceEdit',
-      apiName: 'maintenancePlan',
-      deleteApi: '/deleteMaintenancePlan',
-      getListApi: '/getMaintenancePlanList'
+      idField: 'maintenancePlanDetailId',
+      editRoute: 'MaintenanceDetailEdit',
+      apiName: 'maintenancePlanDetail',
+      deleteApi: '/deleteMaintenancePlanDetail',
+      getListApi: '/getMaintenancePlanDetailList',
+      params: {maintenancePlanId: this.id},
+      isShowForm: false,
+      sid: ''
     }
   },
   props: {
@@ -74,6 +73,14 @@ export default {
     this.getList()
   },
   methods: {
+    editPop(id) {
+      this.sid = id
+      this.isShowForm = true
+    },
+    saveOk() {
+      this.getList()
+      this.isShowForm = false
+    }
   }
 }
 </script>

@@ -13,6 +13,7 @@ import GoodsEdit from '@/pages/goods-edit'
 import GoodsType from '@/pages/goods-type'
 import GoodsTypeEdit from '@/pages/goods-type-edit'
 import DeviceEdit from '@/pages/device-edit'
+import MaintenanceEdit from '@/pages/maintenance-edit'
 
 Vue.use(Router)
 
@@ -74,6 +75,10 @@ export default new Router({
       path: '/device',
       name: 'DeviceEdit',
       component: DeviceEdit
+    }, {
+      path: '/maintenance-edit',
+      name: 'MaintenanceEdit',
+      component: MaintenanceEdit
     }
   ]
 })
