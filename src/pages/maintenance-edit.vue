@@ -21,9 +21,13 @@
       <el-form-item label="实际维护开始日期" prop="actualStartDate">
         <el-date-picker v-model="formData.actualStartDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
       </el-form-item>
-      <!-- TODO: 联动选择 -->
       <el-form-item label="维护的车辆id" prop="carId">
-        <el-input v-model="formData.carId"></el-input>
+        <el-cascader
+          :options="carTeamList"
+          @active-item-change="getCarList"
+          @change="setCarId"
+          :show-all-levels="false"
+        ></el-cascader>
       </el-form-item>
       <el-form-item label="确认人" prop="confirmPerson">
         <el-input v-model="formData.confirmPerson"></el-input>
@@ -70,7 +74,7 @@ export default {
         accessoryNames: '',
         actualEndDate: '',
         actualStartDate: '',
-        carId: 0,
+        carId: '',
         companyId: 1,
         confirmPerson: '',
         currentMaintenanceMileage: 0,
@@ -84,13 +88,53 @@ export default {
       rules: {},
       apiName: 'maintenancePlan/',
       addApi: 'addMaintenancePlan',
-      updateApi: 'updateMaintenancePlan'
+      updateApi: 'updateMaintenancePlan',
+      carTeamList: []
     }
   },
   mounted() {
     this.id && this.getDetail()
+    this.getCarTeamList()
   },
   methods: {
+    // TODO: carId默认值
+    setCarId(val) {
+      this.formData.carId = val[1]
+    },
+    async getCarList(val) {
+      let {data} = await this.$http({
+        url: '/car/getCarListAll',
+        params: {
+          carTeamId: this.carTeamList[val[0]].id
+        }
+      })
+      if (data.code == 0) {
+        this.carTeamList[val[0]].children = data.data.map(item => {
+          return {
+            label: item.plateNum,
+            value: item.carId
+          }
+        })
+      }
+    },
+    async getCarTeamList() {
+      let {data} = await this.$http({
+        url: '/carTeam/getCarTeamListAll',
+        params: {
+          companyId: 1
+        }
+      })
+      if (data.code == 0) {
+        this.carTeamList = data.data.map((item, i) => {
+          return {
+            label: item.teamName,
+            value: i,
+            id: item.carTeamId,
+            children: []
+          }
+        })
+      }
+    },
     handleRemove(file, list) {
       this.picsList = list
     },
