@@ -21,13 +21,16 @@
       <el-form-item label="实际维护开始日期" prop="actualStartDate">
         <el-date-picker v-model="formData.actualStartDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
       </el-form-item>
-      <el-form-item label="维护的车辆id" prop="carId">
-        <el-cascader
-          :options="carTeamList"
-          @active-item-change="getCarList"
-          @change="setCarId"
-          :show-all-levels="false"
-        ></el-cascader>
+      <el-form-item label="维护的车辆" prop="carId">
+        <el-autocomplete
+          v-model="strPlateNum"
+          :fetch-suggestions="getCarList"
+          placeholder="输入车牌号筛选"
+          @select="setCarId"
+        ></el-autocomplete>
+        <el-select v-model="carTeamId" placeholder="选择车队筛选" clearable>
+          <el-option v-for="item in carTeamList" :key="item.carTeamId" :label="item.teamName" :value="item.carTeamId"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="确认人" prop="confirmPerson">
         <el-input v-model="formData.confirmPerson"></el-input>
@@ -89,7 +92,9 @@ export default {
       apiName: 'maintenancePlan/',
       addApi: 'addMaintenancePlan',
       updateApi: 'updateMaintenancePlan',
-      carTeamList: []
+      carTeamList: [],
+      carTeamId: '',
+      strPlateNum: ''
     }
   },
   mounted() {
@@ -97,24 +102,35 @@ export default {
     this.getCarTeamList()
   },
   methods: {
-    // TODO: carId默认值
-    setCarId(val) {
-      this.formData.carId = val[1]
-    },
-    async getCarList(val) {
+    async getCarName() {
       let {data} = await this.$http({
-        url: '/car/getCarListAll',
+        url: '/car/getCar',
         params: {
-          carTeamId: this.carTeamList[val[0]].id
+          carId: this.formData.carId
         }
       })
       if (data.code == 0) {
-        this.carTeamList[val[0]].children = data.data.map(item => {
+        this.strPlateNum = data.data.plateNum
+      }
+    },
+    setCarId(val) {
+      this.formData.carId = val.id
+    },
+    async getCarList(keyword, cb) {
+      let {data} = await this.$http({
+        url: '/car/getCarListAll',
+        params: {
+          plateNum: keyword,
+          carTeamId: this.carTeamId
+        }
+      })
+      if (data.code == 0) {
+        cb(data.data.map(item => {
           return {
-            label: item.plateNum,
-            value: item.carId
+            id: item.carId,
+            value: item.plateNum
           }
-        })
+        }))
       }
     },
     async getCarTeamList() {
@@ -125,14 +141,7 @@ export default {
         }
       })
       if (data.code == 0) {
-        this.carTeamList = data.data.map((item, i) => {
-          return {
-            label: item.teamName,
-            value: i,
-            id: item.carTeamId,
-            children: []
-          }
-        })
+        this.carTeamList = data.data
       }
     },
     handleRemove(file, list) {
@@ -153,6 +162,7 @@ export default {
       if (data.code == 0) {
         this.formData = data.data
         this.formData.id = this.id
+        this.getCarName()
       }
     }
   }
