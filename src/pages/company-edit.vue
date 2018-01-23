@@ -19,9 +19,16 @@
       <el-form-item label="负责人联系电话" prop="principalMobile">
         <el-input v-model="formData.principalMobile"></el-input>
       </el-form-item>
-      <!-- TODO: 经营范围 -->
-      <el-form-item label="经验范围" prop="id">
-        <el-transfer v-model="companyBizScope" :data="bizScope"></el-transfer>
+      <el-form-item label="经验范围" prop="bizScopeIds">
+        <el-transfer
+          v-model="formData.bizScopeIds"
+          :right-default-checked="formData.bizScopeIds"
+          :data="bizScopeList"
+          :titles="['可选列表', '已选列表']"
+          :props="{
+            key: 'id',
+            label: 'scopeName'
+          }" />
       </el-form-item>
       <el-form-item label="道路经营许可证号" prop="roadLicenseNum">
         <el-input v-model="formData.roadLicenseNum"></el-input>
@@ -82,7 +89,7 @@
           <i class="el-icon-plus"></i>
         </el-upload>
       </el-form-item>
-      <el-dialog :visible.sync="dialogVisible" size="tiny">
+      <el-dialog :visible.sync="dialogVisible">
         <img width="100%" :src="dialogImageUrl" alt="">
       </el-dialog>
       <el-form-item>
@@ -99,7 +106,7 @@ export default {
   mixins: [uploadMixin, saveMixin],
   data() {
     return {
-      companyBizScope: [],
+      bizScopeList: [],
       bizScope: [],
       id: 1,
       formData: {
@@ -108,6 +115,7 @@ export default {
         economicNature: '',
         legalMobile: '',
         legalName: '',
+        bizScopeIds: [],
         principalMobile: '',
         principalName: '',
         registerAddress: '',
@@ -131,8 +139,15 @@ export default {
   },
   mounted() {
     this.id && this.getDetail()
+    this.getBizScopeList()
   },
   methods: {
+    async getBizScopeList() {
+      let {data} = await this.$http('bizScope/getBizScopeList')
+      if (data.code == 0) {
+        this.bizScopeList = data.data.list
+      }
+    },
     handleRemove1(file, list) {
       this.picsList1 = list
     },
@@ -175,6 +190,7 @@ export default {
       if (data.code == 0) {
         this.formData = data.data
         this.formData.id = this.id
+        this.formData.bizScopeIds = this.formData.bizScopeIds || []
         this.picsList1 = this.pushPicInitList(this.formData.roadLicensePath)
         this.picsList2 = this.pushPicInitList(this.formData.roadTransportGradeLicensePath)
         this.picsList3 = this.pushPicInitList(this.formData.safeProductGradeLicensePath)
