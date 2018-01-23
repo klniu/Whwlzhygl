@@ -26,9 +26,6 @@
           list-type="picture-card">
           <i class="el-icon-plus"></i>
         </el-upload>
-        <el-dialog :visible.sync="dialogVisible" size="tiny" append-to-body>
-          <img width="100%" :src="dialogImageUrl" alt="">
-        </el-dialog>
       </el-form-item>
       <el-form-item label="检查到的问题照片图片" prop="questionPath">
         <el-upload
@@ -41,9 +38,6 @@
           list-type="picture-card">
           <i class="el-icon-plus"></i>
         </el-upload>
-        <el-dialog :visible.sync="dialogVisible" size="tiny" append-to-body>
-          <img width="100%" :src="dialogImageUrl" alt="">
-        </el-dialog>
       </el-form-item>
       <el-form-item label="整改后的照片图片" prop="reformPath">
         <el-upload
@@ -56,13 +50,13 @@
           list-type="picture-card">
           <i class="el-icon-plus"></i>
         </el-upload>
-        <el-dialog :visible.sync="dialogVisible" size="tiny" append-to-body>
-          <img width="100%" :src="dialogImageUrl" alt="">
-        </el-dialog>
       </el-form-item>
       <el-form-item label="整改结果" prop="reformResult">
         <el-input v-model="formData.reformResult"></el-input>
       </el-form-item>
+      <el-dialog :visible.sync="dialogVisible" append-to-body>
+        <img width="100%" :src="dialogImageUrl" alt="">
+      </el-dialog>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')" :loading="posting">保存</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
