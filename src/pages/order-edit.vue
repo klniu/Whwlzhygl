@@ -42,18 +42,18 @@
     </el-form>
     <div v-if="id">
       <h3>电子路单详情列表：</h3>
-      <!-- <maintenance-detail-list :id="id"></maintenance-detail-list> -->
+      <order-detail-list :id="id"></order-detail-list>
     </div>
   </div>
 </template>
 <script>
-// import MaintenanceDetailList from './maintenance-detail'
+import OrderDetailList from './order-detail'
 import saveMixin from '@/mixins/saveform'
 export default {
   mixins: [saveMixin],
-  // components: {
-  //   MaintenanceDetailList
-  // },
+  components: {
+    OrderDetailList
+  },
   data() {
     return {
       id: parseInt(this.$route.query.id),
