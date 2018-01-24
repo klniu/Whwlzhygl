@@ -16,15 +16,27 @@
       </el-table-column>
       <el-table-column
         prop="content"
-        label="内容">
+        label="驾驶员">
+      </el-table-column>
+      <el-table-column
+        prop="content"
+        label="头车车牌号">
+      </el-table-column>
+      <el-table-column
+        prop="content"
+        label="挂车车牌号">
+      </el-table-column>
+      <el-table-column
+        prop="content"
+        label="押运员">
       </el-table-column>
       <el-table-column
         fixed="right"
         label="操作"
         width="100">
         <template slot-scope="scope">
-          <el-button @click="editPop(scope.row.maintenancePlanDetailId)" type="text" size="small">编辑</el-button>
-          <el-button @click="delectClick([scope.row.maintenancePlanDetailId])" type="text" size="small">删除</el-button>
+          <el-button @click="editPop(scope.row.orderDetailId)" type="text" size="small">编辑</el-button>
+          <el-button @click="delectClick([scope.row.orderDetailId])" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -38,28 +50,28 @@
       :total="tableData.total">
     </el-pagination>
     <el-dialog title="编辑详情" :visible.sync="isShowForm" :key="sid">
-      <maintenance-detail-edit :sid="id" :id="sid" @save-ok="saveOk"></maintenance-detail-edit>
+      <order-detail-edit :sid="id" :id="sid" @save-ok="saveOk"></order-detail-edit>
     </el-dialog>
   </div>
 </template>
 
 <script>
 import listMixin from '@/mixins/list'
-import MaintenanceDetailEdit from './maintenance-detail-edit'
+import OrderDetailEdit from './order-detail-edit'
 export default {
   mixins: [listMixin],
   components: {
-    MaintenanceDetailEdit
+    OrderDetailEdit
   },
   data() {
     return {
       keyword: '',
-      idField: 'maintenancePlanDetailId',
-      editRoute: 'MaintenanceDetailEdit',
-      apiName: 'maintenancePlanDetail',
-      deleteApi: '/deleteMaintenancePlanDetail',
-      getListApi: '/getMaintenancePlanDetailList',
-      params: {maintenancePlanId: this.id},
+      idField: 'orderDetailId',
+      editRoute: 'OrderDetailEdit',
+      apiName: 'orderDetail',
+      deleteApi: '/deleteorderDetail',
+      getListApi: '/getOrderDetailList',
+      params: {orderId: this.id},
       isShowForm: false,
       sid: ''
     }
