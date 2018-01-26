@@ -21,6 +21,8 @@ import Meeting from '@/pages/meeting'
 import MeetingEdit from '@/pages/meeting-edit'
 import Person from '@/pages/person'
 import PersonEdit from '@/pages/person-edit'
+import CarTeam from '@/pages/car-team'
+import CarTeamEdit from '@/pages/car-team-edit'
 
 Vue.use(Router)
 
@@ -114,6 +116,14 @@ export default new Router({
       path: '/person-edit',
       name: 'PersonEdit',
       component: PersonEdit
+    }, {
+      path: '/car-team',
+      name: 'CarTeam',
+      component: CarTeam
+    }, {
+      path: '/car-team-edit',
+      name: 'CarTeamEdit',
+      component: CarTeamEdit
     }
   ]
 })

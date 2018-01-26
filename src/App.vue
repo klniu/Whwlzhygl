@@ -17,7 +17,7 @@
               <i class="el-icon-menu"></i>
               <span slot="title">人员管理</span>
             </el-menu-item>
-            <el-menu-item index="car">
+            <el-menu-item index="car-team">
               <i class="el-icon-menu"></i>
               <span slot="title">车辆管理</span>
             </el-menu-item>
@@ -36,8 +36,10 @@
               </template>
               <el-menu-item-group>
                 <el-menu-item index="safecheck">安全监督检查</el-menu-item>
+                <el-menu-item index="doorcheck">车辆门检</el-menu-item>
+                <el-menu-item index="hiddendanger">隐患排查</el-menu-item>
                 <el-menu-item index="accident">事故记录</el-menu-item>
-                <el-menu-item index="safe2">管理2</el-menu-item>
+                <el-menu-item index="illegal">违章记录</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-menu-item index="device">
