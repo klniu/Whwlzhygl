@@ -13,7 +13,7 @@
               <i class="el-icon-menu"></i>
               <span slot="title">企业管理</span>
             </el-menu-item>
-            <el-menu-item index="staff">
+            <el-menu-item index="person">
               <i class="el-icon-menu"></i>
               <span slot="title">人员管理</span>
             </el-menu-item>
