@@ -15,19 +15,19 @@
         type="selection">
       </el-table-column>
       <el-table-column
-        prop="content"
+        prop="driverName"
         label="驾驶员">
       </el-table-column>
       <el-table-column
-        prop="content"
+        prop="carPlateNum"
         label="头车车牌号">
       </el-table-column>
       <el-table-column
-        prop="content"
+        prop="trailerPlateNum"
         label="挂车车牌号">
       </el-table-column>
       <el-table-column
-        prop="content"
+        prop="escortName"
         label="押运员">
       </el-table-column>
       <el-table-column
@@ -35,8 +35,8 @@
         label="操作"
         width="100">
         <template slot-scope="scope">
-          <el-button @click="editPop(scope.row.orderDetailId)" type="text" size="small">编辑</el-button>
-          <el-button @click="delectClick([scope.row.orderDetailId])" type="text" size="small">删除</el-button>
+          <el-button @click="editPop(scope.row.id)" type="text" size="small">编辑</el-button>
+          <el-button @click="delectClick([scope.row.id])" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -49,7 +49,7 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="tableData.total">
     </el-pagination>
-    <el-dialog title="编辑详情" :visible.sync="isShowForm" :key="sid">
+    <el-dialog width="70%" title="编辑详情" :visible.sync="isShowForm" :key="sid">
       <order-detail-edit :sid="id" :id="sid" @save-ok="saveOk"></order-detail-edit>
     </el-dialog>
   </div>
@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       keyword: '',
-      idField: 'orderDetailId',
+      idField: 'id',
       editRoute: 'OrderDetailEdit',
       apiName: 'orderDetail',
       deleteApi: '/deleteorderDetail',

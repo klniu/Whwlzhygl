@@ -1,9 +1,30 @@
 <template>
   <div>
     <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="120px" size="medium">
-      <el-form-item label="二级维护项" prop="maintenanceContentId">
-        <el-select v-model="formData.maintenanceContentId" placeholder="请选择">
-          <el-option v-for="item in contentList" :key="item.id" :label="item.content" :value="item.id"></el-option>
+      <el-form-item label="驾驶员" prop="driverId">
+        <el-select v-model="formData.driverId" filterable placeholder="请选择">
+          <el-option v-for="item in personList" :key="item.personId" :label="item.personName" :value="item.personId"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="押运员" prop="escortId">
+        <el-select v-model="formData.escortId" filterable placeholder="请选择">
+          <el-option v-for="item in personList" :key="item.personId" :label="item.personName" :value="item.personId"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="头车车牌号" prop="carId">
+        <el-select v-model="formData.carId" filterable placeholder="可输入车牌号筛选" @visible-change="getCarList">
+          <el-option v-for="item in carList" :key="item.carId" :label="item.plateNum" :value="item.carId"></el-option>
+        </el-select>
+        <el-select v-model="carTeamId" placeholder="选择车队筛选" clearable>
+          <el-option v-for="item in carTeamList" :key="item.carTeamId" :label="item.teamName" :value="item.carTeamId"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="挂车车牌号" prop="trailerId">
+        <el-select v-model="formData.trailerId" filterable placeholder="可输入车牌号筛选" @visible-change="getCarList2">
+          <el-option v-for="item in carList2" :key="item.carId" :label="item.plateNum" :value="item.carId"></el-option>
+        </el-select>
+        <el-select v-model="carTeamId2" placeholder="选择车队筛选" clearable>
+          <el-option v-for="item in carTeamList" :key="item.carTeamId" :label="item.teamName" :value="item.carTeamId"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -20,14 +41,20 @@ export default {
   data() {
     return {
       formData: {
-        maintenanceContentId: '',
-        maintenancePlanId: this.sid
+        driverId: '',
+        escortId: '',
+        orderId: this.sid
       },
-      contentList: [],
+      personList: [],
       rules: {},
-      apiName: 'maintenancePlanDetail/',
-      addApi: 'addMaintenancePlanDetail',
-      updateApi: 'updateMaintenancePlanDetail'
+      apiName: 'orderDetail/',
+      addApi: 'addOrderDetail',
+      updateApi: 'updateOrderDetail',
+      carTeamList: [],
+      carList: [],
+      carList2: [],
+      carTeamId: '',
+      carTeamId2: ''
     }
   },
   props: {
@@ -39,29 +66,65 @@ export default {
     }
   },
   mounted() {
+    this.getPersonList()
+    this.getCarTeamList()
+    this.getCarList()
+    this.getCarList2()
     this.id && this.getDetail()
-    this.getContentList()
   },
   methods: {
-    async getContentList() {
+    async getCarList(tid) {
       let {data} = await this.$http({
-        url: 'maintenanceContent/getMaintenanceContentList'
+        url: 'car/getCarListAll',
+        params: {
+          carTeamId: this.carTeamId
+        }
       })
       if (data.code == 0) {
-        this.contentList = data.data.list
+        this.carList = data.data
+      }
+    },
+    async getCarList2() {
+      let {data} = await this.$http({
+        url: 'car/getCarListAll',
+        params: {
+          carTeamId: this.carTeamId2
+        }
+      })
+      if (data.code == 0) {
+        this.carList2 = data.data
+      }
+    },
+    async getCarTeamList() {
+      let {data} = await this.$http({
+        url: '/carTeam/getCarTeamListAll',
+        params: {
+          companyId: 1
+        }
+      })
+      if (data.code == 0) {
+        this.carTeamList = data.data
+      }
+    },
+    async getPersonList() {
+      let {data} = await this.$http({
+        url: 'person/getPersonListAll'
+      })
+      if (data.code == 0) {
+        this.personList = data.data
       }
     },
     async getDetail() {
       let {data} = await this.$http({
-        url: 'maintenancePlanDetail/getMaintenancePlanDetail',
+        url: 'orderDetail/getOrderDetail',
         params: {
-          maintenancePlanDetailId: this.id
+          orderDetailId: this.id
         }
       })
       if (data.code == 0) {
         this.formData = data.data
         this.formData.id = this.id
-        this.formData.maintenancePlanId = this.sid
+        this.formData.orderId = this.sid
       }
     }
   }
