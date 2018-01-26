@@ -17,6 +17,8 @@ import MaintenanceEdit from '@/pages/maintenance-edit'
 import CompanyEdit from '@/pages/company-edit'
 import Order from '@/pages/order'
 import OrderEdit from '@/pages/order-edit'
+import Meeting from '@/pages/meeting'
+import MeetingEdit from '@/pages/meeting-edit'
 
 Vue.use(Router)
 
@@ -94,6 +96,14 @@ export default new Router({
       path: '/order-edit',
       name: 'OrderEdit',
       component: OrderEdit
+    }, {
+      path: '/meeting',
+      name: 'Meeting',
+      component: Meeting
+    }, {
+      path: '/meeting-edit',
+      name: 'MeetingEdit',
+      component: MeetingEdit
     }
   ]
 })
