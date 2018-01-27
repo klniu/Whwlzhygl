@@ -12,7 +12,6 @@
       </el-form-item>
       <el-form-item label="车队安全责任状图片" prop="safeResponsibilityPath">
         <el-upload
-          class="small"
           :action="$baseURL + 'accessory/addAccessory'"
           :file-list="picsList"
           :on-success="handleUpload"
@@ -31,17 +30,17 @@
       </el-form-item>
     </el-form>
     <h3>车辆列表：</h3>
-    <safe-detail-list :id="id"></safe-detail-list>
+    <car-list :id="id"></car-list>
   </div>
 </template>
 <script>
-import SafeDetailList from './safedetail'
+import CarList from './car'
 import saveMixin from '@/mixins/saveform'
 import uploadMixin from '@/mixins/upload'
 export default {
   mixins: [saveMixin, uploadMixin],
   components: {
-    SafeDetailList
+    CarList
   },
   data() {
     return {
