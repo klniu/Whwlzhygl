@@ -23,6 +23,8 @@ import Person from '@/pages/person'
 import PersonEdit from '@/pages/person-edit'
 import CarTeam from '@/pages/car-team'
 import CarTeamEdit from '@/pages/car-team-edit'
+import Doorcheck from '@/pages/doorcheck'
+import DoorcheckEdit from '@/pages/doorcheck-edit'
 
 Vue.use(Router)
 
@@ -124,6 +126,14 @@ export default new Router({
       path: '/car-team-edit',
       name: 'CarTeamEdit',
       component: CarTeamEdit
+    }, {
+      path: '/doorcheck',
+      name: 'Doorcheck',
+      component: Doorcheck
+    }, {
+      path: '/doorcheck-edit',
+      name: 'DoorcheckEdit',
+      component: DoorcheckEdit
     }
   ]
 })
