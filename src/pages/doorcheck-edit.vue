@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="100px" size="medium">
+    <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="150px" size="medium">
       <el-form-item label="汽车id" prop="carId">
         <el-input v-model="formData.carId"></el-input>
       </el-form-item>
@@ -16,6 +16,12 @@
       <el-form-item label="整改请求" prop="reformRequest">
         <el-input v-model="formData.reformRequest"></el-input>
       </el-form-item>
+      <div class="el-form-item">
+        <label class="nc-label">xxx</label>
+        <div class="nc-input">
+          <el-input v-model="formData.reformRequest"></el-input>
+        </div>
+      </div>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')" :loading="posting">保存</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -64,3 +70,17 @@ export default {
   }
 }
 </script>
+<style scoped>
+.nc-label{
+  width: 150px;
+  text-align: right;
+  color: #606266;
+  padding: 0 12px 0 0;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+.nc-label,.nc-label{
+  float: left;
+  line-height: 36px;
+}
+</style>
