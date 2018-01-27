@@ -16,23 +16,23 @@
       <el-form-item label="整改请求" prop="reformRequest">
         <el-input v-model="formData.reformRequest"></el-input>
       </el-form-item>
-      <div class="el-form-item">
-        <label class="nc-label">xxx</label>
-        <div class="nc-input">
-          <el-input v-model="formData.reformRequest"></el-input>
-        </div>
-      </div>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')" :loading="posting">保存</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
+    <h3>检查项</h3>
+    <check-list :id="id"></check-list>
   </div>
 </template>
 <script>
+import CheckList from './car-check'
 import saveMixin from '@/mixins/saveform'
 export default {
   mixins: [saveMixin],
+  components: {
+    CheckList
+  },
   data() {
     return {
       id: parseInt(this.$route.query.id),
@@ -70,17 +70,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.nc-label{
-  width: 150px;
-  text-align: right;
-  color: #606266;
-  padding: 0 12px 0 0;
-  box-sizing: border-box;
-  vertical-align: middle;
-}
-.nc-label,.nc-label{
-  float: left;
-  line-height: 36px;
-}
-</style>
