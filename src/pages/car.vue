@@ -41,7 +41,7 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="tableData.total">
     </el-pagination>
-    <el-dialog title="编辑详情" :visible.sync="isShowForm" :key="sid">
+    <el-dialog width="75%" title="编辑详情" :visible.sync="isShowForm" :key="sid">
       <car-edit :sid="id" :id="sid" @save-ok="saveOk"></car-edit>
     </el-dialog>
   </div>
