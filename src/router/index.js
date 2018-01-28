@@ -25,6 +25,8 @@ import CarTeam from '@/pages/car-team'
 import CarTeamEdit from '@/pages/car-team-edit'
 import Doorcheck from '@/pages/doorcheck'
 import DoorcheckEdit from '@/pages/doorcheck-edit'
+import Illegal from '@/pages/illegal'
+import IllegalEdit from '@/pages/illegal-edit'
 
 Vue.use(Router)
 
@@ -134,6 +136,14 @@ export default new Router({
       path: '/doorcheck-edit',
       name: 'DoorcheckEdit',
       component: DoorcheckEdit
+    }, {
+      path: '/illegal',
+      name: 'Illegal',
+      component: Illegal
+    }, {
+      path: '/illegal-edit',
+      name: 'IllegalEdit',
+      component: IllegalEdit
     }
   ]
 })
