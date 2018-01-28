@@ -27,6 +27,8 @@ import Doorcheck from '@/pages/doorcheck'
 import DoorcheckEdit from '@/pages/doorcheck-edit'
 import Illegal from '@/pages/illegal'
 import IllegalEdit from '@/pages/illegal-edit'
+import Danger from '@/pages/danger'
+import DangerEdit from '@/pages/danger-edit'
 
 Vue.use(Router)
 
@@ -144,6 +146,14 @@ export default new Router({
       path: '/illegal-edit',
       name: 'IllegalEdit',
       component: IllegalEdit
+    }, {
+      path: '/danger',
+      name: 'Danger',
+      component: Danger
+    }, {
+      path: '/danger-edit',
+      name: 'DangerEdit',
+      component: DangerEdit
     }
   ]
 })

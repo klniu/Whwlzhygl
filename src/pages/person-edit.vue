@@ -37,6 +37,7 @@
       <el-form-item label="身份证图片" prop="idCardPath">
         <el-upload
           class="small"
+          :data="{fileType: 'ID_CARD0'}"
           :action="$baseURL + 'accessory/addAccessory'"
           :file-list="picsList1"
           :on-success="handleUpload1"

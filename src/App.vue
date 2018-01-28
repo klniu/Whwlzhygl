@@ -37,7 +37,7 @@
               <el-menu-item-group>
                 <el-menu-item index="safecheck">安全监督检查</el-menu-item>
                 <el-menu-item index="doorcheck">车辆门检</el-menu-item>
-                <el-menu-item index="hiddendanger">隐患排查</el-menu-item>
+                <el-menu-item index="danger">隐患排查</el-menu-item>
                 <el-menu-item index="accident">事故记录</el-menu-item>
                 <el-menu-item index="illegal">违章记录</el-menu-item>
               </el-menu-item-group>
