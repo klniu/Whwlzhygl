@@ -40,8 +40,10 @@
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
-    <h3>检查项</h3>
-    <check-list :id="id"></check-list>
+    <div v-if="id">
+      <h3>检查项</h3>
+      <check-list :id="id"></check-list>
+    </div>
   </div>
 </template>
 <script>

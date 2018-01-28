@@ -29,8 +29,10 @@
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
-    <h3>车辆列表：</h3>
-    <car-list :id="id"></car-list>
+    <div v-if="id">
+      <h3>车辆列表：</h3>
+      <car-list :id="id"></car-list>
+    </div>
   </div>
 </template>
 <script>
