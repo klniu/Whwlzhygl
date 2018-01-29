@@ -34,7 +34,7 @@
       <el-form-item label="联系号码" prop="mobile">
         <el-input v-model="formData.mobile"></el-input>
       </el-form-item>
-      <el-form-item label="身份证图片" prop="idCardPath">
+      <el-form-item label="身份证正面" prop="idCardPath0">
         <el-upload
           class="small"
           :data="{fileType: 'ID_CARD0'}"
@@ -42,6 +42,19 @@
           :file-list="picsList1"
           :on-success="handleUpload1"
           :on-remove="handleRemove1"
+          :on-preview="handlePictureCardPreview"
+          list-type="picture-card">
+          <i class="el-icon-plus"></i>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="身份证反面" prop="idCardPath1">
+        <el-upload
+          class="small"
+          :data="{fileType: 'ID_CARD1'}"
+          :action="$baseURL + 'accessory/addAccessory'"
+          :file-list="picsList3"
+          :on-success="handleUpload3"
+          :on-remove="handleRemove3"
           :on-preview="handlePictureCardPreview"
           list-type="picture-card">
           <i class="el-icon-plus"></i>
@@ -110,7 +123,8 @@ export default {
         address: '',
         idCardNum: '',
         mobile: '',
-        idCardPath: '',
+        idCardPath0: '',
+        idCardPath1: '',
         issuingAuthority: '',
         idCardValidityStartDate: '',
         idCardValidityEndDate: '',
@@ -126,6 +140,7 @@ export default {
       updateApi: 'updatePerson',
       picsList1: [],
       picsList2: [],
+      picsList3: [],
       personTypeList: [],
       certTypeList: []
     }
@@ -154,6 +169,27 @@ export default {
     handleUpload1(res) {
       if (res.code == 0) {
         this.picsList1.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
+        if (res.data.accessoryContent.person) {
+          this.formData.address = res.data.accessoryContent.person.address
+          this.formData.birthday = res.data.accessoryContent.person.birthday
+          this.formData.gender = res.data.accessoryContent.person.gender
+          this.formData.idCardNum = res.data.accessoryContent.person.idCardNum
+          this.formData.nation = res.data.accessoryContent.person.nation
+          this.formData.personName = res.data.accessoryContent.person.personName
+        }
+      }
+    },
+    handleRemove3(file, list) {
+      this.picsList1 = list
+    },
+    handleUpload3(res) {
+      if (res.code == 0) {
+        this.picsList3.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
+        if (res.data.accessoryContent.person) {
+          this.formData.idCardValidityEndDate = res.data.accessoryContent.person.idCardValidityEndDate
+          this.formData.idCardValidityStartDate = res.data.accessoryContent.person.idCardValidityStartDate
+          this.formData.issuingAuthority = res.data.accessoryContent.person.issuingAuthority
+        }
       }
     },
     handleRemove2(file, list) {
@@ -165,7 +201,8 @@ export default {
       }
     },
     beforePost() {
-      this.formData.idCardPath = this.joinPicIntoString(this.picsList1)
+      this.formData.idCardPath0 = this.joinPicIntoString(this.picsList1)
+      this.formData.idCardPath1 = this.joinPicIntoString(this.picsList3)
       this.formData.qualificationLicensePath = this.joinPicIntoString(this.picsList2)
     },
     async getDetail() {
@@ -178,7 +215,8 @@ export default {
       if (data.code == 0) {
         this.formData = data.data
         this.formData.id = this.id
-        this.picsList1 = this.pushPicInitList(this.formData.idCardPath)
+        this.picsList1 = this.pushPicInitList(this.formData.idCardPath0)
+        this.picsList3 = this.pushPicInitList(this.formData.idCardPath1)
         this.picsList2 = this.pushPicInitList(this.formData.qualificationLicensePath)
       }
     }
