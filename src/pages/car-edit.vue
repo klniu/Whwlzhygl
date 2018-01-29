@@ -15,6 +15,7 @@
       </el-form-item>
       <el-form-item label="行驶证图片" prop="carDrivingLicensePath">
         <el-upload
+          :data="{fileType: 'CAR_RUN_LICENSE'}"
           class="small"
           :action="$baseURL + 'accessory/addAccessory'"
           :file-list="picsList1"
