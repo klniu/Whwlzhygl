@@ -80,6 +80,7 @@
       </el-form-item>
       <el-form-item label="营业执照" prop="bizLicensePath">
         <el-upload
+          :data="{fileType: 'BIZ_LICENSE'}"
           :action="$baseURL + 'accessory/addAccessory'"
           :file-list="picsList4"
           :on-success="handleUpload4"
@@ -178,6 +179,11 @@ export default {
     handleUpload4(res) {
       if (res.code == 0) {
         this.picsList4.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
+        if (res.data.accessoryContent.company) {
+          this.formData.companyName = res.data.accessoryContent.company.companyName
+          this.formData.registerAddress = res.data.accessoryContent.company.registerAddress
+          this.formData.unifiedSocialCreditCode = res.data.accessoryContent.company.unifiedSocialCreditCode
+        }
       }
     },
     async getDetail() {
