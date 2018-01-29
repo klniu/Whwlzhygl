@@ -4,8 +4,16 @@
       <el-form-item label="违章驾驶人" prop="regulationPerson">
         <el-input v-model="formData.regulationPerson"></el-input>
       </el-form-item>
-      <el-form-item label="违章车辆id" prop="carId">
-        <el-input v-model="formData.carId"></el-input>
+      <el-form-item label="违章车辆" prop="carId">
+        <el-autocomplete
+          v-model="strPlateNum"
+          :fetch-suggestions="getCarList"
+          placeholder="输入车牌号筛选"
+          @select="setCarId"
+        ></el-autocomplete>
+        <el-select v-model="carTeamId" placeholder="选择车队筛选" clearable>
+          <el-option v-for="item in carTeamList" :key="item.carTeamId" :label="item.teamName" :value="item.carTeamId"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="违章时间" prop="regulationTime">
         <el-date-picker v-model="formData.regulationTime" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
@@ -48,7 +56,6 @@ export default {
       formData: {
         companyId: 1,
         regulationPerson: '',
-        // TODO: 选车id
         carId: '',
         regulationTime: '',
         regulationAddress: '',
@@ -59,13 +66,59 @@ export default {
       rules: {},
       apiName: 'regulationRecord/',
       addApi: 'addRegulationRecord',
-      updateApi: 'updateRegulationRecord'
+      updateApi: 'updateRegulationRecord',
+      carTeamList: [],
+      carTeamId: '',
+      strPlateNum: ''
     }
   },
   mounted() {
     this.id && this.getDetail()
+    this.getCarTeamList()
   },
   methods: {
+    async getCarName() {
+      let {data} = await this.$http({
+        url: '/car/getCar',
+        params: {
+          carId: this.formData.carId
+        }
+      })
+      if (data.code == 0) {
+        this.strPlateNum = data.data.plateNum
+      }
+    },
+    setCarId(val) {
+      this.formData.carId = val.id
+    },
+    async getCarList(keyword, cb) {
+      let {data} = await this.$http({
+        url: '/car/getCarListAll',
+        params: {
+          plateNum: keyword,
+          carTeamId: this.carTeamId
+        }
+      })
+      if (data.code == 0) {
+        cb(data.data.map(item => {
+          return {
+            id: item.carId,
+            value: item.plateNum
+          }
+        }))
+      }
+    },
+    async getCarTeamList() {
+      let {data} = await this.$http({
+        url: '/carTeam/getCarTeamListAll',
+        params: {
+          companyId: 1
+        }
+      })
+      if (data.code == 0) {
+        this.carTeamList = data.data
+      }
+    },
     handleRemove(file, list) {
       this.picsList = list
     },
