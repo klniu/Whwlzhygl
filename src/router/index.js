@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Home from '@/pages/home'
 import Notice from '@/pages/notice'
 import NoticeEdit from '@/pages/notice-edit'
 import Accident from '@/pages/accident'
@@ -37,7 +38,7 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Customer
+      component: Home
     }, {
       path: '/notice',
       name: 'Notice',
