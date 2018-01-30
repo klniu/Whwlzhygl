@@ -15,7 +15,7 @@
       </el-form-item>
       <el-form-item label="行驶证图片" prop="carDrivingLicensePath">
         <el-upload
-          :data="{fileType: 'CAR_RUN_LICENSE'}"
+          :data="{fileType: 'CAR_DRIVING_LICENSE'}"
           class="small"
           :action="$baseURL + 'accessory/addAccessory'"
           :file-list="picsList1"
@@ -256,6 +256,17 @@ export default {
     handleUpload1(res) {
       if (res.code == 0) {
         this.picsList1.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
+        if (res.data.accessoryContent.car) {
+          this.formData.brand = res.data.accessoryContent.car.brand
+          this.formData.engineNum = res.data.accessoryContent.car.engineNum
+          this.formData.issuingDate = res.data.accessoryContent.car.issuingDate
+          this.formData.owner = res.data.accessoryContent.car.owner
+          this.formData.plateNum = res.data.accessoryContent.car.plateNum
+          this.formData.registerDate = res.data.accessoryContent.car.registerDate
+          this.formData.type = res.data.accessoryContent.car.type
+          this.formData.useProperty = res.data.accessoryContent.car.useProperty
+          this.formData.vin = res.data.accessoryContent.car.vin
+        }
       }
     },
     handleRemove2(file, list) {
