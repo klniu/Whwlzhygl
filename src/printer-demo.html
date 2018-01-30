@@ -1,0 +1,68 @@
+<html>
+<head>
+    <title>文档生成</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=8"/>
+    <script language="javascript" type="text/javascript">
+        var TANGER_OCX_OBJ;
+
+        function init() {
+            //获取office控件对象
+            TANGER_OCX_OBJ = document.getElementById("TANGER_OCX");
+            //异步打开文档（文档地址是url，ip + 端口 + 根目录下的doc文件夹下的doc文件名）
+            TANGER_OCX_OBJ.BeginOpenFromURL("http://localhost:8080/doc/accident.docx");
+        }
+
+        function importData() {
+            //SetBookmarkValue方法是，第一个参数为已经在word里设置好的标签key，第二个参数就是设置value。
+            TANGER_OCX_OBJ.SetBookmarkValue("companyName1", "腾业");
+            TANGER_OCX_OBJ.SetBookmarkValue("companyName2", "腾业");
+            TANGER_OCX_OBJ.SetBookmarkValue("occurredTime", "20121212");
+            TANGER_OCX_OBJ.SetBookmarkValue("weatherStatus", "天气状况好");
+            TANGER_OCX_OBJ.SetBookmarkValue("occurredAddress", "发生地址高速");
+            TANGER_OCX_OBJ.SetBookmarkValue("roadStatus", "道路状况良好");
+            TANGER_OCX_OBJ.SetBookmarkValue("sendAddress1", "发送地宁波");
+            TANGER_OCX_OBJ.SetBookmarkValue("sendAddress2", "发送地宁波");
+            TANGER_OCX_OBJ.SetBookmarkValue("receiveAddress", "接收地温州");
+            TANGER_OCX_OBJ.SetBookmarkValue("roadTransportGrade", "道路运输等级4级");
+            TANGER_OCX_OBJ.SetBookmarkValue("carPlateNum", "浙CN22L5");
+            TANGER_OCX_OBJ.SetBookmarkValue("trailerPlateNum", "浙CN22L6挂");
+            TANGER_OCX_OBJ.SetBookmarkValue("carRoadTransportNum", "营运号1");
+            TANGER_OCX_OBJ.SetBookmarkValue("trailerRoadTransportNum", "营运号2");
+            TANGER_OCX_OBJ.SetBookmarkValue("curbWeight", "11");
+            TANGER_OCX_OBJ.SetBookmarkValue("goodsWeight", "22");
+            TANGER_OCX_OBJ.SetBookmarkValue("goodsName", "商品名称1");
+            TANGER_OCX_OBJ.SetBookmarkValue("driverName", "驾驶员1");
+            TANGER_OCX_OBJ.SetBookmarkValue("escortName", "押运员1");
+            TANGER_OCX_OBJ.SetBookmarkValue("driverIdCardNum", "从业资格证1");
+            TANGER_OCX_OBJ.SetBookmarkValue("escortIdCardNum", "从业资格证2");
+            TANGER_OCX_OBJ.SetBookmarkValue("deathNum", "2");
+            TANGER_OCX_OBJ.SetBookmarkValue("missingNum", "1");
+            TANGER_OCX_OBJ.SetBookmarkValue("injuredNum", "3");
+            TANGER_OCX_OBJ.SetBookmarkValue("description", "事故描述1");
+            TANGER_OCX_OBJ.SetBookmarkValue("reason", "事故原因1");
+            TANGER_OCX_OBJ.SetBookmarkValue("companyPrincipal", "公司负责人1");
+            TANGER_OCX_OBJ.SetBookmarkValue("statisticsPersonName", "统计人名称1");
+            TANGER_OCX_OBJ.SetBookmarkValue("fillPersonName", "填表人1");
+            TANGER_OCX_OBJ.SetBookmarkValue("fillPersonMobile", "填表联系号码1");
+            TANGER_OCX_OBJ.SetBookmarkValue("submitDate", "20180101");
+        }
+    </script>
+
+</head>
+<body onload="init()">
+<input type="button" value="导入数据" onclick="importData()"/>
+
+
+<object id="TANGER_OCX"
+        classid="clsid:A64E3073-2016-4baf-A89D-FFE1FAA10EC0"
+        codebase="officecontrol/OfficeControl.cab#version=5,0,4,0"
+        width="100%" height="800px">
+    <param name="ProductCaption" value="宁波腾业化工物流有限公司">
+    <param name="ProductKey" value="8DFD2CB26FAD965B0B2E88E720F23DCFF75ED683">
+    <param name="IsUseUTF8URL" value="-1">
+    <param name="IsUseUTF8Data" value="-1">
+
+    <span style="color: red">不能装载文档控件。请在检查浏览器的选项中检查浏览器的安全设置。</span>
+</object>
+</body>
+</html>
