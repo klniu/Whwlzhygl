@@ -95,6 +95,34 @@
           <i class="el-icon-plus"></i>
         </el-upload>
       </el-form-item>
+      <el-form-item label="驾驶证图片" prop="driverLicensePath">
+        <el-upload
+          class="small"
+          :data="{fileType: 'DRIVER_LICENSE'}"
+          :action="$baseURL + 'accessory/addAccessory'"
+          :file-list="picsList4"
+          :on-success="handleUpload4"
+          :on-remove="handleRemove4"
+          :on-preview="handlePictureCardPreview"
+          list-type="picture-card">
+          <i class="el-icon-plus"></i>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="驾驶证初次领证日期" prop="driverFirstDate">
+        <el-date-picker v-model="formData.driverFirstDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+      </el-form-item>
+      <el-form-item label="驾驶证发证机关" prop="driverIssuingAuthority">
+        <el-input v-model="formData.driverIssuingAuthority"></el-input>
+      </el-form-item>
+      <el-form-item label="准驾车型" prop="driverType">
+        <el-input v-model="formData.driverType"></el-input>
+      </el-form-item>
+      <el-form-item label="驾驶证有效期结束日期" prop="driverValidityEndDate">
+        <el-date-picker v-model="formData.driverValidityEndDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+      </el-form-item>
+      <el-form-item label="驾驶证有效期开始日期" prop="driverValidityStartDate">
+        <el-date-picker v-model="formData.driverValidityStartDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+      </el-form-item>
       <el-dialog :visible.sync="dialogVisible" append-to-body>
         <img width="100%" :src="dialogImageUrl" alt="">
       </el-dialog>
@@ -132,7 +160,13 @@ export default {
         qualificationFirstDate: '',
         qualificationValidityEndDate: '',
         qualificationValidityStartDate: '',
-        qualificationLicensePath: ''
+        qualificationLicensePath: '',
+        driverLicensePath: '',
+        driverFirstDate: '',
+        driverIssuingAuthority: '',
+        driverType: '',
+        driverValidityEndDate: '',
+        driverValidityStartDate: ''
       },
       rules: {},
       apiName: 'person/',
@@ -141,6 +175,7 @@ export default {
       picsList1: [],
       picsList2: [],
       picsList3: [],
+      picsList4: [],
       personTypeList: [],
       certTypeList: []
     }
@@ -180,7 +215,7 @@ export default {
       }
     },
     handleRemove3(file, list) {
-      this.picsList1 = list
+      this.picsList3 = list
     },
     handleUpload3(res) {
       if (res.code == 0) {
@@ -189,6 +224,21 @@ export default {
           this.formData.idCardValidityEndDate = res.data.accessoryContent.person.idCardValidityEndDate
           this.formData.idCardValidityStartDate = res.data.accessoryContent.person.idCardValidityStartDate
           this.formData.issuingAuthority = res.data.accessoryContent.person.issuingAuthority
+        }
+      }
+    },
+    handleRemove4(file, list) {
+      this.picsList4 = list
+    },
+    handleUpload4(res) {
+      if (res.code == 0) {
+        this.picsList4.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
+        if (res.data.accessoryContent.person) {
+          this.formData.driverFirstDate = res.data.accessoryContent.person.driverFirstDate
+          this.formData.driverIssuingAuthority = res.data.accessoryContent.person.driverIssuingAuthority
+          this.formData.driverType = res.data.accessoryContent.person.driverType
+          this.formData.driverValidityEndDate = res.data.accessoryContent.person.driverValidityEndDate
+          this.formData.driverValidityStartDate = res.data.accessoryContent.person.driverValidityStartDate
         }
       }
     },
