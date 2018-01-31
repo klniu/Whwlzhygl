@@ -107,26 +107,42 @@ export default {
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         series: {
-          name:'人数',
-          type:'pie',
-          radius: ['50%', '70%'],
-          label: {
-            normal: {
-              show: false,
-              position: 'center'
+            name:'访问来源',
+            type:'pie',
+            radius : '55%',
+            center: ['50%', '50%'],
+            data: [],
+            roseType: 'radius',
+            label: {
+                normal: {
+                    textStyle: {
+                        color: 'rgba(255, 255, 255, 0.3)'
+                    }
+                }
             },
-            emphasis: {
-              show: true,
-              textStyle: {
-                fontSize: '30',
-                fontWeight: 'bold'
-              }
+            labelLine: {
+                normal: {
+                    lineStyle: {
+                        color: 'rgba(255, 255, 255, 0.3)'
+                    },
+                    smooth: 0.2,
+                    length: 10,
+                    length2: 20
+                }
+            },
+            itemStyle: {
+                normal: {
+                    color: '#c23531',
+                    shadowBlur: 200,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            },
+
+            animationType: 'scale',
+            animationEasing: 'elasticOut',
+            animationDelay: function (idx) {
+                return Math.random() * 200;
             }
-          },
-          data:[
-            {value:50, name:'试用期员工'},
-            {value:30, name:'正式员工'}
-          ]
         }
       }
     }
@@ -153,7 +169,7 @@ export default {
               name: item.type,
               value: item.count
             }
-          })
+          }).sort(function (a, b) { return a.value - b.value; })
         } else {
           this['tableData'+index] = data.data
         }
