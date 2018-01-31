@@ -1,5 +1,16 @@
 <template>
   <div class="home-wrap">
+    <div class="sec">
+      <div class="logo">
+        <el-button>此处为LOGO</el-button>
+      </div>
+      <div class="right">
+        <el-button>帐号：xxx</el-button>
+        <router-link to="admin">
+          <el-button>进入系统</el-button>
+        </router-link>
+      </div>
+    </div>
     <el-card class="sec">
       <div slot="header" class="clearfix">
         <span>通知公告</span>
@@ -190,9 +201,15 @@ export default {
   float: left;
   box-sizing: border-box;
   min-height: 340px;
-  overflow: hidden;
 }
 .sec{
   margin: 1%;
+  overflow: hidden;
+}
+.logo{
+  float: left;
+}
+.right{
+  float: right;
 }
 </style>
