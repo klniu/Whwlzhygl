@@ -7,6 +7,7 @@ import router from './router'
 
 const baseURL = 'http://47.104.129.0:8080/'
 axios.defaults.baseURL = baseURL
+axios.defaults.headers.common['Authorization'] = 'whwlzhygl ' + localStorage.getItem('loginkey')
 
 Vue.prototype.$baseURL = baseURL
 Vue.prototype.$http = axios

@@ -8,7 +8,8 @@
         <el-form-item label="密码" prop="password">
           <el-input type="password" v-model="formData.password"></el-input>
         </el-form-item>
-        <el-button type="success" @click="submitForm('ruleForm')" :loading="posting">登录</el-button>
+        <el-button type="success" @click="submitForm('ruleForm', 1)" :loading="posting">登录腾业</el-button>
+        <el-button type="success" @click="submitForm('ruleForm', 2)" :loading="posting">登录立鑫</el-button>
       </el-form>
     </el-dialog>
   </div>
@@ -18,6 +19,7 @@ export default {
   data() {
     return {
       posting: false,
+      companyId: 0,
       formData: {
         userName: '',
         password: ''
@@ -38,6 +40,7 @@ export default {
       })
       if (data.code == 0) {
         localStorage.setItem('loginkey', data.data)
+        localStorage.setItem('companyId', this.companyId)
         this.$router.push({
           name: 'Home'
         })
@@ -46,7 +49,8 @@ export default {
       }
       this.posting = false
     },
-    submitForm(formName) {
+    submitForm(formName, companyId) {
+      this.companyId = companyId
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.postForm()
