@@ -23,6 +23,7 @@
           prop="noticeTitle">
         </el-table-column>
         <el-table-column
+          width="150px"
           prop="noticeDate">
         </el-table-column>
       </el-table>
