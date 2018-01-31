@@ -37,7 +37,7 @@ export default {
         data: this.formData
       })
       if (data.code == 0) {
-        // TODO: 存本地
+        localStorage.setItem('loginkey', data.data)
         this.$router.push({
           name: 'Home'
         })

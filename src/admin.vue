@@ -66,7 +66,9 @@
 </template>
 
 <script>
+import login from '@/mixins/login'
 export default {
+  mixins: [login],
   name: 'app',
   data() {
     return {

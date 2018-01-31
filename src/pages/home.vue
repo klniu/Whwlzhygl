@@ -97,8 +97,9 @@ import 'echarts/lib/chart/pie'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import timeformat from '@/mixins/timeformat'
+import login from '@/mixins/login'
 export default {
-  mixins: [timeformat],
+  mixins: [timeformat, login],
   components: {
     ECharts
   },
