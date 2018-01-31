@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <el-card>
+  <div class="home-wrap">
+    <el-card class="sec">
       <div slot="header" class="clearfix">
         <span>通知公告</span>
       </div>
@@ -17,7 +17,7 @@
       </el-table>
     </el-card>
     <div class="ov">
-      <el-card class="half-row">
+      <el-card class="sec half-row">
         <div slot="header" class="clearfix">
           <span>证件到期</span>
           <el-button style="float: right; padding: 3px 0" type="text">更多</el-button>
@@ -39,7 +39,7 @@
           </el-table-column>
         </el-table>
       </el-card>
-      <el-card class="half-row">
+      <el-card class="sec half-row">
         <div slot="header" class="clearfix">
           <span>电子路单</span>
           <el-button style="float: right; padding: 3px 0" type="text">更多</el-button>
@@ -57,7 +57,7 @@
         </el-table>
       </el-card>
     </div>
-    <el-card class="half-row">
+    <el-card class="sec half-row">
       <div slot="header" class="clearfix">
         <span>违章信息</span>
         <el-button style="float: right; padding: 3px 0" type="text">更多</el-button>
@@ -74,7 +74,7 @@
         </el-table-column>
       </el-table>
     </el-card>
-    <div class="half-row">
+    <div class="sec half-row">
       <e-charts :options="options1"></e-charts>
     </div>
   </div>
@@ -107,7 +107,7 @@ export default {
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         series: {
-            name:'访问来源',
+            name:'车辆分布',
             type:'pie',
             radius : '55%',
             center: ['50%', '50%'],
@@ -179,14 +179,20 @@ export default {
 }
 </script>
 <style scoped>
+.home-wrap{
+  padding: 0 1%;
+}
 .ov{
   overflow: hidden;
 }
 .half-row{
-  width: 50%;
+  width: 48%;
   float: left;
   box-sizing: border-box;
-  min-height: 300px;
+  min-height: 340px;
   overflow: hidden;
+}
+.sec{
+  margin: 1%;
 }
 </style>
