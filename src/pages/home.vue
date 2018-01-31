@@ -172,7 +172,7 @@ export default {
       let {data} = await this.$http({
         url: 'index/' + this.apiList[index],
         params: {
-          companyId: 1
+          companyId: localStorage.getItem('companyId')
         }
       })
       if (data.code == 0) {

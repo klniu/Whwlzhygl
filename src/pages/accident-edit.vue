@@ -64,7 +64,7 @@ export default {
       id: parseInt(this.$route.query.id),
       orderIdList: [],
       formData: {
-        companyId: 1,
+        companyId: localStorage.getItem('companyId'),
         orderId: '',
         occurredTime: '',
         occurredAddress: '',
@@ -96,7 +96,7 @@ export default {
       let {data} = await this.$http({
         url: 'order/getOrderList',
         params: {
-          companyId: 1,
+          companyId: localStorage.getItem('companyId'),
           currentPage: 1,
           size: 50
         }

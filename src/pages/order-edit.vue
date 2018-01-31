@@ -58,7 +58,7 @@ export default {
     return {
       id: parseInt(this.$route.query.id),
       formData: {
-        companyId: 1,
+        companyId: localStorage.getItem('companyId'),
         customerId: '',
         goodsId: '',
         goodsWeight: '',
@@ -104,7 +104,7 @@ export default {
       let {data} = await this.$http({
         url: 'customer/getCustomerList',
         params: {
-          companyId: 1,
+          companyId: localStorage.getItem('companyId'),
           currentPage: this.customerPage,
           size: 50
         }
@@ -125,7 +125,7 @@ export default {
       let {data} = await this.$http({
         url: 'goods/getGoodsList',
         params: {
-          companyId: 1,
+          companyId: localStorage.getItem('companyId'),
           currentPage: this.goodsPage,
           size: 50
         }

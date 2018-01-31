@@ -57,7 +57,7 @@ export default {
     return {
       id: parseInt(this.$route.query.id),
       formData: {
-        companyId: 1,
+        companyId: localStorage.getItem('companyId'),
         meetingTitle: '',
         joinPerson: '',
         joinAddress: '',

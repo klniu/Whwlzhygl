@@ -99,7 +99,7 @@ export default {
       let {data} = await this.$http({
         url: '/carTeam/getCarTeamListAll',
         params: {
-          companyId: 1
+          companyId: localStorage.getItem('companyId')
         }
       })
       if (data.code == 0) {

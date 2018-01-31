@@ -58,7 +58,7 @@ export default {
       id: parseInt(this.$route.query.id),
       dangeritemList: [],
       formData: {
-        companyId: 1,
+        companyId: localStorage.getItem('companyId'),
         hiddenDangerCheckContentId: '',
         checkPerson: '',
         checkDate: '',
@@ -96,7 +96,7 @@ export default {
       let {data} = await this.$http({
         url: 'hiddenDangerCheckContent/getHiddenDangerCheckContentList',
         params: {
-          companyId: 1,
+          companyId: localStorage.getItem('companyId'),
           currentPage: 1,
           size: 50
         }

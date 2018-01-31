@@ -78,7 +78,7 @@ export default {
         actualEndDate: '',
         actualStartDate: '',
         carId: '',
-        companyId: 1,
+        companyId: localStorage.getItem('companyId'),
         confirmPerson: '',
         currentMaintenanceMileage: 0,
         deviceMaintenanceId: 1,
@@ -137,7 +137,7 @@ export default {
       let {data} = await this.$http({
         url: '/carTeam/getCarTeamListAll',
         params: {
-          companyId: 1
+          companyId: localStorage.getItem('companyId')
         }
       })
       if (data.code == 0) {

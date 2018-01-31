@@ -12,7 +12,7 @@ export default {
     async getList() {
       this.loading = true
       let params = {
-        companyId: 1,
+        companyId: localStorage.getItem('companyId'),
         currentPage: this.page,
         size: this.pageSize,
         keyword: this.keyword
