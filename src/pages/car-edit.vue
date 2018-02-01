@@ -257,6 +257,7 @@ export default {
       if (res.code == 0) {
         this.picsList1.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
         if (res.data.accessoryContent.car) {
+          this.formData.address = res.data.accessoryContent.car.address
           this.formData.brand = res.data.accessoryContent.car.brand
           this.formData.engineNum = res.data.accessoryContent.car.engineNum
           this.formData.issuingDate = res.data.accessoryContent.car.issuingDate
