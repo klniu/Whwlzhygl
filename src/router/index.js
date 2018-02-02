@@ -1,37 +1,36 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/login'
-import Home from '@/pages/home'
-import Admin from '@/admin'
-import Notice from '@/pages/notice'
-import NoticeEdit from '@/pages/notice-edit'
-import Accident from '@/pages/accident'
-import AccidentEdit from '@/pages/accident-edit'
-import Customer from '@/pages/customer'
-import CustomerEdit from '@/pages/customer-edit'
-import Safecheck from '@/pages/safecheck'
-import SafecheckEdit from '@/pages/safecheck-edit'
-import Goods from '@/pages/goods'
-import GoodsEdit from '@/pages/goods-edit'
-import GoodsType from '@/pages/goods-type'
-import GoodsTypeEdit from '@/pages/goods-type-edit'
-import DeviceEdit from '@/pages/device-edit'
-import MaintenanceEdit from '@/pages/maintenance-edit'
-import CompanyEdit from '@/pages/company-edit'
-import Order from '@/pages/order'
-import OrderEdit from '@/pages/order-edit'
-import Meeting from '@/pages/meeting'
-import MeetingEdit from '@/pages/meeting-edit'
-import Person from '@/pages/person'
-import PersonEdit from '@/pages/person-edit'
-import CarTeam from '@/pages/car-team'
-import CarTeamEdit from '@/pages/car-team-edit'
-import Doorcheck from '@/pages/doorcheck'
-import DoorcheckEdit from '@/pages/doorcheck-edit'
-import Illegal from '@/pages/illegal'
-import IllegalEdit from '@/pages/illegal-edit'
-import Danger from '@/pages/danger'
-// import DangerEdit from '@/pages/danger-edit'
+const Login = () => import('@/login')
+const Home = () => import('@/pages/home')
+const Admin = () => import('@/admin')
+const Notice = () => import('@/pages/notice')
+const NoticeEdit = () => import('@/pages/notice-edit')
+const Accident = () => import('@/pages/accident')
+const AccidentEdit = () => import('@/pages/accident-edit')
+const Customer = () => import('@/pages/customer')
+const CustomerEdit = () => import('@/pages/customer-edit')
+const Safecheck = () => import('@/pages/safecheck')
+const SafecheckEdit = () => import('@/pages/safecheck-edit')
+const Goods = () => import('@/pages/goods')
+const GoodsEdit = () => import('@/pages/goods-edit')
+const GoodsType = () => import('@/pages/goods-type')
+const GoodsTypeEdit = () => import('@/pages/goods-type-edit')
+const DeviceEdit = () => import('@/pages/device-edit')
+const MaintenanceEdit = () => import('@/pages/maintenance-edit')
+const CompanyEdit = () => import('@/pages/company-edit')
+const Order = () => import('@/pages/order')
+const OrderEdit = () => import('@/pages/order-edit')
+const Meeting = () => import('@/pages/meeting')
+const MeetingEdit = () => import('@/pages/meeting-edit')
+const Person = () => import('@/pages/person')
+const PersonEdit = () => import('@/pages/person-edit')
+const CarTeam = () => import('@/pages/car-team')
+const CarTeamEdit = () => import('@/pages/car-team-edit')
+const Doorcheck = () => import('@/pages/doorcheck')
+const DoorcheckEdit = () => import('@/pages/doorcheck-edit')
+const Illegal = () => import('@/pages/illegal')
+const IllegalEdit = () => import('@/pages/illegal-edit')
+const Danger = () => import('@/pages/danger')
 const DangerEdit = () => import(/* webpackChunkName: 'chenlin' */'@/pages/danger-edit')
 Vue.use(Router)
 
