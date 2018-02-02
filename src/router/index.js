@@ -31,8 +31,8 @@ import DoorcheckEdit from '@/pages/doorcheck-edit'
 import Illegal from '@/pages/illegal'
 import IllegalEdit from '@/pages/illegal-edit'
 import Danger from '@/pages/danger'
-import DangerEdit from '@/pages/danger-edit'
-
+// import DangerEdit from '@/pages/danger-edit'
+const DangerEdit = () => import(/* webpackChunkName: 'chenlin' */'@/pages/danger-edit')
 Vue.use(Router)
 
 export default new Router({

@@ -92,16 +92,21 @@
   </div>
 </template>
 <script>
-import ECharts from 'vue-echarts/components/ECharts.vue'
-import 'echarts/lib/chart/pie'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/title'
+// import ECharts from 'vue-echarts/components/ECharts.vue'
+// import 'echarts/lib/chart/pie'
+// import 'echarts/lib/component/tooltip'
+// import 'echarts/lib/component/title'
 import timeformat from '@/mixins/timeformat'
 import login from '@/mixins/login'
 export default {
   mixins: [timeformat, login],
   components: {
-    ECharts
+    ECharts: async () => {
+      await import ('echarts/lib/chart/pie')
+      await import ('echarts/lib/component/tooltip')
+      await import ('echarts/lib/component/title')
+      return import('vue-echarts/components/ECharts.vue')
+    }
   },
   data() {
     return {
