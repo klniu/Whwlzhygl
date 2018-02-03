@@ -5,7 +5,12 @@
         <el-button>此处为LOGO</el-button>
       </div>
       <div class="right">
-        <el-button>帐号：xxx</el-button>
+        <el-dropdown split-button @command="handleCommand">
+          帐号：{{userName}}
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         <router-link to="admin">
           <el-button>进入系统</el-button>
         </router-link>
@@ -110,6 +115,7 @@ export default {
   },
   data() {
     return {
+      userName: localStorage.getItem('userName'),
       tableData0: [],
       tableData1: [],
       tableData2: [],
@@ -173,6 +179,16 @@ export default {
     this.getList(4)
   },
   methods: {
+    handleCommand(c) {
+      if (c == 'logout') {
+        this.logout()
+      }
+    },
+    logout() {
+      localStorage.setItem('loginkey', '')
+      localStorage.setItem('companyId', '')
+      localStorage.setItem('userName', '')
+    },
     async getList(index) {
       let {data} = await this.$http({
         url: 'index/' + this.apiList[index],

@@ -41,6 +41,7 @@ export default {
       if (data.code == 0) {
         localStorage.setItem('loginkey', data.data)
         localStorage.setItem('companyId', this.companyId)
+        localStorage.setItem('userName', this.formData.userName)
         this.$router.push({
           name: 'Home'
         })
