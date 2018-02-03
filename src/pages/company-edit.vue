@@ -19,7 +19,7 @@
       <el-form-item label="负责人联系电话" prop="principalMobile">
         <el-input v-model="formData.principalMobile"></el-input>
       </el-form-item>
-      <el-form-item label="经验范围" prop="bizScopeIds">
+      <el-form-item label="道路经营许可经营范围" prop="bizScopeIds">
         <el-transfer
           v-model="formData.bizScopeIds"
           :right-default-checked="formData.bizScopeIds"
