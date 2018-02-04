@@ -83,11 +83,8 @@
           <i class="el-icon-plus"></i>
         </el-upload>
       </el-form-item>
-      <el-form-item label="年检有效期截止日期" prop="motValidityEndDate">
+      <el-form-item label="营运证年审有效期" prop="motValidityEndDate">
         <el-date-picker v-model="formData.motValidityEndDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="年检有效期开始日期" prop="motValidityStartDate">
-        <el-date-picker v-model="formData.motValidityStartDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
       </el-form-item>
       <el-form-item label="所有人" prop="owner">
         <el-input v-model="formData.owner"></el-input>
@@ -98,10 +95,10 @@
       <el-form-item label="牵引重量" prop="pullWeight">
         <el-input v-model="formData.pullWeight"></el-input>
       </el-form-item>
-      <el-form-item label="注册日期" prop="registerDate">
+      <el-form-item label="车辆行驶证注册日期" prop="registerDate">
         <el-date-picker v-model="formData.registerDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
       </el-form-item>
-      <el-form-item label="注册附件" prop="registerPath">
+      <el-form-item label="登记证书图片" prop="registerPath">
         <el-upload
           class="small"
           :action="$baseURL + 'accessory/addAccessory'"
@@ -124,6 +121,9 @@
       </el-form-item>
       <el-form-item label="尺寸" prop="size">
         <el-input v-model="formData.size"></el-input>
+      </el-form-item>
+      <el-form-item label="罐体检测有效期" prop="tankValidityEndDate">
+        <el-input v-model="formData.tankValidityEndDate"></el-input>
       </el-form-item>
       <el-form-item label="罐体检测报告" prop="tankReportPath">
         <el-upload
@@ -173,6 +173,42 @@
       <el-dialog :visible.sync="dialogVisible" append-to-body>
         <img width="100%" :src="dialogImageUrl" alt="">
       </el-dialog>
+      <el-form-item label="交强险保单号" prop="tciNum">
+        <el-input v-model="formData.tciNum"></el-input>
+      </el-form-item>
+      <el-form-item label="交强险图片" prop="tciPath">
+        <el-upload
+          class="small"
+          :action="$baseURL + 'accessory/addAccessory'"
+          :file-list="picsList8"
+          :on-success="handleUpload8"
+          :on-remove="handleRemove8"
+          :on-preview="handlePictureCardPreview"
+          list-type="picture-card">
+          <i class="el-icon-plus"></i>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="交强险有效截止日期" prop="tciValidityEndDate">
+        <el-date-picker v-model="formData.tciValidityEndDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+      </el-form-item>
+      <el-form-item label="商业险保单号" prop="ciNum">
+        <el-input v-model="formData.ciNum"></el-input>
+      </el-form-item>
+      <el-form-item label="商业险图片" prop="ciPath">
+        <el-upload
+          class="small"
+          :action="$baseURL + 'accessory/addAccessory'"
+          :file-list="picsList9"
+          :on-success="handleUpload9"
+          :on-remove="handleRemove9"
+          :on-preview="handlePictureCardPreview"
+          list-type="picture-card">
+          <i class="el-icon-plus"></i>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="商业险有效截止日期" prop="ciValidityEndDate">
+        <el-date-picker v-model="formData.ciValidityEndDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')" :loading="posting">保存</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -205,7 +241,6 @@ export default {
         issuingDate: '',
         motPath: '',
         motValidityEndDate: '',
-        motValidityStartDate: '',
         owner: '',
         peopleNumber: '',
         pullWeight: '',
@@ -215,6 +250,7 @@ export default {
         roadTransportValidityEndDate: '',
         roadTransportValidityStartDate: '',
         size: '',
+        tankValidityEndDate: '',
         tankReportPath: '',
         technicalGrade: '',
         technicalGradePath: '',
@@ -223,7 +259,13 @@ export default {
         totalWeight: '',
         type: '',
         useProperty: '',
-        vin: ''
+        vin: '',
+        tciNum: '',
+        tciPath: '',
+        tciValidityEndDate: '',
+        ciNum: '',
+        ciPath: '',
+        ciValidityEndDate: ''
       },
       rules: {},
       apiName: 'car/',
@@ -235,7 +277,9 @@ export default {
       picsList4: [],
       picsList5: [],
       picsList6: [],
-      picsList7: []
+      picsList7: [],
+      picsList8: [],
+      picsList9: []
     }
   },
   props: {
@@ -318,6 +362,22 @@ export default {
         this.picsList7.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
       }
     },
+    handleRemove8(file, list) {
+      this.picsList8 = list
+    },
+    handleUpload8(res) {
+      if (res.code == 0) {
+        this.picsList8.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
+      }
+    },
+    handleRemove9(file, list) {
+      this.picsList9 = list
+    },
+    handleUpload9(res) {
+      if (res.code == 0) {
+        this.picsList9.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
+      }
+    },
     async getDetail() {
       let {data} = await this.$http({
         url: 'car/getCar',
@@ -336,6 +396,8 @@ export default {
         this.picsList5 = this.pushPicInitList(this.formData.registerPath)
         this.picsList6 = this.pushPicInitList(this.formData.tankReportPath)
         this.picsList7 = this.pushPicInitList(this.formData.technicalGradePath)
+        this.picsList8 = this.pushPicInitList(this.formData.tciPath)
+        this.picsList9 = this.pushPicInitList(this.formData.ciPath)
       }
     },
     beforePost() {
@@ -346,6 +408,8 @@ export default {
       this.formData.registerPath = this.joinPicIntoString(this.picsList5)
       this.formData.tankReportPath = this.joinPicIntoString(this.picsList6)
       this.formData.technicalGradePath = this.joinPicIntoString(this.picsList7)
+      this.formData.tciPath = this.joinPicIntoString(this.picsList8)
+      this.formData.ciPath = this.joinPicIntoString(this.picsList9)
     }
   }
 }
