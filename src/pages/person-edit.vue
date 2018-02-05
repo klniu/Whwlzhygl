@@ -13,7 +13,6 @@
         <el-radio-group v-model="formData.gender">
           <el-radio :label="0">男</el-radio>
           <el-radio :label="1">女</el-radio>
-          <el-radio :label="2">其他</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="年龄" prop="age">

@@ -15,6 +15,12 @@
           <img width="100%" :src="dialogImageUrl" alt="">
         </el-dialog>
       </el-form-item>
+      <el-form-item label="维修类型" prop="maintenanceType">
+        <el-radio-group v-model="formData.maintenanceType">
+          <el-radio :label="0">车载设备维修</el-radio>
+          <el-radio :label="1">车辆维修</el-radio>
+        </el-radio-group>
+      </el-form-item>
       <el-form-item label="实际维护结束日期" prop="actualEndDate">
         <el-date-picker v-model="formData.actualEndDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
       </el-form-item>
@@ -85,7 +91,8 @@ export default {
         lastMaintenanceMileage: 0,
         maintenanceEndDate: '',
         maintenancePerson: '',
-        maintenanceStartDate: ''
+        maintenanceStartDate: '',
+        maintenanceType: ''
       },
       picsList: [],
       rules: {},
