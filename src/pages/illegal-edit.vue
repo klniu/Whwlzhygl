@@ -22,7 +22,16 @@
         <el-input v-model="formData.regulationAddress"></el-input>
       </el-form-item>
       <el-form-item label="该记录状态" prop="recordStatus">
-        <el-input v-model="formData.recordStatus"></el-input>
+        <el-radio-group v-model="formData.recordStatus">
+          <el-radio :label="0">已处理</el-radio>
+          <el-radio :label="1">未处理</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="违章类型" prop="regulationType">
+        <el-radio-group v-model="formData.regulationType">
+          <el-radio :label="0">交通违法</el-radio>
+          <el-radio :label="1">不安全行为</el-radio>
+        </el-radio-group>
       </el-form-item>
       <el-form-item label="附件照片名称" prop="accessoryNames">
         <el-upload
@@ -60,7 +69,8 @@ export default {
         regulationTime: '',
         regulationAddress: '',
         recordStatus: '',
-        accessoryNames: ''
+        accessoryNames: '',
+        regulationType: ''
       },
       picsList: [],
       rules: {},
