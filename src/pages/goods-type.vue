@@ -15,7 +15,7 @@
         type="selection">
       </el-table-column>
       <el-table-column
-        prop="categoryName"
+        prop="scopeName"
         label="类别名称">
       </el-table-column>
       <el-table-column
@@ -49,9 +49,9 @@ export default {
       keyword: '',
       idField: 'id',
       editRoute: 'GoodsTypeEdit',
-      apiName: 'goodsCategory',
-      deleteApi: '/deleteGoodsCategory',
-      getListApi: '/getGoodsCategoryList'
+      apiName: 'bizScope',
+      deleteApi: '/deleteBizScope',
+      getListApi: '/getBizScopeList'
     }
   },
   mounted() {

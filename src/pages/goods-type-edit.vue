@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="100px" size="medium">
-      <el-form-item label="类别名称" prop="categoryName">
-        <el-input v-model="formData.categoryName"></el-input>
+      <el-form-item label="类别名称" prop="scopeName">
+        <el-input v-model="formData.scopeName"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')" :loading="posting">保存</el-button>
@@ -19,12 +19,12 @@ export default {
     return {
       id: parseInt(this.$route.query.id),
       formData: {
-        categoryName: '',
+        scopeName: '',
       },
       rules: {},
-      apiName: 'goodsCategory/',
-      addApi: 'addGoodsCategory',
-      updateApi: 'updateGoodsCategory'
+      apiName: 'bizScope/',
+      addApi: 'addBizScope',
+      updateApi: 'updateBizScope'
     }
   },
   mounted() {
@@ -33,9 +33,9 @@ export default {
   methods: {
     async getDetail() {
       let {data} = await this.$http({
-        url: 'goodsCategory/getGoodsCategory',
+        url: 'bizScope/getBizScope',
         params: {
-          goodsCategoryId: this.id
+          bizScopeId: this.id
         }
       })
       if (data.code == 0) {
