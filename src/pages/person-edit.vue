@@ -69,10 +69,13 @@
       <el-form-item label="身份证有效期截止日期" prop="idCardValidityEndDate">
         <el-date-picker v-model="formData.idCardValidityEndDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
       </el-form-item>
-      <el-form-item label="从业资格证类型id" prop="qualificationCertificateTypeId">
+      <el-form-item label="从业资格证类型" prop="qualificationCertificateTypeId">
         <el-select v-model="formData.qualificationCertificateTypeId" placeholder="请选择">
           <el-option v-for="item in certTypeList" :key="item.id" :label="item.typeName" :value="item.id"></el-option>
         </el-select>
+      </el-form-item>
+      <el-form-item label="从业资格证号" prop="qualificationLicenseNum">
+        <el-input v-model="formData.qualificationLicenseNum"></el-input>
       </el-form-item>
       <el-form-item label="初次领证日期" prop="qualificationFirstDate">
         <el-date-picker v-model="formData.qualificationFirstDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
@@ -156,6 +159,7 @@ export default {
         issuingAuthority: '',
         idCardValidityStartDate: '',
         idCardValidityEndDate: '',
+        qualificationLicenseNum: '',
         qualificationCertificateTypeId: '',
         qualificationFirstDate: '',
         qualificationValidityEndDate: '',
