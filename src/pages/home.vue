@@ -29,6 +29,7 @@
         </el-table-column>
         <el-table-column
           width="150px"
+          :formatter="timeformat"
           prop="noticeDate">
         </el-table-column>
       </el-table>

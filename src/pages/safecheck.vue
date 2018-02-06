@@ -21,6 +21,7 @@
         label="主题">
       </el-table-column>
       <el-table-column
+        :formatter="timeformat"
         prop="checkDate"
         label="日期">
       </el-table-column>
@@ -47,9 +48,10 @@
 </template>
 
 <script>
+import timeformat from '@/mixins/timeformat'
 import listMixin from '@/mixins/list'
 export default {
-  mixins: [listMixin],
+  mixins: [timeformat, listMixin],
   data() {
     return {
       keyword: '',

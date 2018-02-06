@@ -23,6 +23,7 @@
         label="通知类型">
       </el-table-column>
       <el-table-column
+        :formatter="timeformat"
         prop="noticeDate"
         label="通知日期">
       </el-table-column>
@@ -49,9 +50,10 @@
 </template>
 
 <script>
+import timeformat from '@/mixins/timeformat'
 import listMixin from '@/mixins/list'
 export default {
-  mixins: [listMixin],
+  mixins: [timeformat, listMixin],
   data() {
     return {
       idField: 'noticeId',
