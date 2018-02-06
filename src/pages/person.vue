@@ -3,6 +3,12 @@
     <div class="tools">
       <el-button size="small" icon="el-icon-circle-plus-outline" type="primary" @click="editClick(0)">添加</el-button>
       <el-button size="small" icon="el-icon-delete" type="danger" @click="delectClick(multipleSelection)">删除</el-button>
+      <el-button
+        :loading="isExport"
+        type="primary"
+        size="small"
+        icon="el-icon-download"
+        @click="getAll">导出</el-button>
       <el-input v-model="keyword" placeholder="姓名" size="small" clearable class="search-input" @keyup.13.native="getList"></el-input>
       <el-button size="small" icon="el-icon-search" type="primary" @click="getList">搜索</el-button>
       <el-select size="small" v-model="params.typeId" placeholder="选择类型搜索" @change="getList" clearable>
@@ -70,6 +76,7 @@
 </template>
 
 <script>
+import json2csv from '@/json2csv.js'
 import listMixin from '@/mixins/list'
 export default {
   mixins: [listMixin],
@@ -88,7 +95,8 @@ export default {
       authShow: false,
       authRole: '',
       authTel: '',
-      roleList: []
+      roleList: [],
+      isExport: false
     }
   },
   mounted() {
@@ -97,6 +105,32 @@ export default {
     this.getRoleList()
   },
   methods: {
+    async getAll() {
+      this.isExport = true
+      let {data} = await this.$http({
+        url: 'person/getPersonListAllContent',
+        params: {
+          typeId: this.params.typeId,
+          keyword: this.keyword
+        }
+      })
+      if (data.code == 0) {
+        this.isExport = false
+        this.exportCsv(data.data)
+      } else {
+        this.$message(data.message)
+      }
+    },
+    exportCsv(data) {
+      json2csv.setDataConver({
+        data: data,
+        fileName: '人员导出表',
+        columns: {
+          title: ['名字', '角色', '联系号码'],
+          key: ['personName', 'typeName', 'mobile']
+        }
+      })
+    },
     async authSubmit() {
       if (this.authRole === '') {
         this.$message.error('请选择角色')
