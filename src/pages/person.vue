@@ -126,6 +126,7 @@ export default {
         data: data,
         fileName: '人员导出表',
         columns: {
+          // TODO: 可选导出字段
           title: ['名字', '角色', '联系号码'],
           key: ['personName', 'typeName', 'mobile']
         }
