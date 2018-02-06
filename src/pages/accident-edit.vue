@@ -48,6 +48,20 @@
       <el-form-item label="单位负责人" prop="companyPrincipal">
         <el-input v-model="formData.companyPrincipal"></el-input>
       </el-form-item>
+      <el-form-item label="事故责任" prop="accidentDutyId">
+        <el-select v-model="formData.accidentDutyId" placeholder="请选择">
+          <el-option v-for="item in dutyList" :key="item.id" :label="item.dutyName" :value="item.id"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="理赔金额" prop="claimAmount">
+        <el-input v-model="formData.claimAmount"></el-input>
+      </el-form-item>
+      <el-form-item label="实际赔付" prop="actualAmount">
+        <el-input v-model="formData.actualAmount"></el-input>
+      </el-form-item>
+      <el-form-item label="备注" prop="remark">
+        <el-input v-model="formData.remark"></el-input>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')" :loading="posting">保存</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -63,6 +77,7 @@ export default {
     return {
       id: parseInt(this.$route.query.id),
       orderIdList: [],
+      dutyList: [],
       formData: {
         companyId: localStorage.getItem('companyId'),
         orderId: '',
@@ -79,7 +94,11 @@ export default {
         fillPersonName: '',
         fillPersonMobile: '',
         submitDate: '',
-        companyPrincipal: ''
+        companyPrincipal: '',
+        accidentDutyId: '',
+        remark: '',
+        claimAmount: '',
+        actualAmount: ''
       },
       rules: {},
       apiName: 'accident/',
@@ -89,9 +108,18 @@ export default {
   },
   mounted() {
     this.getOrderList()
+    this.getDutyList()
     this.id && this.getDetail()
   },
   methods: {
+    async getDutyList() {
+      let {data} = await this.$http({
+        url: 'accidentDuty/getAccidentDutyList'
+      })
+      if (data.code == 0) {
+        this.dutyList = data.data
+      }
+    },
     async getOrderList() {
       let {data} = await this.$http({
         url: 'order/getOrderList',
