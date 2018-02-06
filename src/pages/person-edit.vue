@@ -68,10 +68,8 @@
       <el-form-item label="身份证有效期截止日期" prop="idCardValidityEndDate">
         <el-date-picker v-model="formData.idCardValidityEndDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
       </el-form-item>
-      <el-form-item label="从业资格证类型" prop="qualificationCertificateTypeId">
-        <el-select v-model="formData.qualificationCertificateTypeId" placeholder="请选择">
-          <el-option v-for="item in certTypeList" :key="item.id" :label="item.typeName" :value="item.id"></el-option>
-        </el-select>
+      <el-form-item label="从业资格证类型" prop="qualificationCertificateTypeName">
+        <el-input v-model="formData.qualificationCertificateTypeName"></el-input>
       </el-form-item>
       <el-form-item label="从业资格证号" prop="qualificationLicenseNum">
         <el-input v-model="formData.qualificationLicenseNum"></el-input>
@@ -159,7 +157,7 @@ export default {
         idCardValidityStartDate: '',
         idCardValidityEndDate: '',
         qualificationLicenseNum: '',
-        qualificationCertificateTypeId: '',
+        qualificationCertificateTypeName: '',
         qualificationFirstDate: '',
         qualificationValidityEndDate: '',
         qualificationValidityStartDate: '',
@@ -179,13 +177,11 @@ export default {
       picsList2: [],
       picsList3: [],
       picsList4: [],
-      personTypeList: [],
-      certTypeList: []
+      personTypeList: []
     }
   },
   mounted() {
     this.getPersonTypeList()
-    this.getCertTypeList()
     this.id && this.getDetail()
   },
   methods: {
@@ -193,12 +189,6 @@ export default {
       let {data} = await this.$http('personType/getPersonTypeList')
       if (data.code == 0) {
         this.personTypeList = data.data.list
-      }
-    },
-    async getCertTypeList() {
-      let {data} = await this.$http('qualificationCertificateType/getQualificationCertificateTypeList')
-      if (data.code == 0) {
-        this.certTypeList = data.data.list
       }
     },
     handleRemove1(file, list) {
