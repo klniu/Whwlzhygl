@@ -5,55 +5,21 @@
       <el-container :style="height">
         <el-aside width="200px">
           <el-menu router>
-            <el-menu-item index="notice">
-              <i class="el-icon-message"></i>
-              <span slot="title">通知</span>
-            </el-menu-item>
-            <el-menu-item index="company">
-              <i class="el-icon-menu"></i>
-              <span slot="title">企业管理</span>
-            </el-menu-item>
-            <el-menu-item index="person">
-              <i class="el-icon-menu"></i>
-              <span slot="title">人员管理</span>
-            </el-menu-item>
-            <el-menu-item index="car-team">
-              <i class="el-icon-menu"></i>
-              <span slot="title">车辆管理</span>
-            </el-menu-item>
-            <el-menu-item index="customer">
-              <i class="el-icon-menu"></i>
-              <span slot="title">客户管理</span>
-            </el-menu-item>
-            <el-menu-item index="goods">
-              <i class="el-icon-menu"></i>
-              <span slot="title">货物管理</span>
-            </el-menu-item>
-            <el-submenu index="safe">
-              <template slot="title">
+            <template v-for="(item, i) in menuList">
+              <el-menu-item :index="item.route || ('index'+i)" :key="i" v-if="item.children.length == 0">
                 <i class="el-icon-menu"></i>
-                <span>安全管理</span>
-              </template>
-              <el-menu-item-group>
-                <el-menu-item index="safecheck">安全监督检查</el-menu-item>
-                <el-menu-item index="doorcheck">车辆门检</el-menu-item>
-                <el-menu-item index="danger">隐患排查</el-menu-item>
-                <el-menu-item index="accident">事故记录</el-menu-item>
-                <el-menu-item index="illegal">违章记录</el-menu-item>
-              </el-menu-item-group>
-            </el-submenu>
-            <el-menu-item index="device">
-              <i class="el-icon-menu"></i>
-              <span slot="title">设备维护</span>
-            </el-menu-item>
-            <el-menu-item index="meeting">
-              <i class="el-icon-menu"></i>
-              <span slot="title">培训会议</span>
-            </el-menu-item>
-            <el-menu-item index="order">
-              <i class="el-icon-menu"></i>
-              <span slot="title">电子路单</span>
-            </el-menu-item>
+                <span slot="title">{{item.menuName}}</span>
+              </el-menu-item>
+              <el-submenu :index="item.route || ('index'+i)" :key="i" v-else>
+                <template slot="title">
+                  <i class="el-icon-menu"></i>
+                  <span>{{item.menuName}}</span>
+                </template>
+                <el-menu-item-group>
+                  <el-menu-item :index="sub.route || ('index'+i)" v-for="sub in item.children" :key="sub.id">{{sub.menuName}}</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+            </template>
           </el-menu>
         </el-aside>
         <el-main>
@@ -74,6 +40,20 @@ export default {
     return {
       height: {
         height: (document.documentElement.clientHeight - 120) + 'px'
+      },
+      menuList: []
+    }
+  },
+  mounted() {
+    this.getMenuList()
+  },
+  methods: {
+    async getMenuList() {
+      let {data} = await this.$http({
+        url: 'menus/getMenusAll'
+      })
+      if (data.code == 0) {
+        this.menuList = data.data[0] && data.data[0].children
       }
     }
   }
