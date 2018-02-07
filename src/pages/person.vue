@@ -55,7 +55,7 @@
         label="操作"
         width="180">
         <template slot-scope="scope">
-          <el-button @click="authClick(scope.row.mobile)" type="text" size="small">授权</el-button>
+          <el-button @click="authClick(scope.row.personId, scope.row.mobile)" type="text" size="small">授权</el-button>
           <el-button @click="editClick(scope.row.personId)" type="text" size="small">编辑</el-button>
           <el-button @click="delectClick([scope.row.personId])" type="text" size="small">删除</el-button>
         </template>
@@ -70,14 +70,37 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="tableData.total">
     </el-pagination>
-    <el-dialog title="授权登录" :visible.sync="authShow">
-      <el-select v-model="authRole" placeholder="请选择角色">
-        <el-option
-        v-for="item in roleList"
-        :key="item.id"
-        :label="item.roleName"
-        :value="item.id"></el-option>
-      </el-select>
+    <el-dialog title="授权登录" :visible.sync="authShow" :key="authId">
+      <div class="form-item">
+        <span>角色：</span>
+        <el-select v-model="authRole" placeholder="请选择角色" size="small" style="width: 200px">
+          <el-option
+          v-for="item in roleList"
+          :key="item.id"
+          :label="item.roleName"
+          :value="item.id"></el-option>
+        </el-select>
+      </div>
+      <div class="form-item">
+        <span>帐号：</span>
+        <el-input v-model="authTel" disabled style="width: 200px" size="small"></el-input>
+      </div>
+      <div class="form-item">
+        <span>密码：</span>
+        <el-input v-model="authPwd" style="width: 200px" size="small"></el-input>
+      </div>
+      <div class="form-item">
+        <span>可访问节点：</span>
+        <el-tree
+          :data="menuList"
+          show-checkbox
+          default-expand-all
+          node-key="id"
+          ref="tree"
+          highlight-current
+          :props="menuTreeProp">
+        </el-tree>
+      </div>
       <el-button @click="authSubmit" type="primary">开通</el-button>
     </el-dialog>
   </div>
@@ -102,7 +125,9 @@ export default {
       typeList: [],
       authShow: false,
       authRole: '',
+      authId: '',
       authTel: '',
+      authPwd: '',
       roleList: [],
       isExport: false,
       fieldList: [
@@ -128,15 +153,28 @@ export default {
         {value:'driverValidityEndDate', label: '驾驶证有效期结束日期'},
         {value:'driverIssuingAuthority', label: '驾驶证签发机关'},
       ],
-      exportFields: []
+      exportFields: [],
+      menuTreeProp: {
+        label: 'menuName'
+      },
+      menuList: []
     }
   },
   mounted() {
     this.getList()
     this.getTypeList()
     this.getRoleList()
+    this.getMenuList()
   },
   methods: {
+    async getMenuList() {
+      let {data} = await this.$http({
+        url: 'menus/getMenusAll'
+      })
+      if (data.code == 0) {
+        this.menuList = data.data[0] && data.data[0].children
+      }
+    },
     async getAll() {
       this.isExport = true
       let {data} = await this.$http({
@@ -176,9 +214,11 @@ export default {
         method: 'post',
         url: 'auth/register',
         data: {
-          password: '123456',
+          password: this.authPwd,
           roleId: this.authRole,
-          userName: this.authTel
+          personId: this.authId,
+          userName: this.authTel,
+          menuIds: this.$refs.tree.getCheckedKeys()
         }
       })
       if (data.code == 0) {
@@ -191,8 +231,9 @@ export default {
         this.$message.error(data.msg)
       }
     },
-    authClick(tel) {
+    authClick(id, tel) {
       this.authTel = tel
+      this.authId = id
       this.authShow = true
     },
     async getRoleList() {
@@ -210,3 +251,8 @@ export default {
   }
 }
 </script>
+<style>
+.form-item {
+  margin: 10px 0;
+}
+</style>
