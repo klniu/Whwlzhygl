@@ -48,24 +48,46 @@
       <div class="form-title">车辆信息</div>
       <div class="form-block">
         <el-form-item label="头车车牌号" prop="carId">
-          <el-select v-model="formData.carId" filterable placeholder="可输入车牌号筛选" @visible-change="getCarList">
-            <el-option v-for="item in carList" :key="item.carId" :label="item.plateNum" :value="item.carId"></el-option>
+          <el-select v-model="formData.carId" filterable placeholder="可输入车牌号筛选" style="width: 60%">
+            <el-option v-for="item in carList" :key="item.carId" :label="item.plateNum" :value="item.carId">
+              <span style="float: left">{{ item.plateNum }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">运营证号 {{ item.roadTransportNum }}</span>
+            </el-option>
           </el-select>
-          <el-select v-model="carTeamId" placeholder="选择车队筛选" clearable>
+          <el-select v-model="carTeamId" @change="getCarList" placeholder="选择车队筛选" clearable>
             <el-option v-for="item in carTeamList" :key="item.carTeamId" :label="item.teamName" :value="item.carTeamId"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="挂车车牌号" prop="trailerId">
-          <el-select v-model="formData.trailerId" filterable placeholder="可输入车牌号筛选" @visible-change="getCarList2">
-            <el-option v-for="item in carList2" :key="item.carId" :label="item.plateNum" :value="item.carId"></el-option>
+          <el-select v-model="formData.trailerId" filterable placeholder="可输入车牌号筛选" style="width: 60%">
+            <el-option v-for="item in carList2" :key="item.carId" :label="item.plateNum" :value="item.carId">
+              <span style="float: left">{{ item.plateNum }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">运营证号 {{ item.roadTransportNum }}</span>
+            </el-option>
           </el-select>
-          <el-select v-model="carTeamId2" placeholder="选择车队筛选" clearable>
+          <el-select v-model="carTeamId2" @change="getCarList2" placeholder="选择车队筛选" clearable>
             <el-option v-for="item in carTeamList" :key="item.carTeamId" :label="item.teamName" :value="item.carTeamId"></el-option>
           </el-select>
         </el-form-item>
       </div>
       <div class="form-title">人员信息</div>
       <div class="form-block">
+        <el-form-item label="押运员" prop="escortId">
+          <el-select v-model="formData.escortId" filterable placeholder="可输入姓名筛选" style="width: 60%">
+            <el-option v-for="item in personList" :key="item.id" :label="item.personName" :value="item.id">
+              <span style="float: left">{{ item.personName }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">从业资格号 {{ item.qualificationLicenseNum }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="驾驶员" prop="driverId">
+          <el-select v-model="formData.driverId" filterable placeholder="可输入姓名筛选" style="width: 60%">
+            <el-option v-for="item in personList2" :key="item.id" :label="item.personName" :value="item.id">
+              <span style="float: left">{{ item.personName }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">从业资格号 {{ item.qualificationLicenseNum }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
       </div>
       <el-form-item label="托运日期" prop="transportDate">
         <el-date-picker v-model="formData.transportDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
@@ -96,7 +118,9 @@ export default {
         orderNum: '',
         transportDate: '',
         carId: '',
-        trailerId: ''
+        trailerId: '',
+        escortId: '',
+        driverId: ''
       },
       cusData: {
         linkmanMobile: '',
@@ -116,7 +140,9 @@ export default {
       carList: [],
       carList2: [],
       carTeamId: '',
-      carTeamId2: ''
+      carTeamId2: '',
+      personList: [],
+      personList2: [],
     }
   },
   mounted() {
@@ -126,13 +152,38 @@ export default {
     this.getCarTeamList()
     this.getCarList()
     this.getCarList2()
+    this.getPersonList()
+    this.getPersonList2()
   },
   methods: {
+    async getPersonList(tid) {
+      let {data} = await this.$http({
+        url: 'person/getPersonListAllContent',
+        params: {
+          typeId: 2
+        }
+      })
+      if (data.code == 0) {
+        this.personList = data.data
+      }
+    },
+    async getPersonList2() {
+      let {data} = await this.$http({
+        url: 'person/getPersonListAllContent',
+        params: {
+          typeId: 1
+        }
+      })
+      if (data.code == 0) {
+        this.personList2 = data.data
+      }
+    },
     async getCarList(tid) {
       let {data} = await this.$http({
         url: 'car/getCarListAll',
         params: {
-          carTeamId: this.carTeamId
+          carTeamId: this.carTeamId,
+          carType: 0
         }
       })
       if (data.code == 0) {
@@ -143,7 +194,8 @@ export default {
       let {data} = await this.$http({
         url: 'car/getCarListAll',
         params: {
-          carTeamId: this.carTeamId2
+          carTeamId: this.carTeamId2,
+          carType: 1
         }
       })
       if (data.code == 0) {
