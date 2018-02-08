@@ -20,6 +20,12 @@
           <el-form-item label="联系号码" prop="linkmanMobile">
             <el-input v-model="cusData.linkmanMobile"></el-input>
           </el-form-item>
+          <el-form-item label="发货地址" prop="sendAddress">
+            <el-input v-model="cusData.sendAddress"></el-input>
+          </el-form-item>
+          <el-form-item label="收货地址" prop="receiveAddress">
+            <el-input v-model="cusData.receiveAddress"></el-input>
+          </el-form-item>
         </el-form>
       </div>
       <div class="form-title">货物信息</div>
@@ -96,6 +102,19 @@ export default {
     this.getGoodsList()
   },
   methods: {
+    beforePost() {
+      this.cusSave()
+    },
+    async cusSave() {
+      let {data} = await this.$http({
+        method: 'post',
+        url: 'customer/updateCustomer',
+        data: this.cusData
+      })
+      if (data.code != 0) {
+        this.$message.error(data.msg)
+      }
+    },
     async cusChange() {
       let {data} = await this.$http({
         url: 'customer/getCustomer',
