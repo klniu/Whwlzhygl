@@ -95,6 +95,9 @@
       <el-form-item label="装货日期" prop="loadingTime">
         <el-date-picker v-model="formData.loadingTime" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
       </el-form-item>
+      <el-form-item label="卸货日期" prop="unloadingTime">
+        <el-date-picker v-model="formData.unloadingTime" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')" :loading="posting">保存</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -120,7 +123,8 @@ export default {
         carId: '',
         trailerId: '',
         escortId: '',
-        driverId: ''
+        driverId: '',
+        unloadingTime: ''
       },
       cusData: {
         linkmanMobile: '',
@@ -300,6 +304,7 @@ export default {
   border: 1px solid #ebebeb;
   border-radius: 3px;
   transition: .2s;
+  margin: 10px 0;
 }
 .form-block:hover{
   box-shadow: 0 0 8px 0 rgba(232,237,250,.6), 0 2px 4px 0 rgba(232,237,250,.5);
