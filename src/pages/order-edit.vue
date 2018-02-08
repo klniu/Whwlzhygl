@@ -48,31 +48,41 @@
       <div class="form-title">车辆信息</div>
       <div class="form-block">
         <el-form-item label="头车车牌号" prop="carId">
-          <el-select v-model="formData.carId" filterable placeholder="可输入车牌号筛选" style="width: 60%">
+          <el-select v-model="formData.carId" filterable placeholder="可输入车牌号筛选" @change="carChange1">
             <el-option v-for="item in carList" :key="item.carId" :label="item.plateNum" :value="item.carId"></el-option>
           </el-select>
           <el-select v-model="carTeamId" @change="getCarList" placeholder="选择车队筛选" clearable>
             <el-option v-for="item in carTeamList" :key="item.carTeamId" :label="item.teamName" :value="item.carTeamId"></el-option>
           </el-select>
         </el-form-item>
+        <el-form :model="carData1" ref="carForm1" v-if="formData.carId" label-width="150px">
+          <el-form-item label="营运证号" prop="roadTransportNum">
+            <el-input v-model="carData1.roadTransportNum"></el-input>
+          </el-form-item>
+        </el-form>
         <el-form-item label="挂车车牌号" prop="trailerId">
-          <el-select v-model="formData.trailerId" filterable placeholder="可输入车牌号筛选" style="width: 60%">
+          <el-select v-model="formData.trailerId" filterable placeholder="可输入车牌号筛选">
             <el-option v-for="item in carList2" :key="item.carId" :label="item.plateNum" :value="item.carId"></el-option>
           </el-select>
           <el-select v-model="carTeamId2" @change="getCarList2" placeholder="选择车队筛选" clearable>
             <el-option v-for="item in carTeamList" :key="item.carTeamId" :label="item.teamName" :value="item.carTeamId"></el-option>
           </el-select>
         </el-form-item>
+        <el-form :model="carData2" ref="carForm2" v-if="formData.trailerId" label-width="150px">
+          <el-form-item label="营运证号" prop="roadTransportNum">
+            <el-input v-model="carData2.roadTransportNum"></el-input>
+          </el-form-item>
+        </el-form>
       </div>
       <div class="form-title">人员信息</div>
       <div class="form-block">
         <el-form-item label="押运员" prop="escortId">
-          <el-select v-model="formData.escortId" filterable placeholder="可输入姓名筛选" style="width: 60%">
+          <el-select v-model="formData.escortId" filterable placeholder="可输入姓名筛选">
             <el-option v-for="item in personList" :key="item.id" :label="item.personName" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="驾驶员" prop="driverId">
-          <el-select v-model="formData.driverId" filterable placeholder="可输入姓名筛选" style="width: 60%">
+          <el-select v-model="formData.driverId" filterable placeholder="可输入姓名筛选">
             <el-option v-for="item in personList2" :key="item.id" :label="item.personName" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
@@ -118,6 +128,12 @@ export default {
         linkmanMobile: '',
         sendAddress: '',
         receiveAddress: ''
+      },
+      carData1: {
+        roadTransportNum: ''
+      },
+      carData2: {
+        roadTransportNum: ''
       },
       rules: {},
       apiName: 'order/',
@@ -207,6 +223,50 @@ export default {
     },
     beforePost() {
       this.cusSave()
+      this.carSave1()
+      this.carSave2()
+    },
+    async carSave2() {
+      let {data} = await this.$http({
+        method: 'post',
+        url: 'car/updateCar',
+        data: this.carData2
+      })
+      if (data.code != 0) {
+        this.$message.error(data.msg)
+      }
+    },
+    async carChange2() {
+      let {data} = await this.$http({
+        url: 'car/getCar',
+        params: {
+          carId: this.formData.trailerId
+        }
+      })
+      if (data.code == 0) {
+        this.carData2 = data.data
+      }
+    },
+    async carSave1() {
+      let {data} = await this.$http({
+        method: 'post',
+        url: 'car/updateCar',
+        data: this.carData1
+      })
+      if (data.code != 0) {
+        this.$message.error(data.msg)
+      }
+    },
+    async carChange1() {
+      let {data} = await this.$http({
+        url: 'car/getCar',
+        params: {
+          carId: this.formData.carId
+        }
+      })
+      if (data.code == 0) {
+        this.carData1 = data.data
+      }
     },
     async cusSave() {
       let {data} = await this.$http({
@@ -240,6 +300,8 @@ export default {
         this.formData = data.data
         this.formData.id = this.id
         this.cusChange()
+        this.carChange1()
+        this.carChange2()
       }
     },
     async getCustomerList() {
