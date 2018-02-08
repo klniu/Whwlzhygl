@@ -61,7 +61,7 @@
           </el-form-item>
         </el-form>
         <el-form-item label="挂车车牌号" prop="trailerId">
-          <el-select v-model="formData.trailerId" filterable placeholder="可输入车牌号筛选">
+          <el-select v-model="formData.trailerId" filterable placeholder="可输入车牌号筛选" @change="carChange2">
             <el-option v-for="item in carList2" :key="item.carId" :label="item.plateNum" :value="item.carId"></el-option>
           </el-select>
           <el-select v-model="carTeamId2" @change="getCarList2" placeholder="选择车队筛选" clearable>
@@ -77,15 +77,25 @@
       <div class="form-title">人员信息</div>
       <div class="form-block">
         <el-form-item label="押运员" prop="escortId">
-          <el-select v-model="formData.escortId" filterable placeholder="可输入姓名筛选">
+          <el-select v-model="formData.escortId" filterable placeholder="可输入姓名筛选" @change="personChange1">
             <el-option v-for="item in personList" :key="item.id" :label="item.personName" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
+        <el-form :model="personData1" ref="personForm1" v-if="formData.escortId" label-width="150px">
+          <el-form-item label="从业资格证号" prop="qualificationLicenseNum">
+            <el-input v-model="personData1.qualificationLicenseNum"></el-input>
+          </el-form-item>
+        </el-form>
         <el-form-item label="驾驶员" prop="driverId">
-          <el-select v-model="formData.driverId" filterable placeholder="可输入姓名筛选">
+          <el-select v-model="formData.driverId" filterable placeholder="可输入姓名筛选" @change="personChange2">
             <el-option v-for="item in personList2" :key="item.id" :label="item.personName" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
+        <el-form :model="personData2" ref="personForm2" v-if="formData.driverId" label-width="150px">
+          <el-form-item label="从业资格证号" prop="qualificationLicenseNum">
+            <el-input v-model="personData2.qualificationLicenseNum"></el-input>
+          </el-form-item>
+        </el-form>
       </div>
       <el-form-item label="托运日期" prop="transportDate">
         <el-date-picker v-model="formData.transportDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
@@ -134,6 +144,12 @@ export default {
       },
       carData2: {
         roadTransportNum: ''
+      },
+      personData1: {
+        qualificationLicenseNum: ''
+      },
+      personData2: {
+        qualificationLicenseNum: ''
       },
       rules: {},
       apiName: 'order/',
@@ -225,6 +241,50 @@ export default {
       this.cusSave()
       this.carSave1()
       this.carSave2()
+      this.personSave1()
+      this.personSave2()
+    },
+    async personSave1() {
+      let {data} = await this.$http({
+        method: 'post',
+        url: 'person/updatePerson',
+        data: this.personData1
+      })
+      if (data.code != 0) {
+        this.$message.error(data.msg)
+      }
+    },
+    async personChange1() {
+      let {data} = await this.$http({
+        url: 'person/getPerson',
+        params: {
+          personId: this.formData.escortId
+        }
+      })
+      if (data.code == 0) {
+        this.personData1 = data.data || this.personData1
+      }
+    },
+    async personSave2() {
+      let {data} = await this.$http({
+        method: 'post',
+        url: 'person/updatePerson',
+        data: this.personData2
+      })
+      if (data.code != 0) {
+        this.$message.error(data.msg)
+      }
+    },
+    async personChange2() {
+      let {data} = await this.$http({
+        url: 'person/getPerson',
+        params: {
+          personId: this.formData.driverId
+        }
+      })
+      if (data.code == 0) {
+        this.personData2 = data.data || this.personData2
+      }
     },
     async carSave2() {
       let {data} = await this.$http({
@@ -244,7 +304,7 @@ export default {
         }
       })
       if (data.code == 0) {
-        this.carData2 = data.data
+        this.carData2 = data.data || this.carData2
       }
     },
     async carSave1() {
@@ -265,7 +325,7 @@ export default {
         }
       })
       if (data.code == 0) {
-        this.carData1 = data.data
+        this.carData1 = data.data || this.carData1
       }
     },
     async cusSave() {
@@ -302,6 +362,8 @@ export default {
         this.cusChange()
         this.carChange1()
         this.carChange2()
+        this.personChange1()
+        this.personChange2()
       }
     },
     async getCustomerList() {
