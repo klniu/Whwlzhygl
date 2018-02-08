@@ -47,6 +47,22 @@
       </div>
       <div class="form-title">车辆信息</div>
       <div class="form-block">
+        <el-form-item label="头车车牌号" prop="carId">
+          <el-select v-model="formData.carId" filterable placeholder="可输入车牌号筛选" @visible-change="getCarList">
+            <el-option v-for="item in carList" :key="item.carId" :label="item.plateNum" :value="item.carId"></el-option>
+          </el-select>
+          <el-select v-model="carTeamId" placeholder="选择车队筛选" clearable>
+            <el-option v-for="item in carTeamList" :key="item.carTeamId" :label="item.teamName" :value="item.carTeamId"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="挂车车牌号" prop="trailerId">
+          <el-select v-model="formData.trailerId" filterable placeholder="可输入车牌号筛选" @visible-change="getCarList2">
+            <el-option v-for="item in carList2" :key="item.carId" :label="item.plateNum" :value="item.carId"></el-option>
+          </el-select>
+          <el-select v-model="carTeamId2" placeholder="选择车队筛选" clearable>
+            <el-option v-for="item in carTeamList" :key="item.carTeamId" :label="item.teamName" :value="item.carTeamId"></el-option>
+          </el-select>
+        </el-form-item>
       </div>
       <div class="form-title">人员信息</div>
       <div class="form-block">
@@ -79,6 +95,8 @@ export default {
         loadingTime: '',
         orderNum: '',
         transportDate: '',
+        carId: '',
+        trailerId: ''
       },
       cusData: {
         linkmanMobile: '',
@@ -93,15 +111,56 @@ export default {
       goodsList: [],
       goodsPage: 0,
       loadingGoods: false,
-      moreGoodsBt: false
+      moreGoodsBt: false,
+      carTeamList: [],
+      carList: [],
+      carList2: [],
+      carTeamId: '',
+      carTeamId2: ''
     }
   },
   mounted() {
     this.id && this.getDetail()
     this.getCustomerList()
     this.getGoodsList()
+    this.getCarTeamList()
+    this.getCarList()
+    this.getCarList2()
   },
   methods: {
+    async getCarList(tid) {
+      let {data} = await this.$http({
+        url: 'car/getCarListAll',
+        params: {
+          carTeamId: this.carTeamId
+        }
+      })
+      if (data.code == 0) {
+        this.carList = data.data
+      }
+    },
+    async getCarList2() {
+      let {data} = await this.$http({
+        url: 'car/getCarListAll',
+        params: {
+          carTeamId: this.carTeamId2
+        }
+      })
+      if (data.code == 0) {
+        this.carList2 = data.data
+      }
+    },
+    async getCarTeamList() {
+      let {data} = await this.$http({
+        url: '/carTeam/getCarTeamListAll',
+        params: {
+          companyId: localStorage.getItem('companyId')
+        }
+      })
+      if (data.code == 0) {
+        this.carTeamList = data.data
+      }
+    },
     beforePost() {
       this.cusSave()
     },
