@@ -410,10 +410,11 @@ export default {
 }
 .form-title{
   margin: 10px 0;
+  background: #eee;
+  padding: 5px;
 }
 .form-block{
   padding: 10px;
-  border: 1px solid #ebebeb;
   border-radius: 3px;
   transition: .2s;
   margin: 10px 0;

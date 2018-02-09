@@ -1,7 +1,12 @@
 <template>
   <div>
     <el-container>
-      <el-header>危化物流智慧云管理平台</el-header>
+      <el-header>
+        危化物流智慧云管理平台
+        <div style="float: right">
+          <user-info></user-info>
+        </div>
+      </el-header>
       <el-container :style="height">
         <el-aside width="200px">
           <el-menu router>
@@ -33,8 +38,12 @@
 
 <script>
 import login from '@/mixins/login'
+import UserInfo from '@/pages/user-info'
 export default {
   mixins: [login],
+  components: {
+    UserInfo
+  },
   name: 'app',
   data() {
     return {

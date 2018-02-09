@@ -5,15 +5,7 @@
         <el-button>此处为LOGO</el-button>
       </div>
       <div class="right">
-        <el-dropdown split-button @command="handleCommand">
-          帐号：{{userName}}
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="logout">退出登录</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-        <router-link to="admin">
-          <el-button>进入系统</el-button>
-        </router-link>
+        <user-info></user-info>
       </div>
     </div>
     <el-card class="sec">
@@ -102,11 +94,13 @@
 // import 'echarts/lib/chart/pie'
 // import 'echarts/lib/component/tooltip'
 // import 'echarts/lib/component/title'
+import UserInfo from './user-info'
 import timeformat from '@/mixins/timeformat'
 import login from '@/mixins/login'
 export default {
   mixins: [timeformat, login],
   components: {
+    UserInfo,
     ECharts: async () => {
       await import ('echarts/lib/chart/pie')
       await import ('echarts/lib/component/tooltip')
@@ -116,7 +110,6 @@ export default {
   },
   data() {
     return {
-      userName: localStorage.getItem('userName'),
       tableData0: [],
       tableData1: [],
       tableData2: [],
@@ -180,16 +173,6 @@ export default {
     this.getList(4)
   },
   methods: {
-    handleCommand(c) {
-      if (c == 'logout') {
-        this.logout()
-      }
-    },
-    logout() {
-      localStorage.setItem('loginkey', '')
-      localStorage.setItem('companyId', '')
-      localStorage.setItem('userName', '')
-    },
     async getList(index) {
       let {data} = await this.$http({
         url: 'index/' + this.apiList[index],
