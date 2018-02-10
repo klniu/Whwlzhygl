@@ -1,214 +1,232 @@
 <template>
   <div>
     <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="200px" size="medium">
-      <el-form-item label="车牌" prop="plateNum">
-        <el-input v-model="formData.plateNum"></el-input>
-      </el-form-item>
-      <el-form-item label="地址" prop="address">
-        <el-input v-model="formData.address"></el-input>
-      </el-form-item>
-      <el-form-item label="整备重量" prop="approveWeight">
-        <el-input v-model="formData.approveWeight"></el-input>
-      </el-form-item>
-      <el-form-item label="品牌型号" prop="brand">
-        <el-input v-model="formData.brand"></el-input>
-      </el-form-item>
-      <el-form-item label="行驶证图片" prop="carDrivingLicensePath">
-        <el-upload
-          :data="{fileType: 'CAR_DRIVING_LICENSE'}"
-          class="small"
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList1"
-          :on-success="handleUpload1"
-          :on-remove="handleRemove1"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="检验有效截止日期" prop="checkEndDate">
-        <el-date-picker v-model="formData.checkEndDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="承运人责任险图片" prop="cliPath">
-        <el-upload
-          class="small"
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList2"
-          :on-success="handleUpload2"
-          :on-remove="handleRemove2"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="承运人责任险有效期截止日期" prop="cliValidityEndDate">
-        <el-date-picker v-model="formData.cliValidityEndDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="承运人责任险有效期开始日期" prop="cliValidityStartDate">
-        <el-date-picker v-model="formData.cliValidityStartDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="核载重量" prop="curbWeight">
-        <el-input v-model="formData.curbWeight"></el-input>
-      </el-form-item>
-      <el-form-item label="发动机号" prop="engineNum">
-        <el-input v-model="formData.engineNum"></el-input>
-      </el-form-item>
-      <el-form-item label="档案编号" prop="fileNumber">
-        <el-input v-model="formData.fileNumber"></el-input>
-      </el-form-item>
-      <el-form-item label="GPS安装证明图片" prop="gpsInstallPath">
-        <el-upload
-          class="small"
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList3"
-          :on-success="handleUpload3"
-          :on-remove="handleRemove3"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="发证日期" prop="issuingDate">
-        <el-date-picker v-model="formData.issuingDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="营运证图片" prop="motPath">
-        <el-upload
-          class="small"
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList4"
-          :on-success="handleUpload4"
-          :on-remove="handleRemove4"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="营运证年审有效期" prop="motValidityEndDate">
-        <el-date-picker v-model="formData.motValidityEndDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="所有人" prop="owner">
-        <el-input v-model="formData.owner"></el-input>
-      </el-form-item>
-      <el-form-item label="载客人数" prop="peopleNumber">
-        <el-input v-model="formData.peopleNumber"></el-input>
-      </el-form-item>
-      <el-form-item label="牵引重量" prop="pullWeight">
-        <el-input v-model="formData.pullWeight"></el-input>
-      </el-form-item>
-      <el-form-item label="车辆行驶证注册日期" prop="registerDate">
-        <el-date-picker v-model="formData.registerDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="登记证书图片" prop="registerPath">
-        <el-upload
-          class="small"
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList5"
-          :on-success="handleUpload5"
-          :on-remove="handleRemove5"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="营运证号" prop="roadTransportNum">
-        <el-input v-model="formData.roadTransportNum"></el-input>
-      </el-form-item>
-      <el-form-item label="营运证有效期截止日期" prop="roadTransportValidityEndDate">
-        <el-date-picker v-model="formData.roadTransportValidityEndDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="营运证有效期开始时间" prop="roadTransportValidityStartDate">
-        <el-date-picker v-model="formData.roadTransportValidityStartDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="尺寸" prop="size">
-        <el-input v-model="formData.size"></el-input>
-      </el-form-item>
-      <el-form-item label="罐体检测有效期" prop="tankValidityEndDate">
-        <el-input v-model="formData.tankValidityEndDate"></el-input>
-      </el-form-item>
-      <el-form-item label="罐体检测报告" prop="tankReportPath">
-        <el-upload
-          class="small"
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList6"
-          :on-success="handleUpload6"
-          :on-remove="handleRemove6"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="技术等级评定" prop="technicalGrade">
-        <el-input v-model="formData.technicalGrade"></el-input>
-      </el-form-item>
-      <el-form-item label="技术等级证书图片" prop="technicalGradePath">
-        <el-upload
-          class="small"
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList7"
-          :on-success="handleUpload7"
-          :on-remove="handleRemove7"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="技术等级评定有效期截止日期" prop="technicalGradeValidityEndDate">
-        <el-date-picker v-model="formData.technicalGradeValidityEndDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="技术等级评定有效期开始日期" prop="technicalGradeValidityStartDate">
-        <el-date-picker v-model="formData.technicalGradeValidityStartDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="总重量" prop="totalWeight">
-        <el-input v-model="formData.totalWeight"></el-input>
-      </el-form-item>
-      <el-form-item label="类型" prop="type">
-        <el-input v-model="formData.type"></el-input>
-      </el-form-item>
-      <el-form-item label="使用性质" prop="useProperty">
-        <el-input v-model="formData.useProperty"></el-input>
-      </el-form-item>
-      <el-form-item label="车架号" prop="vin">
-        <el-input v-model="formData.vin"></el-input>
-      </el-form-item>
+      <div class="form-title">行驶证信息</div>
+      <div class="form-block">
+        <el-form-item label="车牌" prop="plateNum">
+          <el-input v-model="formData.plateNum"></el-input>
+        </el-form-item>
+        <el-form-item label="地址" prop="address">
+          <el-input v-model="formData.address"></el-input>
+        </el-form-item>
+        <el-form-item label="类型" prop="type">
+          <el-input v-model="formData.type"></el-input>
+        </el-form-item>
+        <el-form-item label="使用性质" prop="useProperty">
+          <el-input v-model="formData.useProperty"></el-input>
+        </el-form-item>
+        <el-form-item label="品牌型号" prop="brand">
+          <el-input v-model="formData.brand"></el-input>
+        </el-form-item>
+        <el-form-item label="车架号" prop="vin">
+          <el-input v-model="formData.vin"></el-input>
+        </el-form-item>
+        <el-form-item label="整备重量" prop="approveWeight">
+          <el-input v-model="formData.approveWeight"></el-input>
+        </el-form-item>
+        <el-form-item label="核载重量" prop="curbWeight">
+          <el-input v-model="formData.curbWeight"></el-input>
+        </el-form-item>
+        <el-form-item label="发动机号" prop="engineNum">
+          <el-input v-model="formData.engineNum"></el-input>
+        </el-form-item>
+        <el-form-item label="档案编号" prop="fileNumber">
+          <el-input v-model="formData.fileNumber"></el-input>
+        </el-form-item>
+        <el-form-item label="发证日期" prop="issuingDate">
+          <el-date-picker v-model="formData.issuingDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="所有人" prop="owner">
+          <el-input v-model="formData.owner"></el-input>
+        </el-form-item>
+        <el-form-item label="载客人数" prop="peopleNumber">
+          <el-input v-model="formData.peopleNumber"></el-input>
+        </el-form-item>
+        <el-form-item label="牵引重量" prop="pullWeight">
+          <el-input v-model="formData.pullWeight"></el-input>
+        </el-form-item>
+        <el-form-item label="车辆行驶证注册日期" prop="registerDate">
+          <el-date-picker v-model="formData.registerDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="尺寸" prop="size">
+          <el-input v-model="formData.size"></el-input>
+        </el-form-item>
+        <el-form-item label="总重量" prop="totalWeight">
+          <el-input v-model="formData.totalWeight"></el-input>
+        </el-form-item>
+        <el-form-item label="行驶证图片" prop="carDrivingLicensePath">
+          <el-upload
+            :data="{fileType: 'CAR_DRIVING_LICENSE'}"
+            class="small"
+            :action="$baseURL + 'accessory/addAccessory'"
+            :file-list="picsList1"
+            :on-success="handleUpload1"
+            :on-remove="handleRemove1"
+            :on-preview="handlePictureCardPreview"
+            list-type="picture-card">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="检验有效截止日期" prop="checkEndDate">
+          <el-date-picker v-model="formData.checkEndDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+      </div>
+      <div class="form-title">保险信息</div>
+      <div class="form-block">
+        <el-form-item label="承运人责任险有效期截止日期" prop="cliValidityEndDate">
+          <el-date-picker v-model="formData.cliValidityEndDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="承运人责任险有效期开始日期" prop="cliValidityStartDate">
+          <el-date-picker v-model="formData.cliValidityStartDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="承运人责任险图片" prop="cliPath">
+          <el-upload
+            class="small"
+            :action="$baseURL + 'accessory/addAccessory'"
+            :file-list="picsList2"
+            :on-success="handleUpload2"
+            :on-remove="handleRemove2"
+            :on-preview="handlePictureCardPreview"
+            list-type="picture-card">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="交强险保单号" prop="tciNum">
+          <el-input v-model="formData.tciNum"></el-input>
+        </el-form-item>
+        <el-form-item label="交强险有效截止日期" prop="tciValidityEndDate">
+          <el-date-picker v-model="formData.tciValidityEndDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="交强险图片" prop="tciPath">
+          <el-upload
+            class="small"
+            :action="$baseURL + 'accessory/addAccessory'"
+            :file-list="picsList8"
+            :on-success="handleUpload8"
+            :on-remove="handleRemove8"
+            :on-preview="handlePictureCardPreview"
+            list-type="picture-card">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="商业险保单号" prop="ciNum">
+          <el-input v-model="formData.ciNum"></el-input>
+        </el-form-item>
+        <el-form-item label="商业险有效截止日期" prop="ciValidityEndDate">
+          <el-date-picker v-model="formData.ciValidityEndDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="商业险图片" prop="ciPath">
+          <el-upload
+            class="small"
+            :action="$baseURL + 'accessory/addAccessory'"
+            :file-list="picsList9"
+            :on-success="handleUpload9"
+            :on-remove="handleRemove9"
+            :on-preview="handlePictureCardPreview"
+            list-type="picture-card">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+      </div>
+      <div class="form-title">营运证信息</div>
+      <div class="form-block">
+        <el-form-item label="营运证号" prop="roadTransportNum">
+          <el-input v-model="formData.roadTransportNum"></el-input>
+        </el-form-item>
+        <el-form-item label="营运证有效期截止日期" prop="roadTransportValidityEndDate">
+          <el-date-picker v-model="formData.roadTransportValidityEndDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="营运证有效期开始时间" prop="roadTransportValidityStartDate">
+          <el-date-picker v-model="formData.roadTransportValidityStartDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="营运证年审有效期" prop="motValidityEndDate">
+          <el-date-picker v-model="formData.motValidityEndDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="营运证图片" prop="motPath">
+          <el-upload
+            class="small"
+            :action="$baseURL + 'accessory/addAccessory'"
+            :file-list="picsList4"
+            :on-success="handleUpload4"
+            :on-remove="handleRemove4"
+            :on-preview="handlePictureCardPreview"
+            list-type="picture-card">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+      </div>
+      <div class="form-title">罐体信息</div>
+      <div class="form-block">
+        <el-form-item label="罐体检测有效期" prop="tankValidityEndDate">
+          <el-input v-model="formData.tankValidityEndDate"></el-input>
+        </el-form-item>
+        <el-form-item label="罐体检测报告" prop="tankReportPath">
+          <el-upload
+            class="small"
+            :action="$baseURL + 'accessory/addAccessory'"
+            :file-list="picsList6"
+            :on-success="handleUpload6"
+            :on-remove="handleRemove6"
+            :on-preview="handlePictureCardPreview"
+            list-type="picture-card">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+      </div>
+      <div class="form-title">技术等级信息</div>
+      <div class="form-block">
+        <el-form-item label="技术等级评定" prop="technicalGrade">
+          <el-input v-model="formData.technicalGrade"></el-input>
+        </el-form-item>
+        <el-form-item label="技术等级评定有效期截止日期" prop="technicalGradeValidityEndDate">
+          <el-date-picker v-model="formData.technicalGradeValidityEndDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="技术等级评定有效期开始日期" prop="technicalGradeValidityStartDate">
+          <el-date-picker v-model="formData.technicalGradeValidityStartDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="技术等级证书图片" prop="technicalGradePath">
+          <el-upload
+            class="small"
+            :action="$baseURL + 'accessory/addAccessory'"
+            :file-list="picsList7"
+            :on-success="handleUpload7"
+            :on-remove="handleRemove7"
+            :on-preview="handlePictureCardPreview"
+            list-type="picture-card">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+      </div>
+      <div class="form-title">其他信息</div>
+      <div class="form-block">
+        <el-form-item label="GPS安装证明图片" prop="gpsInstallPath">
+          <el-upload
+            class="small"
+            :action="$baseURL + 'accessory/addAccessory'"
+            :file-list="picsList3"
+            :on-success="handleUpload3"
+            :on-remove="handleRemove3"
+            :on-preview="handlePictureCardPreview"
+            list-type="picture-card">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="登记证书图片" prop="registerPath">
+          <el-upload
+            class="small"
+            :action="$baseURL + 'accessory/addAccessory'"
+            :file-list="picsList5"
+            :on-success="handleUpload5"
+            :on-remove="handleRemove5"
+            :on-preview="handlePictureCardPreview"
+            list-type="picture-card">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+      </div>
       <el-dialog :visible.sync="dialogVisible" append-to-body>
         <img width="100%" :src="dialogImageUrl" alt="">
       </el-dialog>
-      <el-form-item label="交强险保单号" prop="tciNum">
-        <el-input v-model="formData.tciNum"></el-input>
-      </el-form-item>
-      <el-form-item label="交强险图片" prop="tciPath">
-        <el-upload
-          class="small"
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList8"
-          :on-success="handleUpload8"
-          :on-remove="handleRemove8"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="交强险有效截止日期" prop="tciValidityEndDate">
-        <el-date-picker v-model="formData.tciValidityEndDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="商业险保单号" prop="ciNum">
-        <el-input v-model="formData.ciNum"></el-input>
-      </el-form-item>
-      <el-form-item label="商业险图片" prop="ciPath">
-        <el-upload
-          class="small"
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList9"
-          :on-success="handleUpload9"
-          :on-remove="handleRemove9"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="商业险有效截止日期" prop="ciValidityEndDate">
-        <el-date-picker v-model="formData.ciValidityEndDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')" :loading="posting">保存</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
