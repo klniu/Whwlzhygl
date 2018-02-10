@@ -1,128 +1,140 @@
 <template>
   <div>
     <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="180px">
-      <el-form-item label="人员名称" prop="personName">
-        <el-input v-model="formData.personName"></el-input>
-      </el-form-item>
-      <el-form-item label="人员类型" prop="personTypeId">
-        <el-select v-model="formData.personTypeId" placeholder="请选择">
-          <el-option v-for="item in personTypeList" :key="item.id" :label="item.typeName" :value="item.id"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="性别" prop="gender">
-        <el-radio-group v-model="formData.gender">
-          <el-radio :label="0">男</el-radio>
-          <el-radio :label="1">女</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="年龄" prop="age">
-        <el-input v-model="formData.age"></el-input>
-      </el-form-item>
-      <el-form-item label="出生日期" prop="birthday">
-        <el-date-picker v-model="formData.birthday" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="民族" prop="nation">
-        <el-input v-model="formData.nation"></el-input>
-      </el-form-item>
-      <el-form-item label="身份证地址" prop="address">
-        <el-input v-model="formData.address"></el-input>
-      </el-form-item>
-      <el-form-item label="身份证号" prop="idCardNum">
-        <el-input v-model="formData.idCardNum"></el-input>
-      </el-form-item>
-      <el-form-item label="联系号码" prop="mobile">
-        <el-input v-model="formData.mobile"></el-input>
-      </el-form-item>
-      <el-form-item label="身份证正面" prop="idCardPath0">
-        <el-upload
-          class="small"
-          :data="{fileType: 'ID_CARD0'}"
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList1"
-          :on-success="handleUpload1"
-          :on-remove="handleRemove1"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="身份证反面" prop="idCardPath1">
-        <el-upload
-          class="small"
-          :data="{fileType: 'ID_CARD1'}"
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList3"
-          :on-success="handleUpload3"
-          :on-remove="handleRemove3"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="发证机关" prop="issuingAuthority">
-        <el-input v-model="formData.issuingAuthority"></el-input>
-      </el-form-item>
-      <el-form-item label="身份证有效期开始日期" prop="idCardValidityStartDate">
-        <el-date-picker v-model="formData.idCardValidityStartDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="身份证有效期截止日期" prop="idCardValidityEndDate">
-        <el-date-picker v-model="formData.idCardValidityEndDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="从业资格证类型" prop="qualificationCertificateTypeName">
-        <el-input v-model="formData.qualificationCertificateTypeName"></el-input>
-      </el-form-item>
-      <el-form-item label="从业资格证号" prop="qualificationLicenseNum">
-        <el-input v-model="formData.qualificationLicenseNum"></el-input>
-      </el-form-item>
-      <el-form-item label="初次领证日期" prop="qualificationFirstDate">
-        <el-date-picker v-model="formData.qualificationFirstDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="从业资格证有效期截止日期" prop="qualificationValidityEndDate">
-        <el-date-picker v-model="formData.qualificationValidityEndDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="从业资格证有效期开始日期" prop="qualificationValidityStartDate">
-        <el-date-picker v-model="formData.qualificationValidityStartDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="从业资格证图片" prop="qualificationLicensePath">
-        <el-upload
-          class="small"
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList2"
-          :on-success="handleUpload2"
-          :on-remove="handleRemove2"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="驾驶证图片" prop="driverLicensePath">
-        <el-upload
-          class="small"
-          :data="{fileType: 'DRIVER_LICENSE'}"
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList4"
-          :on-success="handleUpload4"
-          :on-remove="handleRemove4"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="驾驶证初次领证日期" prop="driverFirstDate">
-        <el-date-picker v-model="formData.driverFirstDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="驾驶证发证机关" prop="driverIssuingAuthority">
-        <el-input v-model="formData.driverIssuingAuthority"></el-input>
-      </el-form-item>
-      <el-form-item label="准驾车型" prop="driverType">
-        <el-input v-model="formData.driverType"></el-input>
-      </el-form-item>
-      <el-form-item label="驾驶证有效期结束日期" prop="driverValidityEndDate">
-        <el-date-picker v-model="formData.driverValidityEndDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="驾驶证有效期开始日期" prop="driverValidityStartDate">
-        <el-date-picker v-model="formData.driverValidityStartDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
-      </el-form-item>
+      <div class="form-title">基本信息</div>
+      <div class="form-block">
+        <el-form-item label="人员名称" prop="personName">
+          <el-input v-model="formData.personName"></el-input>
+        </el-form-item>
+        <el-form-item label="人员类型" prop="personTypeId">
+          <el-select v-model="formData.personTypeId" placeholder="请选择">
+            <el-option v-for="item in personTypeList" :key="item.id" :label="item.typeName" :value="item.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="联系号码" prop="mobile">
+          <el-input v-model="formData.mobile"></el-input>
+        </el-form-item>
+      </div>
+      <div class="form-title">身份证信息</div>
+      <div class="form-block">
+        <el-form-item label="性别" prop="gender">
+          <el-radio-group v-model="formData.gender">
+            <el-radio :label="0">男</el-radio>
+            <el-radio :label="1">女</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="年龄" prop="age">
+          <el-input v-model="formData.age"></el-input>
+        </el-form-item>
+        <el-form-item label="出生日期" prop="birthday">
+          <el-date-picker v-model="formData.birthday" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="民族" prop="nation">
+          <el-input v-model="formData.nation"></el-input>
+        </el-form-item>
+        <el-form-item label="发证机关" prop="issuingAuthority">
+          <el-input v-model="formData.issuingAuthority"></el-input>
+        </el-form-item>
+        <el-form-item label="身份证有效期开始日期" prop="idCardValidityStartDate">
+          <el-date-picker v-model="formData.idCardValidityStartDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="身份证有效期截止日期" prop="idCardValidityEndDate">
+          <el-date-picker v-model="formData.idCardValidityEndDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="身份证号" prop="idCardNum">
+          <el-input v-model="formData.idCardNum"></el-input>
+        </el-form-item>
+        <el-form-item label="身份证地址" prop="address">
+          <el-input v-model="formData.address"></el-input>
+        </el-form-item>
+        <el-form-item label="身份证正面" prop="idCardPath0">
+          <el-upload
+            class="small"
+            :data="{fileType: 'ID_CARD0'}"
+            :action="$baseURL + 'accessory/addAccessory'"
+            :file-list="picsList1"
+            :on-success="handleUpload1"
+            :on-remove="handleRemove1"
+            :on-preview="handlePictureCardPreview"
+            list-type="picture-card">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="身份证反面" prop="idCardPath1">
+          <el-upload
+            class="small"
+            :data="{fileType: 'ID_CARD1'}"
+            :action="$baseURL + 'accessory/addAccessory'"
+            :file-list="picsList3"
+            :on-success="handleUpload3"
+            :on-remove="handleRemove3"
+            :on-preview="handlePictureCardPreview"
+            list-type="picture-card">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+      </div>
+      <div class="form-title">从业资格证信息</div>
+      <div class="form-block">
+        <el-form-item label="从业资格证类型" prop="qualificationCertificateTypeName">
+          <el-input v-model="formData.qualificationCertificateTypeName"></el-input>
+        </el-form-item>
+        <el-form-item label="从业资格证号" prop="qualificationLicenseNum">
+          <el-input v-model="formData.qualificationLicenseNum"></el-input>
+        </el-form-item>
+        <el-form-item label="从业资格证初次领证日期" prop="qualificationFirstDate">
+          <el-date-picker v-model="formData.qualificationFirstDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="从业资格证有效期截止日期" prop="qualificationValidityEndDate">
+          <el-date-picker v-model="formData.qualificationValidityEndDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="从业资格证有效期开始日期" prop="qualificationValidityStartDate">
+          <el-date-picker v-model="formData.qualificationValidityStartDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="从业资格证图片" prop="qualificationLicensePath">
+          <el-upload
+            class="small"
+            :action="$baseURL + 'accessory/addAccessory'"
+            :file-list="picsList2"
+            :on-success="handleUpload2"
+            :on-remove="handleRemove2"
+            :on-preview="handlePictureCardPreview"
+            list-type="picture-card">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+      </div>
+      <div class="form-title">驾驶证信息</div>
+      <div class="form-block">
+        <el-form-item label="驾驶证图片" prop="driverLicensePath">
+          <el-upload
+            class="small"
+            :data="{fileType: 'DRIVER_LICENSE'}"
+            :action="$baseURL + 'accessory/addAccessory'"
+            :file-list="picsList4"
+            :on-success="handleUpload4"
+            :on-remove="handleRemove4"
+            :on-preview="handlePictureCardPreview"
+            list-type="picture-card">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="驾驶证初次领证日期" prop="driverFirstDate">
+          <el-date-picker v-model="formData.driverFirstDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="驾驶证发证机关" prop="driverIssuingAuthority">
+          <el-input v-model="formData.driverIssuingAuthority"></el-input>
+        </el-form-item>
+        <el-form-item label="准驾车型" prop="driverType">
+          <el-input v-model="formData.driverType"></el-input>
+        </el-form-item>
+        <el-form-item label="驾驶证有效期结束日期" prop="driverValidityEndDate">
+          <el-date-picker v-model="formData.driverValidityEndDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="驾驶证有效期开始日期" prop="driverValidityStartDate">
+          <el-date-picker v-model="formData.driverValidityStartDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        </el-form-item>
+      </div>
       <el-dialog :visible.sync="dialogVisible" append-to-body>
         <img width="100%" :src="dialogImageUrl" alt="">
       </el-dialog>
