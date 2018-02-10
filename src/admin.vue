@@ -82,4 +82,18 @@ body {
   width: 180px;
   margin-left: 50px;
 }
+.form-title{
+  margin: 10px 0;
+  background: #eee;
+  padding: 5px;
+}
+.form-block{
+  padding: 10px;
+  border-radius: 3px;
+  transition: .2s;
+  margin: 10px 0;
+}
+.form-block:hover{
+  box-shadow: 0 0 8px 0 rgba(232,237,250,.6), 0 2px 4px 0 rgba(232,237,250,.5);
+}
 </style>

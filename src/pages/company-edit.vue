@@ -1,95 +1,110 @@
 <template>
   <div>
     <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="150px" size="medium">
-      <el-form-item label="企业名称" prop="companyName">
-        <el-input v-model="formData.companyName"></el-input>
-      </el-form-item>
-      <el-form-item label="法人代表姓名" prop="legalName">
-        <el-input v-model="formData.legalName"></el-input>
-      </el-form-item>
-      <el-form-item label="法人联系电话" prop="legalMobile">
-        <el-input v-model="formData.legalMobile"></el-input>
-      </el-form-item>
-      <el-form-item label="注册地" prop="registerAddress">
-        <el-input v-model="formData.registerAddress"></el-input>
-      </el-form-item>
-      <el-form-item label="负责人姓名" prop="principalName">
-        <el-input v-model="formData.principalName"></el-input>
-      </el-form-item>
-      <el-form-item label="负责人联系电话" prop="principalMobile">
-        <el-input v-model="formData.principalMobile"></el-input>
-      </el-form-item>
-      <el-form-item label="道路经营许可经营范围" prop="bizScopeIds">
-        <el-transfer
-          v-model="formData.bizScopeIds"
-          :right-default-checked="formData.bizScopeIds"
-          :data="bizScopeList"
-          :titles="['可选列表', '已选列表']"
-          :props="{
-            key: 'id',
-            label: 'scopeName'
-          }" />
-      </el-form-item>
-      <el-form-item label="道路经营许可证号" prop="roadLicenseNum">
-        <el-input v-model="formData.roadLicenseNum"></el-input>
-      </el-form-item>
-      <el-form-item label="道路许可证" prop="roadLicensePath">
-        <el-upload
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList1"
-          :on-success="handleUpload1"
-          :on-remove="handleRemove1"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="经济性质" prop="economicNature">
-        <el-input v-model="formData.economicNature"></el-input>
-      </el-form-item>
-      <el-form-item label="运输企业等级" prop="roadTransportGrade">
-        <el-input v-model="formData.roadTransportGrade"></el-input>
-      </el-form-item>
-      <el-form-item label="运输企业等级证书" prop="roadTransportGradeLicensePath">
-        <el-upload
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList2"
-          :on-success="handleUpload2"
-          :on-remove="handleRemove2"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="安全生产标准化达标等级" prop="safeProductGrade">
-        <el-input v-model="formData.safeProductGrade"></el-input>
-      </el-form-item>
-      <el-form-item label="安全生产标准化达标等级证书" prop="safeProductGradeLicensePath">
-        <el-upload
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList3"
-          :on-success="handleUpload3"
-          :on-remove="handleRemove3"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="统一社会信用代码" prop="unifiedSocialCreditCode">
-        <el-input v-model="formData.unifiedSocialCreditCode"></el-input>
-      </el-form-item>
-      <el-form-item label="营业执照" prop="bizLicensePath">
-        <el-upload
-          :data="{fileType: 'BIZ_LICENSE'}"
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList4"
-          :on-success="handleUpload4"
-          :on-remove="handleRemove4"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-      </el-form-item>
+      <div class="form-title">基本信息</div>
+      <div class="form-block">
+        <el-form-item label="企业名称" prop="companyName">
+          <el-input v-model="formData.companyName"></el-input>
+        </el-form-item>
+        <el-form-item label="法人代表姓名" prop="legalName">
+          <el-input v-model="formData.legalName"></el-input>
+        </el-form-item>
+        <el-form-item label="法人联系电话" prop="legalMobile">
+          <el-input v-model="formData.legalMobile"></el-input>
+        </el-form-item>
+        <el-form-item label="注册地" prop="registerAddress">
+          <el-input v-model="formData.registerAddress"></el-input>
+        </el-form-item>
+        <el-form-item label="负责人姓名" prop="principalName">
+          <el-input v-model="formData.principalName"></el-input>
+        </el-form-item>
+        <el-form-item label="负责人联系电话" prop="principalMobile">
+          <el-input v-model="formData.principalMobile"></el-input>
+        </el-form-item>
+        <el-form-item label="经济性质" prop="economicNature">
+          <el-input v-model="formData.economicNature"></el-input>
+        </el-form-item>
+      </div>
+      <div class="form-title">道路经营许可证信息</div>
+      <div class="form-block">
+        <el-form-item label="道路经营许可经营范围" prop="bizScopeIds">
+          <el-transfer
+            v-model="formData.bizScopeIds"
+            :right-default-checked="formData.bizScopeIds"
+            :data="bizScopeList"
+            :titles="['可选列表', '已选列表']"
+            :props="{
+              key: 'id',
+              label: 'scopeName'
+            }" />
+        </el-form-item>
+        <el-form-item label="道路经营许可证号" prop="roadLicenseNum">
+          <el-input v-model="formData.roadLicenseNum"></el-input>
+        </el-form-item>
+        <el-form-item label="道路许可证" prop="roadLicensePath">
+          <el-upload
+            :action="$baseURL + 'accessory/addAccessory'"
+            :file-list="picsList1"
+            :on-success="handleUpload1"
+            :on-remove="handleRemove1"
+            :on-preview="handlePictureCardPreview"
+            list-type="picture-card">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+      </div>
+      <div class="form-title">运输企业等级信息</div>
+      <div class="form-block">
+        <el-form-item label="运输企业等级" prop="roadTransportGrade">
+          <el-input v-model="formData.roadTransportGrade"></el-input>
+        </el-form-item>
+        <el-form-item label="运输企业等级证书" prop="roadTransportGradeLicensePath">
+          <el-upload
+            :action="$baseURL + 'accessory/addAccessory'"
+            :file-list="picsList2"
+            :on-success="handleUpload2"
+            :on-remove="handleRemove2"
+            :on-preview="handlePictureCardPreview"
+            list-type="picture-card">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+      </div>
+      <div class="form-title">安全生产标准化达标等级信息</div>
+      <div class="form-block">
+        <el-form-item label="安全生产标准化达标等级" prop="safeProductGrade">
+          <el-input v-model="formData.safeProductGrade"></el-input>
+        </el-form-item>
+        <el-form-item label="安全生产标准化达标等级证书" prop="safeProductGradeLicensePath">
+          <el-upload
+            :action="$baseURL + 'accessory/addAccessory'"
+            :file-list="picsList3"
+            :on-success="handleUpload3"
+            :on-remove="handleRemove3"
+            :on-preview="handlePictureCardPreview"
+            list-type="picture-card">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+      </div>
+      <div class="form-title">营业执照信息</div>
+      <div class="form-block">
+        <el-form-item label="统一社会信用代码" prop="unifiedSocialCreditCode">
+          <el-input v-model="formData.unifiedSocialCreditCode"></el-input>
+        </el-form-item>
+        <el-form-item label="营业执照" prop="bizLicensePath">
+          <el-upload
+            :data="{fileType: 'BIZ_LICENSE'}"
+            :action="$baseURL + 'accessory/addAccessory'"
+            :file-list="picsList4"
+            :on-success="handleUpload4"
+            :on-remove="handleRemove4"
+            :on-preview="handlePictureCardPreview"
+            list-type="picture-card">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+      </div>
       <el-dialog :visible.sync="dialogVisible">
         <img width="100%" :src="dialogImageUrl" alt="">
       </el-dialog>
