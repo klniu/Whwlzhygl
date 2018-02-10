@@ -100,13 +100,13 @@
       <div class="form-title">其他信息</div>
       <div class="form-block">
         <el-form-item label="托运日期" prop="transportDate">
-          <el-date-picker v-model="formData.transportDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+          <el-date-picker v-model="formData.transportDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
         </el-form-item>
         <el-form-item label="装货日期" prop="loadingTime">
-          <el-date-picker v-model="formData.loadingTime" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+          <el-date-picker v-model="formData.loadingTime" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
         </el-form-item>
         <el-form-item label="卸货日期" prop="unloadingTime">
-          <el-date-picker v-model="formData.unloadingTime" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+          <el-date-picker v-model="formData.unloadingTime" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
         </el-form-item>
       </div>
       <el-form-item>
