@@ -7,7 +7,7 @@
     <el-table
       v-loading="loading"
       ref="multipleTable"
-      :data="tableData.list"
+      :data="tableData"
       tooltip-effect="dark"
       style="width: 100%"
       @selection-change="handleSelectionChange">
@@ -35,7 +35,7 @@
       :page-sizes="[10, 25, 50, 100]"
       :page-size="pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="tableData.total">
+      :total="tableData.length">
     </el-pagination>
   </div>
 </template>

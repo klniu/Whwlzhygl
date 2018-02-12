@@ -4,9 +4,9 @@
       <el-form-item label="货物名称" prop="goodsName">
         <el-input v-model="formData.goodsName"></el-input>
       </el-form-item>
-      <el-form-item label="货物类别" prop="goodsCategoryId">
-        <el-select v-model="formData.goodsCategoryId" placeholder="请选择">
-          <el-option v-for="item in goodsTypeList" :key="item.id" :label="item.categoryName" :value="item.id"></el-option>
+      <el-form-item label="货物类别" prop="bizScopeId">
+        <el-select v-model="formData.bizScopeId" placeholder="请选择">
+          <el-option v-for="item in goodsTypeList" :key="item.id" :label="item.scopeName" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="货物包装类型" prop="goodsPackage">
@@ -45,7 +45,7 @@ export default {
     return {
       id: parseInt(this.$route.query.id),
       formData: {
-        goodsCategoryId: 0,
+        bizScopeId: 0,
         goodsName: '',
         goodsPackage: '',
         safeCardPath: '',
@@ -65,9 +65,9 @@ export default {
   },
   methods: {
     async getGoodsTypeList() {
-      let {data} = await this.$http('goodsCategory/getGoodsCategoryList')
+      let {data} = await this.$http('bizScope/getBizScopeList')
       if (data.code == 0) {
-        this.goodsTypeList = data.data.list
+        this.goodsTypeList = data.data
       }
     },
     handleRemove(file, list) {
