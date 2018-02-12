@@ -24,7 +24,7 @@
         label="货物包装类型">
       </el-table-column>
       <el-table-column
-        prop="categoryName"
+        prop="scopeName"
         label="货物类别">
       </el-table-column>
       <el-table-column
