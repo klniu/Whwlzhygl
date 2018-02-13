@@ -161,7 +161,7 @@ export default {
     async getBizScopeList() {
       let {data} = await this.$http('bizScope/getBizScopeList')
       if (data.code == 0) {
-        this.bizScopeList = data.data.list
+        this.bizScopeList = data.data
       }
     },
     handleRemove1(file, list) {
