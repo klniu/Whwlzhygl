@@ -59,7 +59,10 @@ export default {
   methods: {
     async getMenuList() {
       let {data} = await this.$http({
-        url: 'menus/getMenusAll'
+        url: 'menus/getMenusAllByToken',
+        params: {
+          token: localStorage.getItem('loginkey')
+        }
       })
       if (data.code == 0) {
         this.menuList = data.data[0] && data.data[0].children
