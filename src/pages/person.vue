@@ -3,6 +3,7 @@
     <div class="tools">
       <el-button size="small" icon="el-icon-circle-plus-outline" type="primary" @click="editClick(0)">添加</el-button>
       <el-button size="small" icon="el-icon-delete" type="danger" @click="delectClick(multipleSelection)">删除</el-button>
+      <el-button size="small" icon="el-icon-tickets" type="success" @click="$router.push({name: 'Role'})">人员角色管理</el-button>
       <el-input v-model="keyword" placeholder="姓名" size="small" clearable class="search-input" @keyup.13.native="getList"></el-input>
       <el-select size="small" v-model="params.typeId" placeholder="选择类型搜索" @change="getList" clearable style="width: 150px">
         <el-option

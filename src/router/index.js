@@ -32,6 +32,8 @@ const Illegal = () => import('@/pages/illegal')
 const IllegalEdit = () => import('@/pages/illegal-edit')
 const Danger = () => import('@/pages/danger')
 const DangerEdit = () => import(/* webpackChunkName: 'chenlin' */'@/pages/danger-edit')
+const Role = () => import('@/pages/role')
+const RoleEdit = () => import('@/pages/role-edit')
 Vue.use(Router)
 
 export default new Router({
@@ -168,6 +170,14 @@ export default new Router({
           path: '/danger-edit',
           name: 'DangerEdit',
           component: DangerEdit
+        }, {
+          path: '/role',
+          name: 'Role',
+          component: Role
+        }, {
+          path: '/role-edit',
+          name: 'RoleEdit',
+          component: RoleEdit
         }
       ]
     }
