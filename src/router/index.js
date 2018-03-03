@@ -26,6 +26,8 @@ const Person = () => import('@/pages/person')
 const PersonEdit = () => import('@/pages/person-edit')
 const CarTeam = () => import('@/pages/car-team')
 const CarTeamEdit = () => import('@/pages/car-team-edit')
+const Car = () => import('@/pages/car')
+const CarEdit = () => import('@/pages/car-edit')
 const Doorcheck = () => import('@/pages/doorcheck')
 const DoorcheckEdit = () => import('@/pages/doorcheck-edit')
 const Illegal = () => import('@/pages/illegal')
@@ -146,6 +148,14 @@ export default new Router({
           path: '/car-team-edit',
           name: 'CarTeamEdit',
           component: CarTeamEdit
+        },{
+          path: '/car',
+          name: 'Car',
+          component: Car
+        }, {
+          path: '/car-edit',
+          name: 'CarEdit',
+          component: CarEdit
         }, {
           path: '/doorcheck',
           name: 'Doorcheck',

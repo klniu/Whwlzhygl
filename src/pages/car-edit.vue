@@ -241,6 +241,7 @@ export default {
   mixins: [uploadMixin, saveMixin],
   data() {
     return {
+      id: parseInt(this.$route.query.id),
       formData: {
         carTeamId: this.sid,
         plateNum: '',
@@ -298,14 +299,6 @@ export default {
       picsList7: [],
       picsList8: [],
       picsList9: []
-    }
-  },
-  props: {
-    id: {
-      type: Number
-    },
-    sid: {
-      type: Number
     }
   },
   mounted() {

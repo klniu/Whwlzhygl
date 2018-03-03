@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="tools">
-      <el-button size="small" icon="el-icon-circle-plus-outline" type="primary" @click="editPop(0)">添加</el-button>
+      <el-button size="small" icon="el-icon-circle-plus-outline" type="primary" @click="editClick(0)">添加</el-button>
       <el-button size="small" icon="el-icon-delete" type="danger" @click="delectClick(multipleSelection)">删除</el-button>
     </div>
     <el-table
@@ -27,7 +27,7 @@
         label="操作"
         width="100">
         <template slot-scope="scope">
-          <el-button @click="editPop(scope.row.carId)" type="text" size="small">编辑</el-button>
+          <el-button @click="editClick(scope.row.carId)" type="text" size="small">编辑</el-button>
           <el-button @click="delectClick([scope.row.carId])" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
@@ -41,9 +41,6 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="tableData.total">
     </el-pagination>
-    <el-dialog width="75%" title="编辑详情" :visible.sync="isShowForm" :key="sid">
-      <car-edit :sid="id" :id="sid" @save-ok="saveOk"></car-edit>
-    </el-dialog>
   </div>
 </template>
 <script>
@@ -61,30 +58,11 @@ export default {
       editRoute: 'CarEdit',
       apiName: 'car',
       deleteApi: '/deleteCar',
-      getListApi: '/getCarList',
-      params: {carTeamId: this.id},
-      isShowForm: false,
-      sid: ''
-    }
-  },
-  props: {
-    id: {
-      type: Number,
-      default: 1
+      getListApi: '/getCarList'
     }
   },
   mounted() {
     this.getList()
-  },
-  methods: {
-    editPop(id) {
-      this.sid = id
-      this.isShowForm = true
-    },
-    saveOk() {
-      this.getList()
-      this.isShowForm = false
-    }
   }
 }
 </script>

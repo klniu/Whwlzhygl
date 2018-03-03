@@ -29,10 +29,6 @@
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
-    <div v-if="id">
-      <h3>车辆列表：</h3>
-      <car-list :id="id"></car-list>
-    </div>
   </div>
 </template>
 <script>
@@ -41,9 +37,6 @@ import saveMixin from '@/mixins/saveform'
 import uploadMixin from '@/mixins/upload'
 export default {
   mixins: [saveMixin, uploadMixin],
-  components: {
-    CarList
-  },
   data() {
     return {
       id: parseInt(this.$route.query.id),

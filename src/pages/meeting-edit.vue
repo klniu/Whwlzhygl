@@ -23,14 +23,14 @@
         <el-date-picker v-model="formData.meetingDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
       </el-form-item>
       <el-form-item label="签到" prop="signInIds">
-        <el-select v-model="formData.signInIds" multiple placeholder="请选择">
-          <el-option
+        <el-checkbox-group v-model="formData.signInIds">
+          <el-checkbox
             v-for="item in personList"
             :key="item.personId"
-            :label="item.personName"
-            :value="item.personId">
-          </el-option>
-        </el-select>
+            :label="item.personId">
+            {{item.personName}}
+          </el-checkbox>
+        </el-checkbox-group>
       </el-form-item>
       <el-form-item label="附件" prop="pic">
         <el-upload
@@ -65,7 +65,8 @@ export default {
         recordPerson: '',
         meetingContent: '',
         meetingDate: '',
-        accessoryNames: ''
+        accessoryNames: '',
+        signInIds: []
       },
       rules: {},
       apiName: 'meeting/',
