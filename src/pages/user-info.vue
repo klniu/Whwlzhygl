@@ -15,7 +15,7 @@
 export default {
   data() {
     return {
-      userName: localStorage.getItem('userName'),
+      userName: sessionStorage.getItem('userName'),
     }
   },
   methods: {
@@ -25,9 +25,9 @@ export default {
       }
     },
     logout() {
-      localStorage.setItem('loginkey', '')
-      localStorage.setItem('companyId', '')
-      localStorage.setItem('userName', '')
+      sessionStorage.setItem('loginkey', '')
+      sessionStorage.setItem('companyId', '')
+      sessionStorage.setItem('userName', '')
       this.$router.push({
         name: 'Login'
       })

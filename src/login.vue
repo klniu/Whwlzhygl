@@ -39,11 +39,11 @@ export default {
         data: this.formData
       })
       if (data.code == 0) {
-        localStorage.setItem('loginkey', data.data.token)
-        localStorage.setItem('userId', data.data.userId)
-        localStorage.setItem('personTypeId', data.data.personTypeId)
-        localStorage.setItem('companyId', this.companyId)
-        localStorage.setItem('userName', this.formData.userName)
+        sessionStorage.setItem('loginkey', data.data.token)
+        sessionStorage.setItem('userId', data.data.userId)
+        sessionStorage.setItem('personTypeId', data.data.personTypeId)
+        sessionStorage.setItem('companyId', this.companyId)
+        sessionStorage.setItem('userName', this.formData.userName)
         this.$router.push({
           name: 'Home'
         })

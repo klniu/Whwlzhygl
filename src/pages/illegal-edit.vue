@@ -63,7 +63,7 @@ export default {
     return {
       id: parseInt(this.$route.query.id),
       formData: {
-        companyId: localStorage.getItem('companyId'),
+        companyId: sessionStorage.getItem('companyId'),
         regulationPerson: '',
         carId: '',
         regulationTime: '',
@@ -122,7 +122,7 @@ export default {
       let {data} = await this.$http({
         url: '/carTeam/getCarTeamListAll',
         params: {
-          companyId: localStorage.getItem('companyId')
+          companyId: sessionStorage.getItem('companyId')
         }
       })
       if (data.code == 0) {

@@ -79,7 +79,7 @@ export default {
       orderIdList: [],
       dutyList: [],
       formData: {
-        companyId: localStorage.getItem('companyId'),
+        companyId: sessionStorage.getItem('companyId'),
         orderId: '',
         occurredTime: '',
         occurredAddress: '',
@@ -124,7 +124,7 @@ export default {
       let {data} = await this.$http({
         url: 'order/getOrderList',
         params: {
-          companyId: localStorage.getItem('companyId'),
+          companyId: sessionStorage.getItem('companyId'),
           currentPage: 1,
           size: 50
         }

@@ -1,6 +1,6 @@
 export default {
   mounted() {
-    let key = localStorage.getItem('loginkey')
+    let key = sessionStorage.getItem('loginkey')
     if (key == null || key == '') {
       this.$router.push({
         name: 'Login'

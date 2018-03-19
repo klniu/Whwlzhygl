@@ -124,7 +124,7 @@ export default {
     return {
       id: parseInt(this.$route.query.id),
       formData: {
-        companyId: localStorage.getItem('companyId'),
+        companyId: sessionStorage.getItem('companyId'),
         customerId: '',
         goodsId: '',
         goodsWeight: '',
@@ -233,7 +233,7 @@ export default {
       let {data} = await this.$http({
         url: '/carTeam/getCarTeamListAll',
         params: {
-          companyId: localStorage.getItem('companyId')
+          companyId: sessionStorage.getItem('companyId')
         }
       })
       if (data.code == 0) {
@@ -373,7 +373,7 @@ export default {
       let {data} = await this.$http({
         url: 'customer/getCustomerListAllContent',
         params: {
-          companyId: localStorage.getItem('companyId')
+          companyId: sessionStorage.getItem('companyId')
         }
       })
       if (data.code == 0) {
@@ -386,7 +386,7 @@ export default {
       let {data} = await this.$http({
         url: 'goods/getGoodsList',
         params: {
-          companyId: localStorage.getItem('companyId'),
+          companyId: sessionStorage.getItem('companyId'),
           currentPage: this.goodsPage,
           size: 50
         }

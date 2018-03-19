@@ -99,7 +99,7 @@ export default {
       let {data} = await this.$http({
         url: '/carTeam/getCarTeamListAll',
         params: {
-          companyId: localStorage.getItem('companyId')
+          companyId: sessionStorage.getItem('companyId')
         }
       })
       if (data.code == 0) {

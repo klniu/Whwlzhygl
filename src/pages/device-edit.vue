@@ -37,7 +37,7 @@ export default {
     return {
       id: 1,
       formData: {
-        companyId: localStorage.getItem('companyId'),
+        companyId: sessionStorage.getItem('companyId'),
         maintenanceContractPath: ''
       },
       picsList: [],
