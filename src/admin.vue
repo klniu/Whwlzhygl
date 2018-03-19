@@ -9,7 +9,7 @@
       </el-header>
       <el-container :style="height">
         <el-aside width="200px">
-          <el-menu router>
+          <el-menu class="el-menu-vertical-demo" router :collapse="isCollapse">
             <template v-for="(item, i) in menuList">
               <el-menu-item :index="item.route || ('index'+i)" :key="i" v-if="item.children.length == 0">
                 <i class="el-icon-menu"></i>
@@ -26,6 +26,7 @@
               </el-submenu>
             </template>
           </el-menu>
+          <el-button type="text" :icon="!isCollapse ? 'el-icon-arrow-left' : 'el-icon-arrow-right'" @click="isCollapse = !isCollapse">{{!isCollapse ? '收起' : '展开'}}</el-button>
         </el-aside>
         <el-main>
           <router-view/>
@@ -50,7 +51,8 @@ export default {
       height: {
         height: (document.documentElement.clientHeight - 120) + 'px'
       },
-      menuList: []
+      menuList: [],
+      isCollapse: false
     }
   },
   mounted() {
@@ -98,5 +100,8 @@ body {
 }
 .form-block:hover{
   box-shadow: 0 0 8px 0 rgba(232,237,250,.6), 0 2px 4px 0 rgba(232,237,250,.5);
+}
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
 }
 </style>
