@@ -39,7 +39,9 @@ export default {
         data: this.formData
       })
       if (data.code == 0) {
-        localStorage.setItem('loginkey', data.data)
+        localStorage.setItem('loginkey', data.data.token)
+        localStorage.setItem('userId', data.data.userId)
+        localStorage.setItem('personTypeId', data.data.personTypeId)
         localStorage.setItem('companyId', this.companyId)
         localStorage.setItem('userName', this.formData.userName)
         this.$router.push({
