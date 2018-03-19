@@ -15,7 +15,7 @@
         type="selection">
       </el-table-column>
       <el-table-column
-        prop="plateNum"
+        prop="carPlateNum"
         label="车牌">
       </el-table-column>
       <el-table-column

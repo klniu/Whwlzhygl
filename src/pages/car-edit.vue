@@ -197,6 +197,24 @@
           </el-upload>
         </el-form-item>
       </div>
+      <div class="form-title">挂车信息（挂车无需设置）</div>
+      <div class="form-block">
+        <el-form-item label="挂车" prop="trailerId">
+          <el-select v-model="formData.trailerId" filterable>
+            <el-option v-for="item in carList" :key="item.carId" :label="item.carPlateNum" :value="item.carId"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="驾驶员" prop="driverId">
+          <el-select v-model="formData.driverId" filterable>
+            <el-option v-for="item in personList" :key="item.personId" :label="item.personName" :value="item.personId"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="押运员" prop="escortId">
+          <el-select v-model="formData.escortId" filterable>
+            <el-option v-for="item in personList2" :key="item.personId" :label="item.personName" :value="item.personId"></el-option>
+          </el-select>
+        </el-form-item>
+      </div>
       <div class="form-title">其他信息</div>
       <div class="form-block">
         <el-form-item label="GPS安装证明图片" prop="gpsInstallPath">
@@ -298,13 +316,52 @@ export default {
       picsList6: [],
       picsList7: [],
       picsList8: [],
-      picsList9: []
+      picsList9: [],
+      carList: [],
+      personList: [],
+      personList2: []
     }
   },
   mounted() {
     this.id && this.getDetail()
+    this.getCarList()
+    this.getPersonList()
+    this.getPersonList2()
   },
   methods: {
+    async getCarList() {
+      let {data} = await this.$http({
+        url: 'car/getCarListAll',
+        params: {
+          carType: 1
+        }
+      })
+      if (data.code == 0) {
+        this.carList = data.data
+      }
+    },
+    async getPersonList() {
+      let {data} = await this.$http({
+        url: 'person/getPersonListAll',
+        params: {
+          typeId: 1
+        }
+      })
+      if (data.code == 0) {
+        this.personList = data.data
+      }
+    },
+    async getPersonList2() {
+      let {data} = await this.$http({
+        url: 'person/getPersonListAll',
+        params: {
+          typeId: 2
+        }
+      })
+      if (data.code == 0) {
+        this.personList2 = data.data
+      }
+    },
     handleRemove1(file, list) {
       this.picsList1 = list
     },
