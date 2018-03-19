@@ -4,6 +4,11 @@
       <el-form-item label="培训会议主题" prop="meetingTitle" required>
         <el-input v-model="formData.meetingTitle"></el-input>
       </el-form-item>
+      <el-form-item label="会议类型" prop="typeId">
+        <el-select v-model="formData.typeId">
+          <el-option v-for="item in meetingTypeList" :key="item.id" :label="item.typeName" :value="item.id"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="参加人员" prop="joinPerson">
         <el-input v-model="formData.joinPerson"></el-input>
       </el-form-item>
@@ -66,21 +71,30 @@ export default {
         meetingContent: '',
         meetingDate: '',
         accessoryNames: '',
-        signInIds: []
+        signInIds: [],
+        typeId: ''
       },
       rules: {},
       apiName: 'meeting/',
       addApi: 'addMeeting',
       updateApi: 'updateMeeting',
       fileList: [],
-      personList: []
+      personList: [],
+      meetingTypeList: []
     }
   },
   mounted() {
     this.getPersonList()
+    this.getMeetingTypeList()
     this.id && this.getDetail()
   },
   methods: {
+    async getMeetingTypeList() {
+      let {data} = await this.$http('meetingType/getMeetingTypeList')
+      if (data.code == 0) {
+        this.meetingTypeList = data.data
+      }
+    },
     async getPersonList() {
       let {data} = await this.$http('person/getPersonListAll')
       if (data.code == 0) {
