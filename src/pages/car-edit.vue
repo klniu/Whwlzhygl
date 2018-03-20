@@ -241,6 +241,11 @@
             <i class="el-icon-plus"></i>
           </el-upload>
         </el-form-item>
+        <el-form-item label="营运状态" prop="status_id">
+          <el-select v-model="formData.status_id">
+            <el-option v-for="item in statusList" :key="item.id" :label="item.statusName" :value="item.id"></el-option>
+          </el-select>
+        </el-form-item>
       </div>
       <el-dialog :visible.sync="dialogVisible" append-to-body>
         <img width="100%" :src="dialogImageUrl" alt="">
@@ -319,7 +324,8 @@ export default {
       picsList9: [],
       carList: [],
       personList: [],
-      personList2: []
+      personList2: [],
+      statusList: []
     }
   },
   mounted() {
@@ -327,8 +333,15 @@ export default {
     this.getCarList()
     this.getPersonList()
     this.getPersonList2()
+    this.getstatusList()
   },
   methods: {
+    async getstatusList() {
+      let {data} = await this.$http('carStatus/getCarStatusList')
+      if (data.code == 0) {
+        this.statusList = data.data
+      }
+    },
     async getCarList() {
       let {data} = await this.$http({
         url: 'car/getCarListAll',

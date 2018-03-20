@@ -19,6 +19,43 @@
         label="车牌">
       </el-table-column>
       <el-table-column
+        prop="trailerPlateNum"
+        label="挂车车牌">
+      </el-table-column>
+      <el-table-column
+        label="驾驶员">
+        <el-table-column
+          prop="driverName"
+          label="姓名">
+        </el-table-column>
+        <el-table-column
+          prop="driverMobile"
+          label="联系电话">
+        </el-table-column>
+      </el-table-column>
+      <el-table-column
+        label="押运员">
+        <el-table-column
+          prop="escortName"
+          label="姓名">
+        </el-table-column>
+        <el-table-column
+          prop="escortMobile"
+          label="联系电话">
+        </el-table-column>
+      </el-table-column>
+      <el-table-column
+        label="负责人">
+        <el-table-column
+          prop="principalName"
+          label="姓名">
+        </el-table-column>
+        <el-table-column
+          prop="principalMobile"
+          label="联系电话">
+        </el-table-column>
+      </el-table-column>
+      <el-table-column
         prop="type"
         label="类型">
       </el-table-column>
