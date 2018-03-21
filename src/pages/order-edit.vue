@@ -108,6 +108,12 @@
         <el-form-item label="卸货日期" prop="unloadingTime">
           <el-date-picker v-model="formData.unloadingTime" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
         </el-form-item>
+        <el-form-item label="状态" prop="status">
+          <el-radio-group v-model="formData.status">
+            <el-radio :label="0">已完成</el-radio>
+            <el-radio :label="1">已发车</el-radio>
+          </el-radio-group>
+        </el-form-item>
       </div>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')" :loading="posting">保存</el-button>
