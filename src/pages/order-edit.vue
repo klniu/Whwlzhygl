@@ -4,7 +4,7 @@
       <div class="form-title">客户信息</div>
       <div class="form-block">
         <el-form-item label="路单单号" prop="orderNum">
-          <el-input v-model="formData.orderNum"></el-input>
+          <el-input v-model="formData.orderNum" disabled></el-input>
         </el-form-item>
         <el-form-item label="客户" prop="customerId">
           <el-select v-model="formData.customerId" filterable @change="cusChange">
@@ -173,7 +173,7 @@ export default {
     }
   },
   mounted() {
-    this.id && this.getDetail()
+    this.id ? this.getDetail() : this.getOrderNum()
     this.getCustomerList()
     this.getGoodsList()
     this.getCarTeamList()
@@ -183,6 +183,17 @@ export default {
     this.getPersonList2()
   },
   methods: {
+    async getOrderNum() {
+      let {data} = await this.$http({
+        url: 'order/getOrderNum',
+        params: {
+          companyId: sessionStorage.getItem('companyId')
+        }
+      })
+      if (data.code == 0) {
+        this.formData.orderNum = data.data
+      }
+    },
     async getPersonList(tid) {
       let {data} = await this.$http({
         url: 'person/getPersonListAllContent',
