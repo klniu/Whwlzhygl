@@ -36,6 +36,7 @@ const Danger = () => import('@/pages/danger')
 const DangerEdit = () => import(/* webpackChunkName: 'chenlin' */'@/pages/danger-edit')
 const Role = () => import('@/pages/role')
 const RoleEdit = () => import('@/pages/role-edit')
+const Settings = () => import('@/pages/settings')
 Vue.use(Router)
 
 export default new Router({
@@ -188,6 +189,10 @@ export default new Router({
           path: '/role-edit',
           name: 'RoleEdit',
           component: RoleEdit
+        }, {
+          path: '/settings',
+          name: 'Settings',
+          component: Settings
         }
       ]
     }
