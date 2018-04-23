@@ -1,10 +1,19 @@
 <template>
   <div>
     <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="100px" size="medium">
-      <el-form-item label="路单id" prop="orderId">
+      <el-form-item label="电子路单" prop="orderId">
         <el-select v-model="formData.orderId" placeholder="请选择">
           <el-option v-for="item in orderIdList" :key="item.orderId" :label="item.goodsName" :value="item.orderId"></el-option>
         </el-select>
+        <el-select v-model="plateNum" @change="getOrderList" filterable placeholder="选择车牌号筛选">
+          <el-option
+            v-for="item in carList"
+            :key="item.carId"
+            :label="item.carPlateNum"
+            :value="item.carId">
+          </el-option>
+        </el-select>
+        <el-date-picker v-model="loadingTime" type="date" @change="getOrderList" value-format="yyyy-MM-dd HH:mm" placeholder="选择时间筛选"></el-date-picker>
       </el-form-item>
       <el-form-item label="事故时间" prop="occurredTime">
         <el-date-picker v-model="formData.occurredTime" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
@@ -110,6 +119,9 @@ export default {
         actualAmount: ''
       },
       rules: {},
+      carList: [],
+      plateNum: '',
+      loadingTime: '',
       apiName: 'accident/',
       addApi: 'addAccident',
       updateApi: 'updateAccident'
@@ -117,10 +129,19 @@ export default {
   },
   mounted() {
     this.getOrderList()
+    this.getCarList()
     this.getDutyList()
     this.id && this.getDetail()
   },
   methods: {
+    async getCarList() {
+      let {data} = await this.$http({
+        url: '/car/getCarListAll'
+      })
+      if (data.code == 0) {
+        this.carList = data.data
+      }
+    },
     async getDutyList() {
       let {data} = await this.$http({
         url: 'accidentDuty/getAccidentDutyList'
@@ -135,7 +156,9 @@ export default {
         params: {
           companyId: sessionStorage.getItem('companyId'),
           currentPage: 1,
-          size: 50
+          size: 50,
+          plateNum: this.plateNum,
+          loadingTime: this.loadingTime
         }
       })
       if (data.code == 0) {
