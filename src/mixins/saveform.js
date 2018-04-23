@@ -10,6 +10,7 @@ export default {
     },
     async postForm() {
       this.posting = true
+      this.formData.userId = sessionStorage.getItem('userId')
       let {data} = await this.$http({
         method: 'post',
         url: this.apiName + (this.id ? this.updateApi : this.addApi),
