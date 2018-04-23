@@ -14,6 +14,12 @@
         <el-form-item label="联系号码" prop="mobile">
           <el-input v-model="formData.mobile"></el-input>
         </el-form-item>
+        <el-form-item label="人员状态" prop="status">
+          <el-select v-model="formData.status" placeholder="请选择">
+            <el-option label="在职" :value="0"></el-option>
+            <el-option label="离职" :value="1"></el-option>
+          </el-select>
+        </el-form-item>
       </div>
       <div class="form-title">身份证信息</div>
       <div class="form-block">
