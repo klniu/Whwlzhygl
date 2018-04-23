@@ -13,6 +13,7 @@ export default {
       this.loading = true
       let params = {
         companyId: sessionStorage.getItem('companyId'),
+        userId: sessionStorage.getItem('userId'),
         currentPage: this.page,
         size: this.pageSize,
         keyword: this.keyword

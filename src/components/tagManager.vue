@@ -80,10 +80,10 @@ export default {
         if (data.code == 0) {
           this.getList()
           // this.dynamicTags.push(inputValue);
-          this.inputVisible = false;
-          this.inputValue = "";
         }
       }
+      this.inputVisible = false
+      this.inputValue = ''
     }
   }
 }

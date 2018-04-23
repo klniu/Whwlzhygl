@@ -15,8 +15,19 @@
       <el-form-item label="检查日期" prop="checkDate">
         <el-date-picker v-model="formData.checkDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
       </el-form-item>
-      <el-form-item label="检查人" prop="checkPerson">
-        <el-input v-model="formData.checkPerson"></el-input>
+      <el-form-item label="检查人" prop="personIds">
+        <el-select
+          v-model="formData.personIds"
+          multiple
+          filterable
+          placeholder="请选择人员">
+          <el-option
+            v-for="item in personList"
+            :key="item.personId"
+            :label="item.personName"
+            :value="item.personId">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="附件照片名称" prop="accessoryNames">
         <el-upload
@@ -68,6 +79,7 @@ export default {
         reformRequest: ''
       },
       picsList: [],
+      personList: [],
       rules: {},
       apiName: 'carCheckRecord/',
       addApi: 'addCarCheckRecord',
@@ -80,8 +92,15 @@ export default {
   mounted() {
     this.id && this.getDetail()
     this.getCarTeamList()
+    this.getPersonList()
   },
   methods: {
+    async getPersonList() {
+      let {data} = await this.$http('person/getPersonListAll')
+      if (data.code == 0) {
+        this.personList = data.data
+      }
+    },
     handleRemove(file, list) {
       this.picsList = list
     },

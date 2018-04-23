@@ -6,8 +6,19 @@
           <el-option v-for="item in dangeritemList" :key="item.id" :label="item.checkContent" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="检查人" prop="checkPerson">
-        <el-input v-model="formData.checkPerson"></el-input>
+      <el-form-item label="检查人" prop="personIds">
+        <el-select
+          v-model="formData.personIds"
+          multiple
+          filterable
+          placeholder="请选择人员">
+          <el-option
+            v-for="item in personList"
+            :key="item.personId"
+            :label="item.personName"
+            :value="item.personId">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="检查日期" prop="checkDate">
         <el-date-picker v-model="formData.checkDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
@@ -70,6 +81,7 @@ export default {
         accessoryNames: ''
       },
       picsList: [],
+      personList: [],
       rules: {},
       apiName: 'hiddenDangerCheckRecord/',
       addApi: 'addHiddenDangerCheckRecord',
@@ -79,8 +91,15 @@ export default {
   mounted() {
     this.getDangerItemList()
     this.id && this.getDetail()
+    this.getPersonList()
   },
   methods: {
+    async getPersonList() {
+      let {data} = await this.$http('person/getPersonListAll')
+      if (data.code == 0) {
+        this.personList = data.data
+      }
+    },
     handleRemove(file, list) {
       this.picsList = list
     },
