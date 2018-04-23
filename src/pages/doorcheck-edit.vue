@@ -1,19 +1,24 @@
 <template>
   <div>
     <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="150px" size="medium">
-      <el-form-item label="汽车id" prop="carId">
-        <el-autocomplete
-          v-model="strPlateNum"
-          :fetch-suggestions="getCarList"
-          placeholder="输入车牌号筛选"
-          @select="setCarId"
-        ></el-autocomplete>
-        <el-select v-model="carTeamId" placeholder="选择车队筛选" clearable>
-          <el-option v-for="item in carTeamList" :key="item.carTeamId" :label="item.teamName" :value="item.carTeamId"></el-option>
+      <el-form-item label="车辆" prop="carId">
+        <el-select v-model="formData.carId" filterable placeholder="输入车牌号筛选">
+          <el-option
+            v-for="item in carList"
+            :key="item.carId"
+            :label="item.carPlateNum"
+            :value="item.carId">
+          </el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="检查类型" prop="checktype">
+        <el-radio-group v-model="formData.checktype">
+          <el-radio :label="0">场地检查</el-radio>
+          <el-radio :label="1">场外检查</el-radio>
+        </el-radio-group>
+      </el-form-item>
       <el-form-item label="检查日期" prop="checkDate">
-        <el-date-picker v-model="formData.checkDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        <el-date-picker v-model="formData.checkDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
       </el-form-item>
       <el-form-item label="检查人" prop="personIds">
         <el-select
@@ -84,17 +89,23 @@ export default {
       apiName: 'carCheckRecord/',
       addApi: 'addCarCheckRecord',
       updateApi: 'updateCarCheckRecord',
-      carTeamList: [],
-      carTeamId: '',
-      strPlateNum: ''
+      carList: []
     }
   },
   mounted() {
     this.id && this.getDetail()
-    this.getCarTeamList()
     this.getPersonList()
+    this.getCarList()
   },
   methods: {
+    async getCarList() {
+      let {data} = await this.$http({
+        url: '/car/getCarListAll'
+      })
+      if (data.code == 0) {
+        this.carList = data.data
+      }
+    },
     async getPersonList() {
       let {data} = await this.$http('person/getPersonListAll')
       if (data.code == 0) {
@@ -107,48 +118,6 @@ export default {
     handleUpload(res) {
       if (res.code == 0) {
         this.picsList.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-      }
-    },
-    async getCarName() {
-      let {data} = await this.$http({
-        url: '/car/getCar',
-        params: {
-          carId: this.formData.carId
-        }
-      })
-      if (data.code == 0) {
-        this.strPlateNum = data.data.plateNum
-      }
-    },
-    setCarId(val) {
-      this.formData.carId = val.id
-    },
-    async getCarList(keyword, cb) {
-      let {data} = await this.$http({
-        url: '/car/getCarListAll',
-        params: {
-          plateNum: keyword,
-          carTeamId: this.carTeamId
-        }
-      })
-      if (data.code == 0) {
-        cb(data.data.map(item => {
-          return {
-            id: item.carId,
-            value: item.plateNum
-          }
-        }))
-      }
-    },
-    async getCarTeamList() {
-      let {data} = await this.$http({
-        url: '/carTeam/getCarTeamListAll',
-        params: {
-          companyId: sessionStorage.getItem('companyId')
-        }
-      })
-      if (data.code == 0) {
-        this.carTeamList = data.data
       }
     },
     async getDetail() {
