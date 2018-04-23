@@ -22,20 +22,19 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="实际维护结束日期" prop="actualEndDate">
-        <el-date-picker v-model="formData.actualEndDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        <el-date-picker v-model="formData.actualEndDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
       </el-form-item>
       <el-form-item label="实际维护开始日期" prop="actualStartDate">
-        <el-date-picker v-model="formData.actualStartDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        <el-date-picker v-model="formData.actualStartDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
       </el-form-item>
       <el-form-item label="维护的车辆" prop="carId">
-        <el-autocomplete
-          v-model="strPlateNum"
-          :fetch-suggestions="getCarList"
-          placeholder="输入车牌号筛选"
-          @select="setCarId"
-        ></el-autocomplete>
-        <el-select v-model="carTeamId" placeholder="选择车队筛选" clearable>
-          <el-option v-for="item in carTeamList" :key="item.carTeamId" :label="item.teamName" :value="item.carTeamId"></el-option>
+        <el-select v-model="formData.carId" filterable placeholder="输入车牌号筛选">
+          <el-option
+            v-for="item in carList"
+            :key="item.carId"
+            :label="item.carPlateNum"
+            :value="item.carId">
+          </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="确认人" prop="confirmPerson">
@@ -48,13 +47,13 @@
         <el-input v-model="formData.lastMaintenanceMileage"></el-input>
       </el-form-item>
       <el-form-item label="维护截止日期" prop="maintenanceEndDate">
-        <el-date-picker v-model="formData.maintenanceEndDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        <el-date-picker v-model="formData.maintenanceEndDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
       </el-form-item>
       <el-form-item label="维修人" prop="maintenancePerson">
         <el-input v-model="formData.maintenancePerson"></el-input>
       </el-form-item>
       <el-form-item label="维护开始日期" prop="maintenanceStartDate">
-        <el-date-picker v-model="formData.maintenanceStartDate" type="datetime" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        <el-date-picker v-model="formData.maintenanceStartDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')" :loading="posting">保存</el-button>
@@ -99,56 +98,21 @@ export default {
       apiName: 'maintenancePlan/',
       addApi: 'addMaintenancePlan',
       updateApi: 'updateMaintenancePlan',
-      carTeamList: [],
-      carTeamId: '',
-      strPlateNum: ''
+      carList: []
     }
   },
   mounted() {
     this.id && this.getDetail()
     this.getCarTeamList()
+    this.getCarList()
   },
   methods: {
-    async getCarName() {
+    async getCarList() {
       let {data} = await this.$http({
-        url: '/car/getCar',
-        params: {
-          carId: this.formData.carId
-        }
+        url: '/car/getCarListAll'
       })
       if (data.code == 0) {
-        this.strPlateNum = data.data.plateNum
-      }
-    },
-    setCarId(val) {
-      this.formData.carId = val.id
-    },
-    async getCarList(keyword, cb) {
-      let {data} = await this.$http({
-        url: '/car/getCarListAll',
-        params: {
-          plateNum: keyword,
-          carTeamId: this.carTeamId
-        }
-      })
-      if (data.code == 0) {
-        cb(data.data.map(item => {
-          return {
-            id: item.carId,
-            value: item.plateNum
-          }
-        }))
-      }
-    },
-    async getCarTeamList() {
-      let {data} = await this.$http({
-        url: '/carTeam/getCarTeamListAll',
-        params: {
-          companyId: sessionStorage.getItem('companyId')
-        }
-      })
-      if (data.code == 0) {
-        this.carTeamList = data.data
+        this.carList = data.data
       }
     },
     handleRemove(file, list) {
