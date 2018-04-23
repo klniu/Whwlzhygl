@@ -62,14 +62,14 @@
       <el-form-item label="备注" prop="remark">
         <el-input v-model="formData.remark"></el-input>
       </el-form-item>
-      <el-form-item label="承运人责任险保单号" v-if="id" prop="xxx">
-        <el-input disabled v-model="formData.xxx"></el-input>
+      <el-form-item label="承运人责任险保单号" v-if="id" prop="ciNum">
+        <el-input disabled v-model="formData.ciNum"></el-input>
       </el-form-item>
-      <el-form-item label="交强险保单号" v-if="id" prop="xxx">
-        <el-input disabled v-model="formData.xxx"></el-input>
+      <el-form-item label="交强险保单号" v-if="id" prop="tciNum">
+        <el-input disabled v-model="formData.tciNum"></el-input>
       </el-form-item>
-      <el-form-item label="商业险保单号" v-if="id" prop="xxx">
-        <el-input disabled v-model="formData.xxx"></el-input>
+      <el-form-item label="商业险保单号" v-if="id" prop="ciNum">
+        <el-input disabled v-model="formData.ciNum"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')" :loading="posting">保存</el-button>
