@@ -53,6 +53,7 @@
         <img width="100%" :src="dialogImageUrl" alt="">
       </el-dialog>
       <el-form-item>
+        <el-button type="warning" v-if="target" @click="reform">整改</el-button>
         <el-button type="primary" @click="submitForm('ruleForm')" :loading="posting">保存</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
@@ -62,8 +63,9 @@
 <script>
 import saveMixin from '@/mixins/saveform'
 import uploadMixin from '@/mixins/upload'
+import reform from '@/mixins/reform'
 export default {
-  mixins: [saveMixin, uploadMixin],
+  mixins: [saveMixin, uploadMixin, reform],
   data() {
     return {
       id: parseInt(this.$route.query.id),

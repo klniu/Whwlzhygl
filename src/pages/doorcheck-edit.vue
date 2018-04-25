@@ -52,6 +52,7 @@
         <el-input v-model="formData.reformRequest"></el-input>
       </el-form-item>
       <el-form-item>
+        <el-button type="warning" v-if="target" @click="reform">整改</el-button>
         <el-button type="primary" @click="submitForm('ruleForm')" :loading="posting">保存</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
@@ -66,8 +67,9 @@
 import CheckList from './car-check'
 import saveMixin from '@/mixins/saveform'
 import uploadMixin from '@/mixins/upload'
+import reform from '@/mixins/reform'
 export default {
-  mixins: [uploadMixin, saveMixin],
+  mixins: [uploadMixin, saveMixin, reform],
   components: {
     CheckList
   },
