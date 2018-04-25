@@ -12,11 +12,16 @@
 import chinaData from './city'
 export default {
   props: {
-    value: {
+    cityarr: {
       type: String,
       default: () => {
         return '[]'
       }
+    }
+  },
+  computed: {
+    selectedOptions() {
+      return JSON.parse(this.cityarr)
     }
   },
   data() {
@@ -24,13 +29,12 @@ export default {
       cityCascaderProps: {
         value: 'label'
       },
-      options: chinaData,
-      selectedOptions: JSON.parse(this.value)
+      options: chinaData
     };
   },
   methods: {
     handleChange(value) {
-      this.$emit('input', JSON.stringify(value))
+      this.$emit('update:cityarr', JSON.stringify(value))
     }
   }
 }

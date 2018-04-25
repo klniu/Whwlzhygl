@@ -27,7 +27,7 @@
             <el-input v-model="cusData.linkmanMobile"></el-input>
           </el-form-item>
           <el-form-item label="发货地址" prop="sendAddrIds">
-            <china-city v-model="cusData.sendAddrIds"></china-city>
+            <china-city :cityarr.sync="cusData.sendAddrIds"></china-city>
           </el-form-item>
           <el-form-item label="详细地址" prop="sendAddress">
             <el-input v-model="cusData.sendAddress"></el-input>
@@ -41,7 +41,7 @@
             <el-input v-model="cusData.receiveMobile"></el-input>
           </el-form-item>
           <el-form-item label="收货地址" prop="receiveAddrIds">
-            <china-city v-model="cusData.receiveAddrIds"></china-city>
+            <china-city :cityarr.sync="cusData.receiveAddrIds"></china-city>
           </el-form-item>
           <el-form-item label="详细地址" prop="receiveAddress">
             <el-input v-model="cusData.receiveAddress"></el-input>
@@ -155,7 +155,10 @@ export default {
         companyId: sessionStorage.getItem('companyId'),
         driverIdCardNum: '',
         driverMobile: '',
-        driverQuaLicNum: ''
+        driverQuaLicNum: '',
+        escortIdCardNum: '',
+        escortMobile: '',
+        escortQuaLicNum: ''
       },
       cusData: {
         linkmanName: '',
@@ -292,6 +295,18 @@ export default {
       })
       if (data.code == 0) {
         this.cusData = data.data
+      }
+    },
+    async getDetail() {
+      let {data} = await this.$http({
+        url: 'order/getOrder',
+        params: {
+          orderId: this.id
+        }
+      })
+      if (data.code == 0) {
+        this.formData = data.data
+        this.formData.customerId && this.cusChange()
       }
     }
   }
