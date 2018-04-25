@@ -81,6 +81,7 @@
         <el-input disabled v-model="formData.ciNum"></el-input>
       </el-form-item>
       <el-form-item>
+        <el-button type="warning" v-if="target" @click="reform">整改</el-button>
         <el-button type="primary" @click="submitForm('ruleForm')" :loading="posting">保存</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
@@ -89,8 +90,9 @@
 </template>
 <script>
 import saveMixin from '@/mixins/saveform'
+import reform from '@/mixins/reform'
 export default {
-  mixins: [saveMixin],
+  mixins: [saveMixin, reform],
   data() {
     return {
       id: parseInt(this.$route.query.id),

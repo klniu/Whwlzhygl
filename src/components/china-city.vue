@@ -3,7 +3,7 @@
     <el-cascader
       :options="options"
       :props="cityCascaderProps"
-      v-model="selectedOptions"
+      :value="selectedOptions"
       @change="handleChange">
     </el-cascader>
   </div>
