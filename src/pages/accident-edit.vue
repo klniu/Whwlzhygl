@@ -113,7 +113,6 @@ export default {
         statisticsPersonName: '',
         fillPersonName: '',
         fillPersonMobile: '',
-        submitDate: '',
         companyPrincipal: '',
         accidentDutyId: '',
         remark: '',

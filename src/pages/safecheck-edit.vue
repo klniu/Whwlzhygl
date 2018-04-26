@@ -31,7 +31,6 @@ export default {
       id: parseInt(this.$route.query.id),
       formData: {
         companyId: sessionStorage.getItem('companyId'),
-        checkDate: '',
         recordTitle: '',
         accessoryNames: ''
       },

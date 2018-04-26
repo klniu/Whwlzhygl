@@ -80,17 +80,13 @@ export default {
       id: parseInt(this.$route.query.id),
       formData: {
         accessoryNames: '',
-        actualEndDate: '',
-        actualStartDate: '',
         carId: '',
         companyId: sessionStorage.getItem('companyId'),
         confirmPerson: '',
         currentMaintenanceMileage: 0,
         deviceMaintenanceId: 1,
         lastMaintenanceMileage: 0,
-        maintenanceEndDate: '',
         maintenancePerson: '',
-        maintenanceStartDate: '',
         maintenanceType: ''
       },
       picsList: [],

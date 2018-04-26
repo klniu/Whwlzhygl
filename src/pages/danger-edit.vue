@@ -74,11 +74,9 @@ export default {
         companyId: sessionStorage.getItem('companyId'),
         hiddenDangerCheckContentId: '',
         checkPerson: '',
-        checkDate: '',
         checkResult: '',
         reformRequest: '',
         reformResult: '',
-        completeDate: '',
         remark: '',
         accessoryNames: ''
       },

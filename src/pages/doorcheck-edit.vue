@@ -80,7 +80,6 @@ export default {
       formData: {
         companyId: sessionStorage.getItem('companyId'),
         carId: '',
-        checkDate: '',
         checkPerson: '',
         accessoryNames: '',
         reformRequest: ''

@@ -69,7 +69,6 @@ export default {
         compere: '',
         recordPerson: '',
         meetingContent: '',
-        meetingDate: '',
         accessoryNames: '',
         signInIds: [],
         typeId: ''
