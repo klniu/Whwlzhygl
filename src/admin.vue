@@ -8,7 +8,8 @@
         </div>
       </el-header>
       <el-container :style="height">
-        <el-aside width="200px">
+        <el-aside width="auto">
+          <el-button type="text" :icon="!isCollapse ? 'el-icon-arrow-left' : 'el-icon-arrow-right'" @click="isCollapse = !isCollapse">{{!isCollapse ? '收起' : '展开'}}</el-button>
           <el-menu class="el-menu-vertical-demo" router :collapse="isCollapse">
             <template v-for="(item, i) in menuList">
               <el-menu-item :index="item.route || ('index'+i)" :key="i" v-if="item.children.length == 0">
@@ -26,7 +27,6 @@
               </el-submenu>
             </template>
           </el-menu>
-          <el-button type="text" :icon="!isCollapse ? 'el-icon-arrow-left' : 'el-icon-arrow-right'" @click="isCollapse = !isCollapse">{{!isCollapse ? '收起' : '展开'}}</el-button>
         </el-aside>
         <el-main>
           <router-view/>
