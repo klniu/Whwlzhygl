@@ -7,18 +7,30 @@
       <el-form-item label="客户地址" prop="customerAddress">
         <el-input v-model="formData.customerAddress"></el-input>
       </el-form-item>
-      <el-form-item label="联系人姓名" prop="linkmanName">
-        <el-input v-model="formData.linkmanName"></el-input>
-      </el-form-item>
-      <el-form-item label="联系人号码" prop="linkmanMobile">
-        <el-input v-model="formData.linkmanMobile"></el-input>
-      </el-form-item>
-      <el-form-item label="收货地址" prop="receiveAddress">
-        <el-input v-model="formData.receiveAddress"></el-input>
-      </el-form-item>
-      <el-form-item label="发货地址" prop="sendAddress">
-        <el-input v-model="formData.sendAddress"></el-input>
-      </el-form-item>
+          <el-form-item label="发货方联系人" prop="linkmanName">
+            <el-input v-model="formData.linkmanName"></el-input>
+          </el-form-item>
+          <el-form-item label="发货方号码" prop="linkmanMobile">
+            <el-input v-model="formData.linkmanMobile"></el-input>
+          </el-form-item>
+          <el-form-item label="发货地址" prop="sendAddrIds">
+            <china-city :cityarr.sync="formData.sendAddrIds"></china-city>
+          </el-form-item>
+          <el-form-item label="详细地址" prop="sendAddress">
+            <el-input v-model="formData.sendAddress"></el-input>
+          </el-form-item>
+          <el-form-item label="收货方联系人" prop="receiveName">
+            <el-input v-model="formData.receiveName"></el-input>
+          </el-form-item>
+          <el-form-item label="收货方号码" prop="receiveMobile">
+            <el-input v-model="formData.receiveMobile"></el-input>
+          </el-form-item>
+          <el-form-item label="收货地址" prop="receiveAddrIds">
+            <china-city :cityarr.sync="formData.receiveAddrIds"></china-city>
+          </el-form-item>
+          <el-form-item label="详细地址" prop="receiveAddress">
+            <el-input v-model="formData.receiveAddress"></el-input>
+          </el-form-item>
       <el-form-item label="合同图片" prop="contractPath">
         <el-upload
           :action="$baseURL + 'accessory/addAccessory'"
@@ -65,8 +77,12 @@
 <script>
 import uploadMixin from '@/mixins/upload'
 import saveMixin from '@/mixins/saveform'
+import ChinaCity from '@/components/china-city'
 export default {
   mixins: [uploadMixin, saveMixin],
+  components: {
+    ChinaCity
+  },
   data() {
     return {
       id: parseInt(this.$route.query.id),
@@ -80,6 +96,8 @@ export default {
         sendAddress: '',
         accessoryNames: '',
         contractPath: '',
+        sendAddrIds: '[]',
+        receiveAddrIds: '[]',
         bizLicensePath: ''
       },
       picsList: [],
