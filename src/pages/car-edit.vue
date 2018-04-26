@@ -73,6 +73,9 @@
       </div>
       <div class="form-title">保险信息</div>
       <div class="form-block">
+        <el-form-item label="承运人责任险保单号" prop="cliNum">
+          <el-input v-model="formData.cliNum"></el-input>
+        </el-form-item>
         <el-form-item label="承运人责任险有效期截止日期" prop="cliValidityEndDate">
           <el-date-picker v-model="formData.cliValidityEndDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
         </el-form-item>
