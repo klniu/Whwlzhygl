@@ -313,8 +313,14 @@ export default {
 }
 </script>
 <style>
-.order-row{
+.el-form--inline .el-form-item__content{
+  width: 200px;
+}
+.order-row .el-date-editor.el-input{
+  width: 200px;
+}
+/* .order-row{
   border-top: 1px solid #aaa;
   padding-top: 10px;
-}
+} */
 </style>
