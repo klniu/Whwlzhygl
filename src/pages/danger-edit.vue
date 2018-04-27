@@ -1,6 +1,9 @@
 <template>
   <div>
     <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="200px" size="medium">
+      <el-form-item label="主题" prop="title">
+        <el-input v-model="formData.title"></el-input>
+      </el-form-item>
       <el-form-item :label="item.content" prop="id" v-for="item in dangeritemList" :key="item.id" v-if="item">
         <el-radio-group v-model="item.result">
           <el-radio :label="0">是</el-radio>

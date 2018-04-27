@@ -1,6 +1,9 @@
 <template>
   <div>
     <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="200px" size="medium">
+      <el-form-item label="主题" prop="title">
+        <el-input v-model="formData.title"></el-input>
+      </el-form-item>
       <el-form-item :label="item.content" prop="id" v-for="item in caritemList" :key="item.id" v-if="item">
         <el-radio-group v-model="item.result">
           <el-radio :label="0">是</el-radio>
@@ -10,6 +13,16 @@
           v-if="item.result == 1"
           :path.sync="item.photoPath">
         </img-upload>
+      </el-form-item>
+      <el-form-item label="车辆" prop="carId">
+        <el-select v-model="formData.carId" filterable placeholder="输入车牌号筛选">
+          <el-option
+            v-for="item in carList"
+            :key="item.carId"
+            :label="item.carPlateNum"
+            :value="item.carId">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="检查人" prop="personIds">
         <el-select
@@ -59,6 +72,7 @@ export default {
         companyId: sessionStorage.getItem('companyId'),
       },
       personList: [],
+      carList: [],
       rules: {},
       imageUrl: '',
       apiName: 'carCheckRecord/',
@@ -69,8 +83,17 @@ export default {
   mounted() {
     this.id ? this.getDetail() : this.getDangerItemList()
     this.getPersonList()
+    this.getCarList()
   },
   methods: {
+    async getCarList() {
+      let {data} = await this.$http({
+        url: '/car/getCarListAll'
+      })
+      if (data.code == 0) {
+        this.carList = data.data
+      }
+    },
     beforePost() {
       this.formData.contents = this.caritemList
     },
