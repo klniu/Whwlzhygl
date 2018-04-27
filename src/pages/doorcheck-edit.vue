@@ -1,24 +1,15 @@
 <template>
   <div>
-    <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="150px" size="medium">
-      <el-form-item label="车辆" prop="carId">
-        <el-select v-model="formData.carId" filterable placeholder="输入车牌号筛选">
-          <el-option
-            v-for="item in carList"
-            :key="item.carId"
-            :label="item.carPlateNum"
-            :value="item.carId">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="检查类型" prop="checktype">
-        <el-radio-group v-model="formData.checktype">
-          <el-radio :label="0">场地检查</el-radio>
-          <el-radio :label="1">场外检查</el-radio>
+    <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="200px" size="medium">
+      <el-form-item :label="item.content" prop="id" v-for="item in caritemList" :key="item.id" v-if="item">
+        <el-radio-group v-model="item.result">
+          <el-radio :label="0">是</el-radio>
+          <el-radio :label="1">否</el-radio>
         </el-radio-group>
-      </el-form-item>
-      <el-form-item label="检查日期" prop="checkDate">
-        <el-date-picker v-model="formData.checkDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+        <img-upload
+          v-if="item.result == 1"
+          :path.sync="item.photoPath">
+        </img-upload>
       </el-form-item>
       <el-form-item label="检查人" prop="personIds">
         <el-select
@@ -34,22 +25,14 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="附件照片名称" prop="accessoryNames">
-        <el-upload
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList"
-          :on-success="handleUpload"
-          :on-remove="handleRemove"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%" :src="dialogImageUrl" alt="">
-        </el-dialog>
+      <el-form-item label="检查类型" prop="checktype">
+        <el-radio-group v-model="formData.checktype">
+          <el-radio :label="0">场地检查</el-radio>
+          <el-radio :label="1">场外检查</el-radio>
+        </el-radio-group>
       </el-form-item>
-      <el-form-item label="整改请求" prop="reformRequest">
-        <el-input v-model="formData.reformRequest"></el-input>
+      <el-form-item label="存在的问题" prop="existQuestion">
+        <el-input v-model="formData.existQuestion"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="warning" v-if="target" @click="reform">整改</el-button>
@@ -57,55 +40,39 @@
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
-    <div v-if="id">
-      <h3>检查项</h3>
-      <check-list :id="id"></check-list>
-    </div>
   </div>
 </template>
 <script>
-import CheckList from './car-check'
+import ImgUpload from '@/components/img-upload'
 import saveMixin from '@/mixins/saveform'
-import uploadMixin from '@/mixins/upload'
 import reform from '@/mixins/reform'
 export default {
-  mixins: [uploadMixin, saveMixin, reform],
+  mixins: [saveMixin, reform],
   components: {
-    CheckList
+    ImgUpload
   },
   data() {
     return {
       id: parseInt(this.$route.query.id),
-      orderIdList: [],
+      caritemList: [],
       formData: {
         companyId: sessionStorage.getItem('companyId'),
-        carId: '',
-        checkPerson: '',
-        accessoryNames: '',
-        reformRequest: ''
       },
-      picsList: [],
       personList: [],
       rules: {},
+      imageUrl: '',
       apiName: 'carCheckRecord/',
       addApi: 'addCarCheckRecord',
-      updateApi: 'updateCarCheckRecord',
-      carList: []
+      updateApi: 'updateCarCheckRecord'
     }
   },
   mounted() {
-    this.id && this.getDetail()
+    this.id ? this.getDetail() : this.getDangerItemList()
     this.getPersonList()
-    this.getCarList()
   },
   methods: {
-    async getCarList() {
-      let {data} = await this.$http({
-        url: '/car/getCarListAll'
-      })
-      if (data.code == 0) {
-        this.carList = data.data
-      }
+    beforePost() {
+      this.formData.contents = this.caritemList
     },
     async getPersonList() {
       let {data} = await this.$http('person/getPersonListAll')
@@ -113,12 +80,15 @@ export default {
         this.personList = data.data
       }
     },
-    handleRemove(file, list) {
-      this.picsList = list
-    },
-    handleUpload(res) {
-      if (res.code == 0) {
-        this.picsList.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
+    async getDangerItemList() {
+      let {data} = await this.$http({
+        url: 'carCheckContent/getCarCheckContentList'
+      })
+      if (data.code == 0) {
+        this.caritemList = data.data
+        for (let i;i < this.caritemList.length; i++){
+          this.caritemList[i].result = null
+        }
       }
     },
     async getDetail() {
@@ -130,7 +100,7 @@ export default {
       })
       if (data.code == 0) {
         this.formData = data.data
-        this.formData.carCheckRecordId = this.id
+        this.caritemList = this.formData.contents
       }
     }
   }
