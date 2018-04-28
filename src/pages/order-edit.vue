@@ -86,36 +86,26 @@
         </el-form-item>
       </div>
       <div class="order-row">
-        <el-form-item label="驾驶员" prop="driverId">
-          <el-select v-model="formData.driverId" filterable placeholder="可输入姓名筛选" @change="personChange">
-            <el-option v-for="item in personList" :key="item.id" :label="item.personName" :value="item.id"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="身份证号" prop="driverIdCardNum">
-          <el-input v-model="formData.driverIdCardNum"></el-input>
-        </el-form-item>
-        <el-form-item label="手机号码" prop="driverMobile">
-          <el-input v-model="formData.driverMobile"></el-input>
-        </el-form-item>
-        <el-form-item label="从业资格证号" prop="driverQuaLicNum">
-          <el-input v-model="formData.driverQuaLicNum"></el-input>
-        </el-form-item>
+        <people-select
+          v-if="formData.driverId"
+          label="驾驶员"
+          :type="1"
+          :pid.sync="formData.driverId"
+          :idCardNum.sync="formData.driverIdCardNum"
+          :mobile.sync="formData.driverMobile"
+          :quaLicNum.sync="formData.driverQuaLicNum"
+        ></people-select>
       </div>
       <div class="order-row">
-        <el-form-item label="押运员" prop="escortId">
-          <el-select v-model="formData.escortId" filterable placeholder="可输入姓名筛选" @change="personChange2">
-            <el-option v-for="item in personList2" :key="item.id" :label="item.personName" :value="item.id"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="身份证号" prop="escortIdCardNum">
-          <el-input v-model="formData.escortIdCardNum"></el-input>
-        </el-form-item>
-        <el-form-item label="手机号码" prop="escortMobile">
-          <el-input v-model="formData.escortMobile"></el-input>
-        </el-form-item>
-        <el-form-item label="从业资格证号" prop="escortQuaLicNum">
-          <el-input v-model="formData.escortQuaLicNum"></el-input>
-        </el-form-item>
+        <people-select
+          v-if="formData.escortId"
+          label="押运员"
+          :type="2"
+          :pid.sync="formData.escortId"
+          :idCardNum.sync="formData.escortIdCardNum"
+          :mobile.sync="formData.escortMobile"
+          :quaLicNum.sync="formData.escortQuaLicNum"
+        ></people-select>
       </div>
       <div class="order-row">
         <el-form-item label="装货日期" prop="loadingTime">
@@ -140,10 +130,12 @@
 <script>
 import saveMixin from '@/mixins/saveform'
 import ChinaCity from '@/components/china-city'
+import PeopleSelect from '@/components/people-select'
 export default {
   mixins: [saveMixin],
   components: {
-    ChinaCity
+    ChinaCity,
+    PeopleSelect
   },
   data() {
     return {
@@ -173,8 +165,6 @@ export default {
       customerList: [],
       carList: [],
       goodsList: [],
-      personList: [],
-      personList2: [],
       rules: {}
     }
   },
@@ -183,8 +173,6 @@ export default {
     this.getCustomerList()
     this.getCarList()
     this.getGoodsList()
-    this.getPersonList()
-    this.getPersonList2()
   },
   methods: {
     async cusSave() {
@@ -199,54 +187,6 @@ export default {
     },
     beforePost() {
       this.cusSave()
-    },
-    async personChange() {
-      let {data} = await this.$http({
-        url: 'person/getPerson',
-        params: {
-          personId: this.formData.driverId
-        }
-      })
-      if (data.code == 0) {
-        this.formData.driverIdCardNum = data.data.idCardNum
-        this.formData.driverMobile = data.data.mobile
-        this.formData.driverQuaLicNum = data.data.qualificationLicenseNum
-      }
-    },
-    async personChange2() {
-      let {data} = await this.$http({
-        url: 'person/getPerson',
-        params: {
-          personId: this.formData.escortId
-        }
-      })
-      if (data.code == 0) {
-        this.formData.escortIdCardNum = data.data.idCardNum
-        this.formData.escortMobile = data.data.mobile
-        this.formData.escortQuaLicNum = data.data.qualificationLicenseNum
-      }
-    },
-    async getPersonList(tid) {
-      let {data} = await this.$http({
-        url: 'person/getPersonListAllContent',
-        params: {
-          typeId: 1
-        }
-      })
-      if (data.code == 0) {
-        this.personList = data.data
-      }
-    },
-    async getPersonList2() {
-      let {data} = await this.$http({
-        url: 'person/getPersonListAllContent',
-        params: {
-          typeId: 2
-        }
-      })
-      if (data.code == 0) {
-        this.personList2 = data.data
-      }
     },
     async getGoodsList() {
       let {data} = await this.$http({
