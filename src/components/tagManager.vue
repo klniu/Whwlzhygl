@@ -74,7 +74,8 @@ export default {
           method: 'post',
           url: this.apiName + 'CheckContent/add' + this.ApiName + 'CheckContent',
           data: {
-            content: inputValue
+            content: inputValue,
+            checkUnitId: 1
           }
         })
         if (data.code == 0) {

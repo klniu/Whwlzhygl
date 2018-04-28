@@ -19,9 +19,8 @@
         label="车牌号">
       </el-table-column>
       <el-table-column
-        prop="checkDate"
-        :formatter="timeformat"
-        label="检查时间">
+        prop="title"
+        label="主题">
       </el-table-column>
       <el-table-column
         fixed="right"

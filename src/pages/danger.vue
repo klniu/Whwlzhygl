@@ -15,8 +15,8 @@
         type="selection">
       </el-table-column>
       <el-table-column
-        prop="unitName"
-        label="受检单位">
+        prop="title"
+        label="主题">
       </el-table-column>
       <el-table-column
         prop="checkDate"
