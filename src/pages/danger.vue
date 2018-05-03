@@ -52,6 +52,7 @@ export default {
   mixins: [listMixin, timeformat],
   data() {
     return {
+      idField: 'id',
       editRoute: 'DangerEdit',
       apiName: 'hiddenDangerCheckRecord',
       deleteApi: '/deleteHiddenDangerCheckRecord',

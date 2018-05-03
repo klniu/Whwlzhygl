@@ -28,8 +28,8 @@
         label="操作"
         width="100">
         <template slot-scope="scope">
-          <el-button @click="editClick(scope.row.regulationRecordId)" type="text" size="small">编辑</el-button>
-          <el-button @click="delectClick([scope.row.regulationRecordId])" type="text" size="small">删除</el-button>
+          <el-button @click="editClick(scope.row.id)" type="text" size="small">编辑</el-button>
+          <el-button @click="delectClick([scope.row.id])" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -52,7 +52,7 @@ export default {
   mixins: [listMixin, timeformat],
   data() {
     return {
-      idField: 'regulationRecordId',
+      idField: 'id',
       editRoute: 'IllegalEdit',
       apiName: 'regulationRecord',
       deleteApi: '/deleteRegulationRecord',
