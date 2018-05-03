@@ -50,7 +50,7 @@
       </el-form>
       <div class="order-row">
         <el-form-item label="头车车辆" prop="carId">
-          <el-select v-model="formData.carId" filterable placeholder="输入车牌号筛选">
+          <el-select v-model="formData.carId" @change="carChange" filterable placeholder="输入车牌号筛选">
             <el-option
               v-for="item in carList"
               :key="item.carId"
@@ -145,6 +145,10 @@ export default {
       updateApi: 'updateOrder',
       formData: {
         companyId: sessionStorage.getItem('companyId'),
+        carId: '',
+        trailerId: '',
+        driverId: '',
+        escortId: '',
         driverIdCardNum: '',
         driverMobile: '',
         driverQuaLicNum: '',
@@ -175,6 +179,20 @@ export default {
     this.getGoodsList()
   },
   methods: {
+    async carChange() {
+      console.log(this.formData.carId)
+      let {data} = await this.$http({
+        url: 'car/getCar',
+        params: {
+          carId: this.formData.carId
+        }
+      })
+      if (data.code == 0) {
+        this.formData.trailerId = data.data.trailerId
+        this.formData.driverId = data.data.driverId
+        this.formData.escortId = data.data.escortId
+      }
+    },
     async cusSave() {
       let {data} = await this.$http({
         method: 'post',

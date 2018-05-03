@@ -38,6 +38,7 @@ export default {
     ],
   mounted() {
     this.getPersonList()
+    this.xpid && this.personChange()
   },
   methods: {
     async getPersonList() {
