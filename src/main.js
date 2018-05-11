@@ -8,9 +8,9 @@ import router from './router'
 
 let baseURL
 if (location.host.indexOf('localhost') > -1) {
-  baseURL = 'http://localhost:8080'
+  baseURL = 'http://localhost:8080/'
 } else {
-  baseURL = 'http://47.104.129.0:8080'
+  baseURL = 'http://47.104.129.0:8080/'
 }
 axios.defaults.baseURL = baseURL
 axios.defaults.headers.common['Authorization'] = 'whwlzhygl ' + sessionStorage.getItem('loginkey')
