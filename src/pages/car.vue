@@ -60,6 +60,10 @@
         label="类型">
       </el-table-column>
       <el-table-column
+        prop="statusName"
+        label="营运状态">
+      </el-table-column>
+      <el-table-column
         fixed="right"
         label="操作"
         width="100">
