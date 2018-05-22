@@ -11,15 +11,9 @@
         <el-input v-model="formData.principalMobile"></el-input>
       </el-form-item>
       <el-form-item label="车队安全责任状图片" prop="safeResponsibilityPath">
-        <el-upload
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList"
-          :on-success="handleUpload"
-          :on-remove="handleRemove"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
+        <img-upload
+          :path.sync="formData.safeResponsibilityPath">
+        </img-upload>
       </el-form-item>
       <el-dialog :visible.sync="dialogVisible" append-to-body>
         <img width="100%" :src="dialogImageUrl" alt="">
@@ -47,7 +41,6 @@ export default {
         principalMobile: '',
         safeResponsibilityPath: ''
       },
-      picsList: [],
       rules: {},
       apiName: 'carTeam/',
       addApi: 'addCarTeam',
@@ -58,17 +51,6 @@ export default {
     this.id && this.getDetail()
   },
   methods: {
-    handleRemove(file, list) {
-      this.picsList = list
-    },
-    handleUpload(res) {
-      if (res.code == 0) {
-        this.picsList.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-      }
-    },
-    beforePost() {
-      this.formData.safeResponsibilityPath = this.joinPicIntoString(this.picsList)
-    },
     async getDetail() {
       let {data} = await this.$http({
         url: 'carTeam/getCarTeam',
@@ -79,7 +61,6 @@ export default {
       if (data.code == 0) {
         this.formData = data.data
         this.formData.id = this.id
-        this.picsList = this.pushPicInitList(this.formData.safeResponsibilityPath)
       }
     }
   }

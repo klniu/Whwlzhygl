@@ -16,15 +16,9 @@
         <el-input v-model="formData.unit"></el-input>
       </el-form-item>
       <el-form-item label="安全卡" prop="safeCardPath">
-        <el-upload
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList"
-          :on-success="handleUpload"
-          :on-remove="handleRemove"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
+        <img-upload
+          :path.sync="formData.safeCardPath">
+        </img-upload>
         <el-dialog :visible.sync="dialogVisible">
           <img width="100%" :src="dialogImageUrl" alt="">
         </el-dialog>
@@ -51,7 +45,6 @@ export default {
         safeCardPath: '',
         unit: ''
       },
-      picsList: [],
       rules: {},
       apiName: 'goods/',
       addApi: 'addGoods',
@@ -70,14 +63,6 @@ export default {
         this.goodsTypeList = data.data
       }
     },
-    handleRemove(file, list) {
-      this.picsList = list
-    },
-    handleUpload(res) {
-      if (res.code == 0) {
-        this.picsList.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-      }
-    },
     async getDetail() {
       let {data} = await this.$http({
         url: 'goods/getGoods',
@@ -88,11 +73,7 @@ export default {
       if (data.code == 0) {
         this.formData = data.data
         this.formData.id = this.id
-        this.picsList = this.pushPicInitList(this.formData.safeCardPath)
       }
-    },
-    beforePost() {
-      this.formData.safeCardPath = this.joinPicIntoString(this.picsList)
     }
   }
 }

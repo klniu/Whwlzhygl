@@ -2,18 +2,9 @@
   <div>
     <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="150px" size="medium">
       <el-form-item label="附件照片名称" prop="accessoryNames">
-        <el-upload
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList"
-          :on-success="handleUpload"
-          :on-remove="handleRemove"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%" :src="dialogImageUrl" alt="">
-        </el-dialog>
+        <img-upload
+          :path.sync="formData.accessoryNames">
+        </img-upload>
       </el-form-item>
       <el-form-item label="维修类型" prop="maintenanceType">
         <el-radio-group v-model="formData.maintenanceType">
@@ -89,7 +80,6 @@ export default {
         maintenancePerson: '',
         maintenanceType: ''
       },
-      picsList: [],
       rules: {},
       apiName: 'maintenancePlan/',
       addApi: 'addMaintenancePlan',
@@ -109,14 +99,6 @@ export default {
       })
       if (data.code == 0) {
         this.carList = data.data
-      }
-    },
-    handleRemove(file, list) {
-      this.picsList = list
-    },
-    handleUpload(res) {
-      if (res.code == 0) {
-        this.picsList.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
       }
     },
     async getDetail() {

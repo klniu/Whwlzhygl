@@ -16,40 +16,22 @@
         </el-select>
       </el-form-item>
       <el-form-item label="检查内容照片图片" prop="contentPath">
-        <el-upload
+        <img-upload
           class="small"
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList1"
-          :on-success="handleUpload1"
-          :on-remove="handleRemove1"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
+          :path.sync="formData.contentPath">
+        </img-upload>
       </el-form-item>
       <el-form-item label="检查到的问题照片图片" prop="questionPath">
-        <el-upload
+        <img-upload
           class="small"
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList2"
-          :on-success="handleUpload2"
-          :on-remove="handleRemove2"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
+          :path.sync="formData.questionPath">
+        </img-upload>
       </el-form-item>
       <el-form-item label="整改后的照片图片" prop="reformPath">
-        <el-upload
+        <img-upload
           class="small"
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList3"
-          :on-success="handleUpload3"
-          :on-remove="handleRemove3"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
+          :path.sync="formData.reformPath">
+        </img-upload>
       </el-form-item>
       <el-form-item label="整改结果" prop="reformResult">
         <el-input v-model="formData.reformResult"></el-input>
@@ -84,9 +66,6 @@ export default {
       },
       rules: {},
       checkUnitList: [],
-      picsList1: [],
-      picsList2: [],
-      picsList3: [],
       apiName: 'safeCheckRecordDetail/',
       addApi: 'addSafeCheckRecordDetail',
       updateApi: 'updateSafeCheckRecordDetail'
@@ -105,30 +84,6 @@ export default {
     this.getCheckUnitList()
   },
   methods: {
-    handleRemove1(file, list) {
-      this.picsList1 = list
-    },
-    handleUpload1(res) {
-      if (res.code == 0) {
-        this.picsList1.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-      }
-    },
-    handleRemove2(file, list) {
-      this.picsList2 = list
-    },
-    handleUpload2(res) {
-      if (res.code == 0) {
-        this.picsList2.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-      }
-    },
-    handleRemove3(file, list) {
-      this.picsList3 = list
-    },
-    handleUpload3(res) {
-      if (res.code == 0) {
-        this.picsList3.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-      }
-    },
     async getDetail() {
       let {data} = await this.$http({
         url: 'safeCheckRecordDetail/getSafeCheckRecordDetail',
@@ -140,9 +95,6 @@ export default {
         this.formData = data.data
         this.formData.id = this.id
         this.formData.safeCheckRecordId = this.sid
-        this.picsList1 = this.pushPicInitList(this.formData.contentPath)
-        this.picsList2 = this.pushPicInitList(this.formData.questionPath)
-        this.picsList3 = this.pushPicInitList(this.formData.reformPath)
       }
     },
     async getCheckUnitList() {
@@ -153,11 +105,6 @@ export default {
         this.checkUnitList = data.data.list
       }
     },
-    beforePost() {
-      this.formData.contentPath = this.joinPicIntoString(this.picsList1)
-      this.formData.questionPath = this.joinPicIntoString(this.picsList2)
-      this.formData.reformPath = this.joinPicIntoString(this.picsList3)
-    }
   }
 }
 </script>

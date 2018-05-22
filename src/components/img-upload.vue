@@ -2,6 +2,7 @@
   <div>
     <el-upload
       :action="$baseURL + 'accessory/addAccessory'"
+      :data="uploadData"
       :file-list="picsList"
       :on-success="handleUpload"
       :on-remove="handleRemove"
@@ -21,11 +22,21 @@ export default {
   mixins: [uploadMixin],
   data() {
     return {
-      picsList: this.pushPicInitList(this.path),
+      // picsList: this.pushPicInitList(this.path),
+    }
+  },
+  computed: {
+    picsList() {
+      return this.pushPicInitList(this.path)
     }
   },
   props: {
-    path: [String]
+    path: [String],
+    uploadData: {
+      default() {
+        return {}
+      }
+    }
   },
   methods: {
     beforeRemove(file, list) {
@@ -42,9 +53,7 @@ export default {
       }
     },
     handleRemove(file, list) {
-      console.log(file, list)
-      this.picsList = list
-      this.$emit('update:path', this.joinPicIntoString(this.picsList))
+      this.$emit('update:path', this.joinPicIntoString(list))
     }
   }
 }

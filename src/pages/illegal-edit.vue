@@ -33,18 +33,9 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="附件照片名称" prop="accessoryNames">
-        <el-upload
-          :action="$baseURL + 'accessory/addAccessory'"
-          :file-list="picsList"
-          :on-success="handleUpload"
-          :on-remove="handleRemove"
-          :on-preview="handlePictureCardPreview"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%" :src="dialogImageUrl" alt="">
-        </el-dialog>
+        <img-upload
+          :path.sync="formData.accessoryNames">
+        </img-upload>
       </el-form-item>
       <el-form-item>
         <el-button type="warning" v-if="target" @click="reform">整改</el-button>
@@ -73,7 +64,6 @@ export default {
         accessoryNames: '',
         regulationType: ''
       },
-      picsList: [],
       carList: [],
       rules: {},
       apiName: 'regulationRecord/',
@@ -94,14 +84,6 @@ export default {
         this.carList = data.data
       }
     },
-    handleRemove(file, list) {
-      this.picsList = list
-    },
-    handleUpload(res) {
-      if (res.code == 0) {
-        this.picsList.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-      }
-    },
     async getDetail() {
       let {data} = await this.$http({
         url: 'regulationRecord/getRegulationRecord',
@@ -112,11 +94,7 @@ export default {
       if (data.code == 0) {
         this.formData = data.data
         this.formData.id = this.id
-        this.picsList = this.pushPicInitList(this.formData.accessoryNames)
       }
-    },
-    beforePost() {
-      this.formData.accessoryNames = this.joinPicIntoString(this.picsList)
     }
   }
 }
