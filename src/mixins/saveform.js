@@ -22,6 +22,7 @@ export default {
           type: 'success'
         })
         this.$emit('save-ok')
+        this.id || this.$router.back()
       } else {
         this.$message.error(data.msg)
       }

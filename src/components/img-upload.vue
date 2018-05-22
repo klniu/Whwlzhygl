@@ -5,6 +5,7 @@
       :file-list="picsList"
       :on-success="handleUpload"
       :on-remove="handleRemove"
+      :before-remove="beforeRemove"
       :on-preview="handlePictureCardPreview"
       list-type="picture-card">
       <i class="el-icon-plus"></i>
@@ -27,6 +28,13 @@ export default {
     path: [String]
   },
   methods: {
+    beforeRemove(file, list) {
+      return this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+    },
     handleUpload(res) {
       if (res.code == 0) {
         this.picsList.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
@@ -34,6 +42,7 @@ export default {
       }
     },
     handleRemove(file, list) {
+      console.log(file, list)
       this.picsList = list
       this.$emit('update:path', this.joinPicIntoString(this.picsList))
     }
