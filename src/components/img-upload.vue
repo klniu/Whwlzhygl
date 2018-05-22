@@ -50,6 +50,7 @@ export default {
       if (res.code == 0) {
         this.picsList.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
         this.$emit('update:path', this.joinPicIntoString(this.picsList))
+        res.data.accessoryContent && this.$emit('ocr', res.data.accessoryContent)
       }
     },
     handleRemove(file, list) {

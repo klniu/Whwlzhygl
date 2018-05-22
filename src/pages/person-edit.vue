@@ -54,30 +54,18 @@
           <el-input v-model="formData.address"></el-input>
         </el-form-item>
         <el-form-item label="身份证正面" prop="idCardPath0">
-          <el-upload
-            class="small"
+          <img-upload
             :data="{fileType: 'ID_CARD0'}"
-            :action="$baseURL + 'accessory/addAccessory'"
-            :file-list="picsList1"
-            :on-success="handleUpload1"
-            :on-remove="handleRemove1"
-            :on-preview="handlePictureCardPreview"
-            list-type="picture-card">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+            @ocr="handleUpload1"
+            :path.sync="formData.idCardPath0">
+          </img-upload>
         </el-form-item>
         <el-form-item label="身份证反面" prop="idCardPath1">
-          <el-upload
-            class="small"
+          <img-upload
             :data="{fileType: 'ID_CARD1'}"
-            :action="$baseURL + 'accessory/addAccessory'"
-            :file-list="picsList3"
-            :on-success="handleUpload3"
-            :on-remove="handleRemove3"
-            :on-preview="handlePictureCardPreview"
-            list-type="picture-card">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+            @ocr="handleUpload2"
+            :path.sync="formData.idCardPath1">
+          </img-upload>
         </el-form-item>
       </div>
       <div class="form-title">从业资格证信息</div>
@@ -100,32 +88,19 @@
           <el-date-picker v-model="formData.qualificationValidityStartDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
         </el-form-item>
         <el-form-item label="从业资格证图片" prop="qualificationLicensePath">
-          <el-upload
-            class="small"
-            :action="$baseURL + 'accessory/addAccessory'"
-            :file-list="picsList2"
-            :on-success="handleUpload2"
-            :on-remove="handleRemove2"
-            :on-preview="handlePictureCardPreview"
-            list-type="picture-card">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+          <img-upload
+            :path.sync="formData.qualificationLicensePath">
+          </img-upload>
         </el-form-item>
       </div>
       <div class="form-title">驾驶证信息</div>
       <div class="form-block">
         <el-form-item label="驾驶证图片" prop="driverLicensePath">
-          <el-upload
-            class="small"
+          <img-upload
             :data="{fileType: 'DRIVER_LICENSE'}"
-            :action="$baseURL + 'accessory/addAccessory'"
-            :file-list="picsList4"
-            :on-success="handleUpload4"
-            :on-remove="handleRemove4"
-            :on-preview="handlePictureCardPreview"
-            list-type="picture-card">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+            @ocr="handleUpload3"
+            :path.sync="formData.driverLicensePath">
+          </img-upload>
         </el-form-item>
         <el-form-item label="驾驶证初次领证日期" prop="driverFirstDate">
           <el-date-picker v-model="formData.driverFirstDate" type="date" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
@@ -185,10 +160,6 @@ export default {
       apiName: 'person/',
       addApi: 'addPerson',
       updateApi: 'updatePerson',
-      picsList1: [],
-      picsList2: [],
-      picsList3: [],
-      picsList4: [],
       personTypeList: [],
       qualificationCertificateTypeList: []
     }
@@ -211,62 +182,31 @@ export default {
         this.personTypeList = data.data.list
       }
     },
-    handleRemove1(file, list) {
-      this.picsList1 = list
-    },
     handleUpload1(res) {
-      if (res.code == 0) {
-        this.picsList1.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-        if (res.data.accessoryContent.person) {
-          this.formData.address = res.data.accessoryContent.person.address
-          this.formData.birthday = res.data.accessoryContent.person.birthday
-          this.formData.gender = res.data.accessoryContent.person.gender
-          this.formData.idCardNum = res.data.accessoryContent.person.idCardNum
-          this.formData.nation = res.data.accessoryContent.person.nation
-          this.formData.personName = res.data.accessoryContent.person.personName
-        }
+      if (res.person) {
+        this.formData.address = res.person.address
+        this.formData.birthday = res.person.birthday
+        this.formData.gender = res.person.gender
+        this.formData.idCardNum = res.person.idCardNum
+        this.formData.nation = res.person.nation
+        this.formData.personName = res.person.personName
       }
-    },
-    handleRemove3(file, list) {
-      this.picsList3 = list
     },
     handleUpload3(res) {
-      if (res.code == 0) {
-        this.picsList3.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-        if (res.data.accessoryContent.person) {
-          this.formData.idCardValidityEndDate = res.data.accessoryContent.person.idCardValidityEndDate
-          this.formData.idCardValidityStartDate = res.data.accessoryContent.person.idCardValidityStartDate
-          this.formData.issuingAuthority = res.data.accessoryContent.person.issuingAuthority
-        }
+      if (res.person) {
+        this.formData.idCardValidityEndDate = res.person.idCardValidityEndDate
+        this.formData.idCardValidityStartDate = res.person.idCardValidityStartDate
+        this.formData.issuingAuthority = res.person.issuingAuthority
       }
-    },
-    handleRemove4(file, list) {
-      this.picsList4 = list
     },
     handleUpload4(res) {
-      if (res.code == 0) {
-        this.picsList4.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-        if (res.data.accessoryContent.person) {
-          this.formData.driverFirstDate = res.data.accessoryContent.person.driverFirstDate
-          this.formData.driverIssuingAuthority = res.data.accessoryContent.person.driverIssuingAuthority
-          this.formData.driverType = res.data.accessoryContent.person.driverType
-          this.formData.driverValidityEndDate = res.data.accessoryContent.person.driverValidityEndDate
-          this.formData.driverValidityStartDate = res.data.accessoryContent.person.driverValidityStartDate
-        }
+      if (res.person) {
+        this.formData.driverFirstDate = res.person.driverFirstDate
+        this.formData.driverIssuingAuthority = res.person.driverIssuingAuthority
+        this.formData.driverType = res.person.driverType
+        this.formData.driverValidityEndDate = res.person.driverValidityEndDate
+        this.formData.driverValidityStartDate = res.person.driverValidityStartDate
       }
-    },
-    handleRemove2(file, list) {
-      this.picsList2 = list
-    },
-    handleUpload2(res) {
-      if (res.code == 0) {
-        this.picsList2.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-      }
-    },
-    beforePost() {
-      this.formData.idCardPath0 = this.joinPicIntoString(this.picsList1)
-      this.formData.idCardPath1 = this.joinPicIntoString(this.picsList3)
-      this.formData.qualificationLicensePath = this.joinPicIntoString(this.picsList2)
     },
     async getDetail() {
       let {data} = await this.$http({
@@ -278,9 +218,6 @@ export default {
       if (data.code == 0) {
         this.formData = data.data
         this.formData.id = this.id
-        this.picsList1 = this.pushPicInitList(this.formData.idCardPath0)
-        this.picsList3 = this.pushPicInitList(this.formData.idCardPath1)
-        this.picsList2 = this.pushPicInitList(this.formData.qualificationLicensePath)
       }
     }
   }

@@ -55,17 +55,11 @@
           <el-input v-model="formData.totalWeight"></el-input>
         </el-form-item>
         <el-form-item label="行驶证图片" prop="carDrivingLicensePath">
-          <el-upload
+          <img-upload
             :data="{fileType: 'CAR_DRIVING_LICENSE'}"
-            class="small"
-            :action="$baseURL + 'accessory/addAccessory'"
-            :file-list="picsList1"
-            :on-success="handleUpload1"
-            :on-remove="handleRemove1"
-            :on-preview="handlePictureCardPreview"
-            list-type="picture-card">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+            @ocr="handleUpload1"
+            :path.sync="formData.carDrivingLicensePath">
+          </img-upload>
         </el-form-item>
         <el-form-item label="检验有效截止日期" prop="checkEndDate">
           <el-date-picker v-model="formData.checkEndDate" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
@@ -83,16 +77,9 @@
           <el-date-picker v-model="formData.cliValidityStartDate" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
         </el-form-item>
         <el-form-item label="承运人责任险图片" prop="cliPath">
-          <el-upload
-            class="small"
-            :action="$baseURL + 'accessory/addAccessory'"
-            :file-list="picsList2"
-            :on-success="handleUpload2"
-            :on-remove="handleRemove2"
-            :on-preview="handlePictureCardPreview"
-            list-type="picture-card">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+          <img-upload
+            :path.sync="formData.cliPath">
+          </img-upload>
         </el-form-item>
         <el-form-item label="交强险保单号" prop="tciNum">
           <el-input v-model="formData.tciNum"></el-input>
@@ -101,16 +88,9 @@
           <el-date-picker v-model="formData.tciValidityEndDate" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
         </el-form-item>
         <el-form-item label="交强险图片" prop="tciPath">
-          <el-upload
-            class="small"
-            :action="$baseURL + 'accessory/addAccessory'"
-            :file-list="picsList8"
-            :on-success="handleUpload8"
-            :on-remove="handleRemove8"
-            :on-preview="handlePictureCardPreview"
-            list-type="picture-card">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+          <img-upload
+            :path.sync="formData.tciPath">
+          </img-upload>
         </el-form-item>
         <el-form-item label="商业险保单号" prop="ciNum">
           <el-input v-model="formData.ciNum"></el-input>
@@ -119,16 +99,9 @@
           <el-date-picker v-model="formData.ciValidityEndDate" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
         </el-form-item>
         <el-form-item label="商业险图片" prop="ciPath">
-          <el-upload
-            class="small"
-            :action="$baseURL + 'accessory/addAccessory'"
-            :file-list="picsList9"
-            :on-success="handleUpload9"
-            :on-remove="handleRemove9"
-            :on-preview="handlePictureCardPreview"
-            list-type="picture-card">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+          <img-upload
+            :path.sync="formData.ciPath">
+          </img-upload>
         </el-form-item>
       </div>
       <div class="form-title">营运证信息</div>
@@ -146,16 +119,9 @@
           <el-date-picker v-model="formData.motValidityEndDate" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
         </el-form-item>
         <el-form-item label="营运证图片" prop="motPath">
-          <el-upload
-            class="small"
-            :action="$baseURL + 'accessory/addAccessory'"
-            :file-list="picsList4"
-            :on-success="handleUpload4"
-            :on-remove="handleRemove4"
-            :on-preview="handlePictureCardPreview"
-            list-type="picture-card">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+          <img-upload
+            :path.sync="formData.motPath">
+          </img-upload>
         </el-form-item>
       </div>
       <div class="form-title">罐体信息</div>
@@ -164,16 +130,9 @@
           <el-date-picker v-model="formData.tankValidityEndDate" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
         </el-form-item>
         <el-form-item label="罐体检测报告" prop="tankReportPath">
-          <el-upload
-            class="small"
-            :action="$baseURL + 'accessory/addAccessory'"
-            :file-list="picsList6"
-            :on-success="handleUpload6"
-            :on-remove="handleRemove6"
-            :on-preview="handlePictureCardPreview"
-            list-type="picture-card">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+          <img-upload
+            :path.sync="formData.tankReportPath">
+          </img-upload>
         </el-form-item>
       </div>
       <div class="form-title">技术等级信息</div>
@@ -188,16 +147,9 @@
           <el-date-picker v-model="formData.technicalGradeValidityStartDate" value-format="yyyy-MM-dd HH:mm"></el-date-picker>
         </el-form-item>
         <el-form-item label="技术等级证书图片" prop="technicalGradePath">
-          <el-upload
-            class="small"
-            :action="$baseURL + 'accessory/addAccessory'"
-            :file-list="picsList7"
-            :on-success="handleUpload7"
-            :on-remove="handleRemove7"
-            :on-preview="handlePictureCardPreview"
-            list-type="picture-card">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+          <img-upload
+            :path.sync="formData.technicalGradePath">
+          </img-upload>
         </el-form-item>
       </div>
       <div class="form-title">挂车信息（挂车无需设置）</div>
@@ -221,28 +173,14 @@
       <div class="form-title">其他信息</div>
       <div class="form-block">
         <el-form-item label="GPS安装证明图片" prop="gpsInstallPath">
-          <el-upload
-            class="small"
-            :action="$baseURL + 'accessory/addAccessory'"
-            :file-list="picsList3"
-            :on-success="handleUpload3"
-            :on-remove="handleRemove3"
-            :on-preview="handlePictureCardPreview"
-            list-type="picture-card">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+          <img-upload
+            :path.sync="formData.gpsInstallPath">
+          </img-upload>
         </el-form-item>
         <el-form-item label="登记证书图片" prop="registerPath">
-          <el-upload
-            class="small"
-            :action="$baseURL + 'accessory/addAccessory'"
-            :file-list="picsList5"
-            :on-success="handleUpload5"
-            :on-remove="handleRemove5"
-            :on-preview="handlePictureCardPreview"
-            list-type="picture-card">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+          <img-upload
+            :path.sync="formData.registerPath">
+          </img-upload>
         </el-form-item>
         <el-form-item label="营运状态" prop="status_id">
           <el-select v-model="formData.status_id">
@@ -316,15 +254,6 @@ export default {
       apiName: 'car/',
       addApi: 'addCar',
       updateApi: 'updateCar',
-      picsList1: [],
-      picsList2: [],
-      picsList3: [],
-      picsList4: [],
-      picsList5: [],
-      picsList6: [],
-      picsList7: [],
-      picsList8: [],
-      picsList9: [],
       carList: [],
       personList: [],
       personList2: [],
@@ -378,88 +307,18 @@ export default {
         this.personList2 = data.data
       }
     },
-    handleRemove1(file, list) {
-      this.picsList1 = list
-    },
     handleUpload1(res) {
-      if (res.code == 0) {
-        this.picsList1.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-        if (res.data.accessoryContent.car) {
-          this.formData.address = res.data.accessoryContent.car.address
-          this.formData.brand = res.data.accessoryContent.car.brand
-          this.formData.engineNum = res.data.accessoryContent.car.engineNum
-          this.formData.issuingDate = res.data.accessoryContent.car.issuingDate
-          this.formData.owner = res.data.accessoryContent.car.owner
-          this.formData.plateNum = res.data.accessoryContent.car.plateNum
-          this.formData.registerDate = res.data.accessoryContent.car.registerDate
-          this.formData.type = res.data.accessoryContent.car.type
-          this.formData.useProperty = res.data.accessoryContent.car.useProperty
-          this.formData.vin = res.data.accessoryContent.car.vin
-        }
-      }
-    },
-    handleRemove2(file, list) {
-      this.picsList2 = list
-    },
-    handleUpload2(res) {
-      if (res.code == 0) {
-        this.picsList2.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-      }
-    },
-    handleRemove3(file, list) {
-      this.picsList3 = list
-    },
-    handleUpload3(res) {
-      if (res.code == 0) {
-        this.picsList3.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-      }
-    },
-    handleRemove4(file, list) {
-      this.picsList4 = list
-    },
-    handleUpload4(res) {
-      if (res.code == 0) {
-        this.picsList4.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-      }
-    },
-    handleRemove5(file, list) {
-      this.picsList5 = list
-    },
-    handleUpload5(res) {
-      if (res.code == 0) {
-        this.picsList5.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-      }
-    },
-    handleRemove6(file, list) {
-      this.picsList6 = list
-    },
-    handleUpload6(res) {
-      if (res.code == 0) {
-        this.picsList6.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-      }
-    },
-    handleRemove7(file, list) {
-      this.picsList7 = list
-    },
-    handleUpload7(res) {
-      if (res.code == 0) {
-        this.picsList7.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-      }
-    },
-    handleRemove8(file, list) {
-      this.picsList8 = list
-    },
-    handleUpload8(res) {
-      if (res.code == 0) {
-        this.picsList8.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-      }
-    },
-    handleRemove9(file, list) {
-      this.picsList9 = list
-    },
-    handleUpload9(res) {
-      if (res.code == 0) {
-        this.picsList9.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
+      if (res.car) {
+        this.formData.address = res.car.address
+        this.formData.brand = res.car.brand
+        this.formData.engineNum = res.car.engineNum
+        this.formData.issuingDate = res.car.issuingDate
+        this.formData.owner = res.car.owner
+        this.formData.plateNum = res.car.plateNum
+        this.formData.registerDate = res.car.registerDate
+        this.formData.type = res.car.type
+        this.formData.useProperty = res.car.useProperty
+        this.formData.vin = res.car.vin
       }
     },
     async getDetail() {
@@ -473,27 +332,7 @@ export default {
         this.formData = data.data
         this.formData.id = this.id
         this.formData.carTeamId = this.sid
-        this.picsList1 = this.pushPicInitList(this.formData.carDrivingLicensePath)
-        this.picsList2 = this.pushPicInitList(this.formData.cliPath)
-        this.picsList3 = this.pushPicInitList(this.formData.gpsInstallPath)
-        this.picsList4 = this.pushPicInitList(this.formData.motPath)
-        this.picsList5 = this.pushPicInitList(this.formData.registerPath)
-        this.picsList6 = this.pushPicInitList(this.formData.tankReportPath)
-        this.picsList7 = this.pushPicInitList(this.formData.technicalGradePath)
-        this.picsList8 = this.pushPicInitList(this.formData.tciPath)
-        this.picsList9 = this.pushPicInitList(this.formData.ciPath)
       }
-    },
-    beforePost() {
-      this.formData.carDrivingLicensePath = this.joinPicIntoString(this.picsList1)
-      this.formData.cliPath = this.joinPicIntoString(this.picsList2)
-      this.formData.gpsInstallPath = this.joinPicIntoString(this.picsList3)
-      this.formData.motPath = this.joinPicIntoString(this.picsList4)
-      this.formData.registerPath = this.joinPicIntoString(this.picsList5)
-      this.formData.tankReportPath = this.joinPicIntoString(this.picsList6)
-      this.formData.technicalGradePath = this.joinPicIntoString(this.picsList7)
-      this.formData.tciPath = this.joinPicIntoString(this.picsList8)
-      this.formData.ciPath = this.joinPicIntoString(this.picsList9)
     }
   }
 }

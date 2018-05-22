@@ -42,15 +42,9 @@
           <el-input v-model="formData.roadLicenseNum"></el-input>
         </el-form-item>
         <el-form-item label="道路许可证" prop="roadLicensePath">
-          <el-upload
-            :action="$baseURL + 'accessory/addAccessory'"
-            :file-list="picsList1"
-            :on-success="handleUpload1"
-            :on-remove="handleRemove1"
-            :on-preview="handlePictureCardPreview"
-            list-type="picture-card">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+          <img-upload
+            :path.sync="formData.roadLicensePath">
+          </img-upload>
         </el-form-item>
       </div>
       <div class="form-title">运输企业等级信息</div>
@@ -59,15 +53,9 @@
           <el-input v-model="formData.roadTransportGrade"></el-input>
         </el-form-item>
         <el-form-item label="运输企业等级证书" prop="roadTransportGradeLicensePath">
-          <el-upload
-            :action="$baseURL + 'accessory/addAccessory'"
-            :file-list="picsList2"
-            :on-success="handleUpload2"
-            :on-remove="handleRemove2"
-            :on-preview="handlePictureCardPreview"
-            list-type="picture-card">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+          <img-upload
+            :path.sync="formData.roadTransportGradeLicensePath">
+          </img-upload>
         </el-form-item>
       </div>
       <div class="form-title">安全生产标准化达标等级信息</div>
@@ -76,15 +64,9 @@
           <el-input v-model="formData.safeProductGrade"></el-input>
         </el-form-item>
         <el-form-item label="安全生产标准化达标等级证书" prop="safeProductGradeLicensePath">
-          <el-upload
-            :action="$baseURL + 'accessory/addAccessory'"
-            :file-list="picsList3"
-            :on-success="handleUpload3"
-            :on-remove="handleRemove3"
-            :on-preview="handlePictureCardPreview"
-            list-type="picture-card">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+          <img-upload
+            :path.sync="formData.safeProductGradeLicensePath">
+          </img-upload>
         </el-form-item>
       </div>
       <div class="form-title">营业执照信息</div>
@@ -93,16 +75,11 @@
           <el-input v-model="formData.unifiedSocialCreditCode"></el-input>
         </el-form-item>
         <el-form-item label="营业执照" prop="bizLicensePath">
-          <el-upload
+          <img-upload
             :data="{fileType: 'BIZ_LICENSE'}"
-            :action="$baseURL + 'accessory/addAccessory'"
-            :file-list="picsList4"
-            :on-success="handleUpload4"
-            :on-remove="handleRemove4"
-            :on-preview="handlePictureCardPreview"
-            list-type="picture-card">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+            @ocr="handleUpload4"
+            :path.sync="formData.safeProductGradeLicensePath">
+          </img-upload>
         </el-form-item>
       </div>
       <el-dialog :visible.sync="dialogVisible">
@@ -143,10 +120,6 @@ export default {
         safeProductGradeLicensePath: '',
         unifiedSocialCreditCode: ''
       },
-      picsList1: [],
-      picsList2: [],
-      picsList3: [],
-      picsList4: [],
       rules: {},
       apiName: 'company/',
       addApi: 'addCompany',
@@ -164,41 +137,11 @@ export default {
         this.bizScopeList = data.data
       }
     },
-    handleRemove1(file, list) {
-      this.picsList1 = list
-    },
-    handleUpload1(res) {
-      if (res.code == 0) {
-        this.picsList1.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-      }
-    },
-    handleRemove2(file, list) {
-      this.picsList2 = list
-    },
-    handleUpload2(res) {
-      if (res.code == 0) {
-        this.picsList2.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-      }
-    },
-    handleRemove3(file, list) {
-      this.picsList3 = list
-    },
-    handleUpload3(res) {
-      if (res.code == 0) {
-        this.picsList3.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-      }
-    },
-    handleRemove4(file, list) {
-      this.picsList4 = list
-    },
     handleUpload4(res) {
-      if (res.code == 0) {
-        this.picsList4.push({name: res.data.accessoryName, url: this.$baseURL + res.data.accessoryName})
-        if (res.data.accessoryContent.company) {
-          this.formData.companyName = res.data.accessoryContent.company.companyName
-          this.formData.registerAddress = res.data.accessoryContent.company.registerAddress
-          this.formData.unifiedSocialCreditCode = res.data.accessoryContent.company.unifiedSocialCreditCode
-        }
+      if (res.company) {
+        this.formData.companyName = res.company.companyName
+        this.formData.registerAddress = res.company.registerAddress
+        this.formData.unifiedSocialCreditCode = res.company.unifiedSocialCreditCode
       }
     },
     async getDetail() {
@@ -212,17 +155,7 @@ export default {
         this.formData = data.data
         this.formData.id = this.id
         this.formData.bizScopeIds = this.formData.bizScopeIds || []
-        this.picsList1 = this.pushPicInitList(this.formData.roadLicensePath)
-        this.picsList2 = this.pushPicInitList(this.formData.roadTransportGradeLicensePath)
-        this.picsList3 = this.pushPicInitList(this.formData.safeProductGradeLicensePath)
-        this.picsList4 = this.pushPicInitList(this.formData.bizLicensePath)
       }
-    },
-    beforePost() {
-      this.formData.roadLicensePath = this.joinPicIntoString(this.picsList1)
-      this.formData.roadTransportGradeLicensePath = this.joinPicIntoString(this.picsList2)
-      this.formData.safeProductGradeLicensePath = this.joinPicIntoString(this.picsList3)
-      this.formData.bizLicensePath = this.joinPicIntoString(this.picsList4)
     }
   }
 }
