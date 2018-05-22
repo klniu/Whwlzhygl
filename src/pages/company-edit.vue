@@ -78,7 +78,7 @@
           <img-upload
             :data="{fileType: 'BIZ_LICENSE'}"
             @ocr="handleUpload4"
-            :path.sync="formData.safeProductGradeLicensePath">
+            :path.sync="formData.bizLicensePath">
           </img-upload>
         </el-form-item>
       </div>
