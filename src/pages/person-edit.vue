@@ -82,8 +82,10 @@
       </div>
       <div class="form-title">从业资格证信息</div>
       <div class="form-block">
-        <el-form-item label="从业资格证类型" prop="qualificationCertificateTypeName">
-          <el-input v-model="formData.qualificationCertificateTypeName"></el-input>
+        <el-form-item label="从业资格证类型" prop="qualificationCertificateTypeId">
+          <el-select v-model="formData.qualificationCertificateTypeId" placeholder="请选择">
+            <el-option v-for="item in qualificationCertificateTypeList" :key="item.id" :label="item.typeName" :value="item.id"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="从业资格证号" prop="qualificationLicenseNum">
           <el-input v-model="formData.qualificationLicenseNum"></el-input>
@@ -187,14 +189,22 @@ export default {
       picsList2: [],
       picsList3: [],
       picsList4: [],
-      personTypeList: []
+      personTypeList: [],
+      qualificationCertificateTypeList: []
     }
   },
   mounted() {
     this.getPersonTypeList()
+    this.getQualificationCertificateTypeList()
     this.id && this.getDetail()
   },
   methods: {
+    async getQualificationCertificateTypeList() {
+      let {data} = await this.$http('qualificationCertificateType/getQualificationCertificateTypeList')
+      if (data.code == 0) {
+        this.qualificationCertificateTypeList = data.data.list
+      }
+    },
     async getPersonTypeList() {
       let {data} = await this.$http('personType/getPersonTypeList')
       if (data.code == 0) {
