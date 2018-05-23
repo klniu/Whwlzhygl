@@ -76,7 +76,7 @@
         </el-form-item>
         <el-form-item label="营业执照" prop="bizLicensePath">
           <img-upload
-            :data="{fileType: 'BIZ_LICENSE'}"
+            :uploadData="{fileType: 'BIZ_LICENSE'}"
             @ocr="handleUpload4"
             :path.sync="formData.bizLicensePath">
           </img-upload>

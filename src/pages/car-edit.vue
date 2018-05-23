@@ -56,7 +56,7 @@
         </el-form-item>
         <el-form-item label="行驶证图片" prop="carDrivingLicensePath">
           <img-upload
-            :data="{fileType: 'CAR_DRIVING_LICENSE'}"
+            :uploadData="{fileType: 'CAR_DRIVING_LICENSE'}"
             @ocr="handleUpload1"
             :path.sync="formData.carDrivingLicensePath">
           </img-upload>

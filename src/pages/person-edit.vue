@@ -55,14 +55,14 @@
         </el-form-item>
         <el-form-item label="身份证正面" prop="idCardPath0">
           <img-upload
-            :data="{fileType: 'ID_CARD0'}"
+            :uploadData="{fileType: 'ID_CARD0'}"
             @ocr="handleUpload1"
             :path.sync="formData.idCardPath0">
           </img-upload>
         </el-form-item>
         <el-form-item label="身份证反面" prop="idCardPath1">
           <img-upload
-            :data="{fileType: 'ID_CARD1'}"
+            :uploadData="{fileType: 'ID_CARD1'}"
             @ocr="handleUpload2"
             :path.sync="formData.idCardPath1">
           </img-upload>
@@ -97,7 +97,7 @@
       <div class="form-block">
         <el-form-item label="驾驶证图片" prop="driverLicensePath">
           <img-upload
-            :data="{fileType: 'DRIVER_LICENSE'}"
+            :uploadData="{fileType: 'DRIVER_LICENSE'}"
             @ocr="handleUpload3"
             :path.sync="formData.driverLicensePath">
           </img-upload>
@@ -192,14 +192,14 @@ export default {
         this.formData.personName = res.person.personName
       }
     },
-    handleUpload3(res) {
+    handleUpload2(res) {
       if (res.person) {
         this.formData.idCardValidityEndDate = res.person.idCardValidityEndDate
         this.formData.idCardValidityStartDate = res.person.idCardValidityStartDate
         this.formData.issuingAuthority = res.person.issuingAuthority
       }
     },
-    handleUpload4(res) {
+    handleUpload3(res) {
       if (res.person) {
         this.formData.driverFirstDate = res.person.driverFirstDate
         this.formData.driverIssuingAuthority = res.person.driverIssuingAuthority
