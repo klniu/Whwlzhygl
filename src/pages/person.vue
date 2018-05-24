@@ -65,7 +65,8 @@
     <div style="height: 20px"></div>
     <el-pagination
       @size-change="handleSizeChange"
-      :current-page="page"
+      @current-change="getList"
+      :current-page.sync="page"
       :page-sizes="[10, 25, 50, 100]"
       :page-size="pageSize"
       layout="total, sizes, prev, pager, next, jumper"
